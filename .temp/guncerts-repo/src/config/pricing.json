@@ -1,0 +1,92 @@
+{
+  "currency": "ZAR",
+  "vatRate": 15,
+  "products": {
+    "tieredPricing": {
+      "isActive": false,
+      "items": [
+        {
+          "id": "competency-renewal-1-4",
+          "label": "Competency renewal application",
+          "invoiceText": "Competency certificate renewal application for 1 competency",
+          "form": "517g",
+          "formText": "SAPS 517(g) Application",
+          "countText": "Competency renewal",
+          "minItems": 1,
+          "maxItems": 1,
+          "amount": 99,
+          "vatIncluded": true,
+          "isActive": true,
+          "infoText": "<ul><li>Renewal application for 1 competency: R99 (including VAT).</li></ul>"
+        },
+        {
+          "id": "firearm-renewal-1-4",
+          "label": "Firearm renewal application",
+          "invoiceText": "Firearm licence renewal for 1 firearm",
+          "form": "518a",
+          "formText": "SAPS 518(a) Application",
+          "countText": "Firearms renewal:",
+          "minItems": 1,
+          "maxItems": 1,
+          "amount": 249,
+          "vatIncluded": true,
+          "isActive": true,
+          "infoText": "<ul><li>Renwal application for 1 firearm: R249.</li></ul>"
+
+        }
+      ]
+    },
+    "perItemPricing": {
+      "isActive": true,
+      "items": [
+        {
+          "id": "firearm-renewal-per-item",
+          "label": "<ul><li>Firearm licence renewal (SAPS 518a): <strong>R249</strong></li></ul>",
+          "invoiceText": "Firearm licence renewal",
+          "form": "518a",
+          "requiresMotivation": false,
+          "formText": "SAPS 518(a) Application",
+          "countText": "1 firearm",
+          "minItems": 1,
+          "baseAmount": 249.00,
+          "includedItems": 1,
+          "additionalItemAmount": 0,
+          "vatIncluded": true,
+          "isActive": true,
+          "infoText": []
+        },
+        {
+          "id": "firearm-renewal-motivation",
+          "label": "<ul><li>Firearm licence renewal <strong>(including Motivation): R499</strong></li></ul>",
+          "invoiceText": "Firearm licence renewal",
+          "form": "518a",
+          "requiresMotivation": true,
+          "formText": "SAPS 518(a) Application",
+          "countText": "1 firearm",
+          "minItems": 1,
+          "baseAmount": 499.00,
+          "includedItems": 1,
+          "additionalItemAmount": 0,
+          "vatIncluded": true,
+          "isActive": true,
+          "infoText": []
+        },
+        {
+          "id": "competency-renewal-per-item",
+          "label": "<ul><li>Competency certificate renewal (SAPS 517g): <strong>R99</strong></li></ul>",
+          "invoiceText": "Competency certificate renewal",
+          "form": "517g",
+          "formText": "SAPS 517(g) Application",
+          "countText": "1 competency",
+          "minItems": 1,
+          "baseAmount": 99.00,
+          "includedItems": 1,
+          "additionalItemAmount": 0,
+          "vatIncluded": true,
+          "isActive": true,
+          "infoText": []
+        }
+      ]
+    }
+  }
+}

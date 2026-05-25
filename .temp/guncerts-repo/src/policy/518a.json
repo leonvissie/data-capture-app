@@ -1,0 +1,474 @@
+{
+  "type": "RequirementPolicy",
+  "appType": "518a",
+  "pdf": "../../assets/pdf/518a.pdf",
+  "pdfFieldMap": "../../assets/fieldmap/518a.json",
+  "pdfAnnex": "../../assets/pdf/518aAnnexA.pdf",
+  "pdfAnnexFieldMap": "../../assets/fieldmap/518aAnnexA.json",
+  "jurisdiction": "ZA",
+  "formVersion": "SAPS-518a-0.1",
+  "version": "2025.10",
+  "effectiveFrom": "2025-10-14",
+  "missingDocumentText": "*** 518A: DOCUMENT NOT PROVIDED ***",
+  "addressLength": {
+    "line1Split": 66,
+    "maxLength": 124
+  },
+  "maxItemsPerApplication": [
+    {
+      "itemKind": "FIREARM_LICENCE",
+      "maxCount": 1,
+      "section13": 1,
+      "section15": 4
+    }
+  ],
+  "notes": [
+    "Each 518a application requires its own ID and Proof of Address (<= 3 months).",
+    "Annexure A must be completed for EACH firearm included with the application.",
+    "Where 517g and 518a are submitted together, each app keeps its own complete document set."
+  ],
+  "declarations": [
+    {
+      "code": "CONVICTED",
+      "display": true,
+      "requiredForApplication": true,
+      "displayOrder": 10,
+      "applicationField": "checkConvicted",
+      "heading": "Convictions",
+      "text": "I have not been convicted of any offence in terms of the Firearms Control Act, 2000 (Act No. 60 of 2000) and sentenced to a period of imprisonment without the option of a fine.",
+      "helpKey": "helpConvicted"
+    },
+    {
+      "code": "FIT_TO_POSSESS",
+      "display": true,
+      "requiredForApplication": true,
+      "displayOrder": 20,
+      "applicationField": "checkFitToPossess",
+      "heading": "Fit to possess",
+      "text": "I have not been declared unfit to possess a firearm in terms of the Firearms Control Act, 2000 (Act No. 60 of 2000).",
+      "helpKey": "helpFitToPossess"
+    },
+    {
+      "code": "CARRY_SAFELY",
+      "requiredForApplication": true,
+      "display": true,
+      "displayOrder": 30,
+      "applicationField": "checkCarrySafely",
+      "heading": "Firearm safety",
+      "text": "I will carry the firearm as prescribed in Section 98(5)(a) of the Firearms Control Act, 2000 (Act No. 60 of 2000) and regulation 78 of the Firearms Control Regulations 2004.",
+      "helpKey": "helpCarrySafely"
+    },
+    {
+      "code": "MOUNTED_SAFE",
+      "requiredForApplication": true,
+      "display": true,
+      "displayOrder": 40,
+      "applicationField": "checkMountedSafe",
+      "heading": "Mounted safe",
+      "text": "I have a safe that is properly mounted to a fixed structure and which complies with the requirements of SABS standard 953-1 and / or 953-2.",
+      "helpKey": "helpMountedSafe"
+    },
+    {
+      "code": "INTERPRETER",
+      "requiredForApplication": true,
+      "display": true,
+      "displayOrder": 42,
+      "applicationField": "checkInterpreter",
+      "heading": "Interpreter",
+      "text": "I am not using an interpreter for this application.",
+      "helpKey": ""
+    },
+    {
+      "code": "NOMINEE",
+      "requiredForApplication": true,
+      "display": true,
+      "displayOrder": 44,
+      "applicationField": "checkNominee",
+      "heading": "Nominee / Authorized person",
+      "text": "The application is submitted by me (not by or for a nominee or authorized person).",
+      "helpKey": ""
+    },
+    {
+      "code": "LITERATE",
+      "requiredForApplication": true,
+      "display": true,
+      "displayOrder": 46,
+      "applicationField": "checkLiterate",
+      "heading": "Literacy",
+      "text": "I confirm that I can read and write English.",
+      "helpKey": ""
+    },
+    {
+      "code": "LIABILITY",
+      "requiredForApplication": true,
+      "display": true,
+      "displayOrder": 48,
+      "applicationField": "checkLiability",
+      "heading": "GunCerts liability",
+      "text": "I understand that GunCerts cannot guarantee that my application will be successful.",
+      "helpKey": ""
+    }
+  ],
+  "licenceTypes": {
+    "1.1": {
+      "name": "Licence to possess a firearm for self-defence",
+      "shortName": "Self-defence",
+      "section": "Section 13",
+      "status": "active",
+      "membershipRequired": "no",
+      "includeMembershipIfPresent": true
+    },
+    "1.2": {
+      "name": "Licence to possess a restricted firearm for self-defence",
+      "shortName": "Restricted firearm (self-defence)",
+      "section": "Section 14",
+      "status": "hidden",
+      "membershipRequired": "no",
+      "includeMembershipIfPresent": true
+    },
+    "1.3": {
+      "name": "Licence to possess a firearm for security officer purposes",
+      "shortName": "Security officer purposes",
+      "section": "Section 20",
+      "status": "hidden",
+      "membershipRequired": "no",
+      "includeMembershipIfPresent": true
+    },
+    "1.4": {
+      "name": "Licence to possess a firearm for occasional hunting and sport shooting",
+      "shortName": "Occasional hunting / sport shooting",
+      "section": "Section 15",
+      "status": "active",
+      "membershipRequired": "optional",
+      "includeMembershipIfPresent": true
+    },
+    "1.5": {
+      "name": "Licence to possess a firearm for dedicated hunting and sport shooting",
+      "shortName": "Dedicated hunting / sport shooting",
+      "section": "Section 16",
+      "status": "active",
+      "membershipRequired": "yes",
+      "includeMembershipIfPresent": true
+    },
+    "1.6": {
+      "name": "Licence to possess a firearm in a private collection",
+      "shortName": "Private collection",
+      "section": "Section 17",
+      "status": "comingSoon",
+      "membershipRequired": "no",
+      "includeMembershipIfPresent": true
+    },
+    "1.7": {
+      "name": "Licence to possess a firearm in a public collection (museums)",
+      "shortName": "Public collection (museums)",
+      "section": "Section 18",
+      "status": "hidden",
+      "membershipRequired": "no",
+      "includeMembershipIfPresent": true
+    },
+    "1.8": {
+      "name": "Licence to possess a firearm for business purposes: Business in hunting",
+      "shortName": "Business purposes: hunting",
+      "section": "Section 19(1)",
+      "status": "hidden",
+      "membershipRequired": "no",
+      "includeMembershipIfPresent": true
+    },
+    "1.9": {
+      "name": "Licence to possess a firearm for business purposes: Other business purposes",
+      "shortName": "Business purposes: other",
+      "section": "Section 20",
+      "status": "hidden",
+      "membershipRequired": "no",
+      "includeMembershipIfPresent": true
+    }
+  },
+  "instructions": {
+    "paragraphFontSize": 10,
+    "titleFontSize": 13,
+    "titleBold": true,
+    "titleUnderline": true,
+    "subTitleFontSize": 11,
+    "subTitleBold": true,
+    "subTitleUnderline": false,
+    "notesTitle": "Important notes:",
+    "notes": [
+      {
+        "title": "Motivation",
+        "text": [
+          "Some Designated Firearms Officers (DFOs) require motivations to accompany the 518(a) application.",
+          "We recommend that you check with your DFO to ensure you include all required documents for your application."
+        ]
+      },
+      {
+        "title": "Character references",
+        "text": [
+          "Some Designated Firearms Officers (DFOs) require character references to accompany the 518(a) application.",
+          "We recommend that you check with your DFO to ensure you include all required documents for your application.",
+          "Ensure each character reference is signed by the person providing the statement. These should be dated and signed within the last 3 months.",
+          "Character references do not need to be certified."
+        ]
+      },
+      {
+        "title": "Document certification:",
+        "text": [
+          "All copies of documents submitted must be certified as true copies of the original by a Commissioner of Oaths.",
+          "This can be done at a police station, post office, bank, or by a lawyer or notary public."
+        ]
+      },
+      {
+        "title": "Application submission date (Section D, questions 37 - 38, page 3):",
+        "text": [
+          "SAPS prefers that you hand in your application at least 90 days before expiration date to allow them enough time to process your application before it expires.",
+          "There should only be one `YES` tick between questions 37, 38 and 39.",
+          "You only need to provide a reason if you tick `YES` for question 38 or 39."
+        ]
+      },
+      {
+        "title": "Disclaimer",
+        "text": [
+          "It is your responsibility to ensure that all information and documents submitted are accurate, complete, and truthful.",
+          "GunCerts does not guarantee the success or approval of any application."
+        ]
+      }
+    ],
+    "formInstructionTitle": "Final steps for completing the SAPS 518(a) form:",
+    "formInstructions": [
+      {
+        "title": "",
+        "formSection": "Section D, Number 37",
+        "formPage": "Page 3",
+        "formSectionPageTextBold": true,
+        "formSectionPageTextItalics": true,
+        "formSectionPageTextUnderline": false,
+        "text": [
+          "Tick `YES` if you submitted your application at your SAPS station 90 days (or more) before expiry date.",
+          "If you tick `YES` here, then tick `NO` in questions 38 and 39. You don't need to provide a reason if you tick yes here.",
+          "Tick `NO` if you submitted your application less than 90 days before expiry date. Provide a reason why you didn't manage to submit the application 90 days before expiration in question 38 or 39."
+        ]
+      },
+      {
+        "title": "",
+        "formSection": "Section D, Number 38",
+        "formPage": "Page 3",
+        "formSectionPageTextBold": true,
+        "formSectionPageTextItalics": true,
+        "formSectionPageTextUnderline": false,
+        "text": [
+          "Tick `YES` if you submitted your application less than 90 days before it expired, but before it expired. Provide a reason in the space provided.",
+          "If you tick `YES` here, then tick `NO` in questions 37 and 39."
+        ]
+      },
+      {
+        "title": "",
+        "formSection": "Section D, Number 39",
+        "formPage": "Page 3",
+        "formSectionPageTextBold": true,
+        "formSectionPageTextItalics": true,
+        "formSectionPageTextUnderline": false,
+        "text": [
+          "Tick `YES` if you submitted your application after expiry and provide a reason in the space provided.",
+          "Tick `NO` if you submitted your renewal application before it expired."
+        ]
+      },
+      {
+        "title": "",
+        "formSection": "Section E",
+        "formPage": "Page 4",
+        "formSectionPageTextBold": true,
+        "formSectionPageTextItalics": true,
+        "formSectionPageTextUnderline": false,
+        "text": [
+          "This section will be completed in the presence of the police officer receiving your application.",
+          "Ensure you have passport photos as prescribed in the `Note:` section of this section."
+        ]
+      },
+      {
+        "title": "",
+        "formSection": "Accompanying declaration by applicant",
+        "formPage": "Pages 5&6",
+        "formSectionPageTextBold": true,
+        "formSectionPageTextItalics": true,
+        "formSectionPageTextUnderline": false,
+        "text": [
+          "This section will be completed in the presence of the police officer receiving your application."
+        ]
+      },
+      {
+        "title": "Each SAPS 518(a) Annexure (there is one per firearm added to the application.",
+        "formSection": "Section D, Number 7",
+        "formPage": "Page 3",
+        "formSectionPageTextBold": true,
+        "formSectionPageTextItalics": true,
+        "formSectionPageTextUnderline": false,
+        "text": [
+          "Complete numbers 7.2 to 7.4 for Annexure A (one per firearm). Do this with the police officer receiving your application."
+        ]
+      }
+    ]
+  },
+  "requirements": [
+    {
+      "code": "COMPETENCY_CERT",
+      "displayOrder": 10,
+      "label": "Competency certificate",
+      "checklistLabel": "REQUIRED: Include your competency certificate(s) to this application",
+      "description": "Competency certificate(s) for which renewal is being applied.",
+      "helpKey": "helpDocsCompCert",
+      "required": true,
+      "requireUpload": true,
+      "requiredForApplication": true,
+      "isSupportingDocument": true,
+      "isChecklistItem": true,
+      "documentKinds": [
+        {
+          "kind": "COMPETENCY_CERT",
+          "numberOfSides": 1
+        }
+      ],
+      "copies": 1,
+      "min": 1,
+      "annexure": "C",
+      "cardStyle": "multi",
+      "scope": {
+        "perCertificate": true
+      },
+      "allowedKinds": [
+        "IMAGE",
+        "PDF"
+      ],
+      "allowedMime": [
+        "image/jpeg",
+        "image/png",
+        "application/pdf"
+      ]
+    },
+    {
+      "code": "FIREARM_LICENCE",
+      "displayOrder": 21,
+      "label": "Firearm licence",
+      "checklistLabel": "REQUIRED: Add your firearm licence(s) to this application.",
+      "description": "Copy/photo of the front and back of the firearm licence card for each firearm being renewed.",
+      "helpKey": "helpDocsFirearmLicence",
+      "required": true,
+      "requireUpload": true,
+      "requiredForApplication": true,
+      "isSupportingDocument": true,
+      "isChecklistItem": true,
+      "documentKinds": [
+        {
+          "kind": "FIREARM_LICENCE",
+          "numberOfSides": 2
+        }
+      ],
+      "copies": 1,
+      "min": 1,
+      "annexure": "B",
+      "cardStyle": "multi",
+      "scope": {
+        "perFirearm": true
+      },
+      "allowedKinds": [
+        "IMAGE",
+        "PDF"
+      ],
+      "allowedMime": [
+        "image/jpeg",
+        "image/png",
+        "application/pdf"
+      ]
+    },
+    {
+      "code": "SAFES",
+      "displayOrder": 22,
+      "label": "Firearm storage",
+      "checklistLabel": "REQUIRED: Add photos of your firearms storage to this application.",
+      "description": "All safes used to store firearms in this application.",
+      "helpKey": "helpDocsSafes",
+      "required": true,
+      "requireUpload": true,
+      "requiredForApplication": true,
+      "isSupportingDocument": true,
+      "isChecklistItem": true,
+      "documentKinds": [
+        {
+          "kind": "SAFE",
+          "numberOfSides": 1
+        }
+      ],
+      "copies": 1,
+      "min": 1,
+      "annexure": "F",
+      "cardStyle": "multi",
+      "allowMultipleUploads": true,
+      "allowedKinds": [
+        "IMAGE",
+        "PDF"
+      ],
+      "allowedMime": [
+        "image/jpeg",
+        "image/png",
+        "application/pdf"
+      ]
+    },
+    {
+      "code": "ACTIVITY_EVIDENCE",
+      "displayOrder": 23,
+      "label": "Firearm activity evidence",
+      "checklistLabel": "OPTIONAL: Include hunting and/or sport shooting activity photos that support your motivation.",
+      "description": "Optional supporting photos of hunting or range/sport shooting activity.",
+      "helpKey": "helpDocsActivityEvidence",
+      "required": false,
+      "requireUpload": true,
+      "requiredForApplication": false,
+      "isSupportingDocument": true,
+      "isChecklistItem": true,
+      "documentKinds": [
+        {
+          "kind": "ACTIVITY_EVIDENCE",
+          "numberOfSides": 1
+        }
+      ],
+      "copies": 1,
+      "min": 0,
+      "annexure": "H",
+      "cardStyle": "multi",
+      "allowMultipleUploads": true,
+      "allowedKinds": [
+        "IMAGE"
+      ],
+      "allowedMime": [
+        "image/jpeg",
+        "image/png"
+      ]
+    },
+    {
+      "code": "MOTIVATION",
+      "displayOrder": 910,
+      "label": "Motivation letter",
+      "label2": "Select the motivation letter you want to include in the application",
+      "checklistLabel": "Motivation letter (check with DFO if required).",
+      "description": "We provide standard wording for renewal applications (press the \"help\" button for details). Check with your DFO if they require a motivation for your firearm renewal.",
+      "helpKey": "helpDocMotivation",
+      "applicationText": "*** SEE ATTACHED MOTIVATION LETTER ***",
+      "required": true,
+      "requireUpload": true,
+      "requiredForApplication": false,
+      "isSupportingDocument": false,
+      "isChecklistItem": true,
+      "annexure": "I",
+      "min": 1,
+      "max": 1,
+      "allowedKinds": [
+        "IMAGE",
+        "PDF"
+      ],
+      "allowedMime": [
+        "image/jpeg",
+        "image/png",
+        "application/pdf"
+      ]
+    }
+  ],
+  "filters": {}
+}

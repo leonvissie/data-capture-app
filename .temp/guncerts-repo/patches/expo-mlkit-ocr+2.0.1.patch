@@ -1,0 +1,13 @@
+diff --git a/node_modules/expo-mlkit-ocr/android/build.gradle b/node_modules/expo-mlkit-ocr/android/build.gradle
+index 0dbaebb..4c8ca35 100644
+--- a/node_modules/expo-mlkit-ocr/android/build.gradle
++++ b/node_modules/expo-mlkit-ocr/android/build.gradle
+@@ -40,7 +40,7 @@ dependencies {
+   implementation project(':expo-modules-core')
+   
+   // ML Kit dependencies
+-  implementation 'com.google.mlkit:text-recognition:16.0.0'
++  implementation 'com.google.mlkit:text-recognition:16.0.1'
+ }
+ 
+ def safeExtGet(prop, fallback) {

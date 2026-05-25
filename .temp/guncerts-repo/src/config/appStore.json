@@ -1,0 +1,623 @@
+{
+  "products": [
+    {
+      "internalId": "517gCompCertRenewal01",
+      "refName": "Competency Certificate renewal application (1 competency)",
+      "form": "517g",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableRenewalCompCert01",
+          "isConsumable": true,
+          "price": 249.11
+        },
+        "google": {
+          "productId": "renewal_comp_cert_01",
+          "isConsumable": true,
+          "price": 249.1
+        }
+      },
+      "minItems": 1,
+      "requiresMotivation": false,
+      "maxItems": 1
+    },
+    {
+      "internalId": "517gCompCertRenewal02",
+      "refName": "Competency Certificate renewal application (2 competencies)",
+      "form": "517g",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableRenewalCompCert02",
+          "isConsumable": true,
+          "price": 299.11
+        },
+        "google": {
+          "productId": "renewal_comp_cert_02",
+          "isConsumable": true,
+          "price": 299.11
+        }
+      },
+      "minItems": 2,
+      "requiresMotivation": false,
+      "maxItems": 2
+    },
+    {
+      "internalId": "517gCompCertRenewal03",
+      "refName": "Competency Certificate renewal application (3 competencies)",
+      "form": "517g",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableRenewalCompCert03",
+          "isConsumable": true,
+          "price": 349.11
+        },
+        "google": {
+          "productId": "renewal_comp_cert_03",
+          "isConsumable": true,
+          "price": 349.11
+        }
+      },
+      "minItems": 3,
+      "requiresMotivation": false,
+      "maxItems": 3
+    },
+    {
+      "internalId": "517gCompCertRenewal04",
+      "refName": "Competency Certificate renewal application (4 competencies)",
+      "form": "517g",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableRenewalCompCert04",
+          "isConsumable": true,
+          "price": 399.11
+        },
+        "google": {
+          "productId": "renewal_comp_cert_04",
+          "isConsumable": true,
+          "price": 399.11
+        }
+      },
+      "minItems": 4,
+      "requiresMotivation": false,
+      "maxItems": 4
+    },
+    {
+      "internalId": "517gCompCertRenewal05",
+      "refName": "Competency Certificate renewal application (5 competencies)",
+      "form": "517g",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableRenewalCompCert05",
+          "isConsumable": true,
+          "price": 449.11
+        },
+        "google": {
+          "productId": "renewal_comp_cert_05",
+          "isConsumable": true,
+          "price": 449.11
+        }
+      },
+      "minItems": 5,
+      "requiresMotivation": false,
+      "maxItems": 5
+    },
+    {
+      "internalId": "517gCompCertRenewal06",
+      "refName": "Competency Certificate renewal application (6 competencies)",
+      "form": "517g",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableRenewalCompCert06",
+          "isConsumable": true,
+          "price": 499.11
+        },
+        "google": {
+          "productId": "renewal_comp_cert_06",
+          "isConsumable": true,
+          "price": 499.11
+        }
+      },
+      "minItems": 6,
+      "requiresMotivation": false,
+      "maxItems": 6
+    },
+    {
+      "internalId": "517gCompCertRenewal07",
+      "refName": "Competency Certificate renewal application (7 competencies)",
+      "form": "517g",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableRenewalCompCert07",
+          "isConsumable": true,
+          "price": 549.11
+        },
+        "google": {
+          "productId": "renewal_comp_cert_07",
+          "isConsumable": true,
+          "price": 549.11
+        }
+      },
+      "minItems": 7,
+      "requiresMotivation": false,
+      "maxItems": 7
+    },
+    {
+      "internalId": "517gCompCertRenewal08",
+      "refName": "Competency Certificate renewal application (8 competencies)",
+      "form": "517g",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableRenewalCompCert08",
+          "isConsumable": true,
+          "price": 599.11
+        },
+        "google": {
+          "productId": "renewal_comp_cert_08",
+          "isConsumable": true,
+          "price": 599.11
+        }
+      },
+      "minItems": 8,
+      "requiresMotivation": false,
+      "maxItems": 8
+    },
+    {
+      "internalId": "517gCompCertRenewal09",
+      "refName": "Competency Certificate renewal application (9 competencies)",
+      "form": "517g",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableRenewalCompCert09",
+          "isConsumable": true,
+          "price": 649.11
+        },
+        "google": {
+          "productId": "renewal_comp_cert_09",
+          "isConsumable": true,
+          "price": 649.11
+        }
+      },
+      "minItems": 9,
+      "requiresMotivation": false,
+      "maxItems": 9
+    },
+    {
+      "internalId": "517gCompCertRenewal10+",
+      "refName": "Competency Certificate renewal application (10+ competencies)",
+      "form": "517g",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableRenewalCompCert10",
+          "isConsumable": true,
+          "price": 699.11
+        },
+        "google": {
+          "productId": "renewal_comp_cert_10",
+          "isConsumable": true,
+          "price": 699.11
+        }
+      },
+      "minItems": 10,
+      "requiresMotivation": false
+    },
+    {
+      "internalId": "518aFireArmRenewal01",
+      "refName": "Firearm Licence renewal application (1 firearm)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal01",
+          "isConsumable": true,
+          "price": 499.11
+        },
+        "google": {
+          "productId": "renewal_firearm_01",
+          "isConsumable": true,
+          "price": 499.11
+        }
+      },
+      "minItems": 1,
+      "requiresMotivation": false,
+      "maxItems": 1
+    },
+    {
+      "internalId": "518aFireArmRenewal01Motivation",
+      "refName": "Firearm Licence renewal application + Motivation (1 firearm)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal01Motivation",
+          "isConsumable": true,
+          "price": 499.11
+        },
+        "google": {
+          "productId": "renewal_firearm_01_motivation",
+          "isConsumable": true,
+          "price": 499.11
+        }
+      },
+      "minItems": 1,
+      "requiresMotivation": true,
+      "maxItems": 1
+    },
+    {
+      "internalId": "518aFireArmRenewal02",
+      "refName": "Firearm Licence renewal application (2 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal02",
+          "isConsumable": true,
+          "price": 499.11
+        },
+        "google": {
+          "productId": "renewal_firearm_02",
+          "isConsumable": true,
+          "price": 499.11
+        }
+      },
+      "minItems": 2,
+      "requiresMotivation": false,
+      "maxItems": 2
+    },
+    {
+      "internalId": "518aFireArmRenewal03",
+      "refName": "Firearm Licence renewal application (3 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal03",
+          "isConsumable": true,
+          "price": 499.11
+        },
+        "google": {
+          "productId": "renewal_firearm_03",
+          "isConsumable": true,
+          "price": 499.11
+        }
+      },
+      "minItems": 3,
+      "requiresMotivation": false,
+      "maxItems": 3
+    },
+    {
+      "internalId": "518aFireArmRenewal04",
+      "refName": "Firearm Licence renewal application (4 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal04",
+          "isConsumable": true,
+          "price": 499.11
+        },
+        "google": {
+          "productId": "renewal_firearm_04",
+          "isConsumable": true,
+          "price": 499.11
+        }
+      },
+      "minItems": 4,
+      "requiresMotivation": false,
+      "maxItems": 4
+    },
+    {
+      "internalId": "518aFireArmRenewal05",
+      "refName": "Firearm Licence renewal application (5 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal05",
+          "isConsumable": true,
+          "price": 599.11
+        },
+        "google": {
+          "productId": "renewal_firearm_05",
+          "isConsumable": true,
+          "price": 599.11
+        }
+      },
+      "minItems": 5,
+      "requiresMotivation": false,
+      "maxItems": 5
+    },
+    {
+      "internalId": "518aFireArmRenewal06",
+      "refName": "Firearm Licence renewal application (6 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal06",
+          "isConsumable": true,
+          "price": 699.11
+        },
+        "google": {
+          "productId": "renewal_firearm_06",
+          "isConsumable": true,
+          "price": 699.11
+        }
+      },
+      "minItems": 6,
+      "requiresMotivation": false,
+      "maxItems": 6
+    },
+    {
+      "internalId": "518aFireArmRenewal07",
+      "refName": "Firearm Licence renewal application (7 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal07",
+          "isConsumable": true,
+          "price": 799.11
+        },
+        "google": {
+          "productId": "renewal_firearm_07",
+          "isConsumable": true,
+          "price": 799.11
+        }
+      },
+      "minItems": 7,
+      "requiresMotivation": false,
+      "maxItems": 7
+    },
+    {
+      "internalId": "518aFireArmRenewal08",
+      "refName": "Firearm Licence renewal application (8 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal08",
+          "isConsumable": true,
+          "price": 899.11
+        },
+        "google": {
+          "productId": "renewal_firearm_08",
+          "isConsumable": true,
+          "price": 899.11
+        }
+      },
+      "minItems": 8,
+      "requiresMotivation": false,
+      "maxItems": 8
+    },
+    {
+      "internalId": "518aFireArmRenewal09",
+      "refName": "Firearm Licence renewal application (9 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal09",
+          "isConsumable": true,
+          "price": 999.11
+        },
+        "google": {
+          "productId": "renewal_firearm_09",
+          "isConsumable": true,
+          "price": 999.11
+        }
+      },
+      "minItems": 9,
+      "requiresMotivation": false,
+      "maxItems": 9
+    },
+    {
+      "internalId": "518aFireArmRenewal10",
+      "refName": "Firearm Licence renewal application (10 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal10",
+          "isConsumable": true,
+          "price": 1099.11
+        },
+        "google": {
+          "productId": "renewal_firearm_10",
+          "isConsumable": true,
+          "price": 1099.11
+        }
+      },
+      "minItems": 10,
+      "requiresMotivation": false,
+      "maxItems": 10
+    },
+    {
+      "internalId": "518aFireArmRenewal11",
+      "refName": "Firearm Licence renewal application (11 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal11",
+          "isConsumable": true,
+          "price": 1199.11
+        },
+        "google": {
+          "productId": "renewal_firearm_11",
+          "isConsumable": true,
+          "price": 1199.11
+        }
+      },
+      "minItems": 11,
+      "requiresMotivation": false,
+      "maxItems": 11
+    },
+    {
+      "internalId": "518aFireArmRenewal12",
+      "refName": "Firearm Licence renewal application (12 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal12",
+          "isConsumable": true,
+          "price": 1299.11
+        },
+        "google": {
+          "productId": "renewal_firearm_12",
+          "isConsumable": true,
+          "price": 1299.11
+        }
+      },
+      "minItems": 12,
+      "requiresMotivation": false,
+      "maxItems": 12
+    },
+    {
+      "internalId": "518aFireArmRenewal13",
+      "refName": "Firearm Licence renewal application (13 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal13",
+          "isConsumable": true,
+          "price": 1399.11
+        },
+        "google": {
+          "productId": "renewal_firearm_13",
+          "isConsumable": true,
+          "price": 1399.11
+        }
+      },
+      "minItems": 13,
+      "requiresMotivation": false,
+      "maxItems": 13
+    },
+    {
+      "internalId": "518aFireArmRenewal14",
+      "refName": "Firearm Licence renewal application (14 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal14",
+          "isConsumable": true,
+          "price": 1499.11
+        },
+        "google": {
+          "productId": "renewal_firearm_14",
+          "isConsumable": true,
+          "price": 1499.11
+        }
+      },
+      "minItems": 14,
+      "requiresMotivation": false,
+      "maxItems": 14
+    },
+    {
+      "internalId": "518aFireArmRenewal15",
+      "refName": "Firearm Licence renewal application (15 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal15",
+          "isConsumable": true,
+          "price": 1599.11
+        },
+        "google": {
+          "productId": "renewal_firearm_15",
+          "isConsumable": true,
+          "price": 1599.11
+        }
+      },
+      "minItems": 15,
+      "requiresMotivation": false,
+      "maxItems": 15
+    },
+    {
+      "internalId": "518aFireArmRenewal16",
+      "refName": "Firearm Licence renewal application (16 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal16",
+          "isConsumable": true,
+          "price": 1699.11
+        },
+        "google": {
+          "productId": "renewal_firearm_16",
+          "isConsumable": true,
+          "price": 1699.11
+        }
+      },
+      "minItems": 16,
+      "requiresMotivation": false,
+      "maxItems": 16
+    },
+    {
+      "internalId": "518aFireArmRenewal17",
+      "refName": "Firearm Licence renewal application (17 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal17",
+          "isConsumable": true,
+          "price": 1799.11
+        },
+        "google": {
+          "productId": "renewal_firearm_17",
+          "isConsumable": true,
+          "price": 1799.11
+        }
+      },
+      "minItems": 17,
+      "requiresMotivation": false,
+      "maxItems": 17
+    },
+    {
+      "internalId": "518aFireArmRenewal18",
+      "refName": "Firearm Licence renewal application (18 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal18",
+          "isConsumable": true,
+          "price": 1899.11
+        },
+        "google": {
+          "productId": "renewal_firearm_18",
+          "isConsumable": true,
+          "price": 1899.11
+        }
+      },
+      "minItems": 18,
+      "requiresMotivation": false,
+      "maxItems": 18
+    },
+    {
+      "internalId": "518aFireArmRenewal19",
+      "refName": "Firearm Licence renewal application (19 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal19",
+          "isConsumable": true,
+          "price": 1999.11
+        },
+        "google": {
+          "productId": "renewal_firearm_19",
+          "isConsumable": true,
+          "price": 1999.11
+        }
+      },
+      "minItems": 19,
+      "requiresMotivation": false,
+      "maxItems": 19
+    },
+    {
+      "internalId": "518aFireArmRenewal20",
+      "refName": "Firearm Licence renewal application (20 firearms)",
+      "form": "518a",
+      "platform": {
+        "apple": {
+          "productId": "ConsumableFirearmRenewal20",
+          "isConsumable": true,
+          "price": 1999.11
+        },
+        "google": {
+          "productId": "renewal_firearm_20",
+          "isConsumable": true,
+          "price": 1999.11
+        }
+      },
+      "minItems": 20,
+      "requiresMotivation": false,
+      "maxItems": 20
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+I [FULLNAMES] ID number: [idNumber] residing at [ADDRESS], declare:
+
+1. I am aware that [Profile.fullnames] [Profile.surname] is applying for the renewal of his firearm licence for his [Firearm.make] [Firearm.model] [Firearm.firearmType].
+
+2. I am a [Statement.relationship] and have known [Profile.firstname] all his life.
+
+3. [Profile.firstname] grew up in a stable, loving family. He was close to his father, who taught him how
+to safely and responsibly handle firearms.
+
+4. The family owned a game farm, where [Profile.firstname] was exposed to firearms and hunting from a
+very young age. He has always demonstrated a responsible, stable, even-tempered character.
+
+5. [Profile.firstname] is married and he and his wife have a loving, stable relationship.
+
+6 [Profile.firstname] holds a responsible permanent employmant position.
+
+7. To my knowledge [Profile.firstname] does not abuse alcohol or drugs.
+
+8. I can recommend [Profile.firstname] as a fit and proper person to possess a firearm.
+
+
+DATED AT [PLACE] THIS [19th DAY OF OCTORER 2020]
+
+[FULLNAMES]
+
+

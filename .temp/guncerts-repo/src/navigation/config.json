@@ -1,0 +1,212 @@
+{
+  "home": "/(tabs)",
+  "lists": {
+    "draft": "/application/existing",
+    "ready": "/application/ready",
+    "submitted": "/application/submitted",
+    "archived": "/application/archive"
+  },
+  "profile": "/(tabs)/profile",
+  "documents": {
+    "base": "/application/[id]/documents",
+    "sources": {
+      "existing": { "routeBack": "/application/existing", "clearRouteBackHistory": true },
+      "ready": { "routeBack": "/application/ready", "clearRouteBackHistory": true },
+      "submitted": { "routeBack": "/application/submitted", "clearRouteBackHistory": true },
+      "archived": { "routeBack": "/application/archive", "clearRouteBackHistory": true },
+      "newApplication": {
+        "routeBack": "/application/existing",
+        "noChangesRouteBack": "/new-application",
+        "clearRouteBackHistory": true
+      }
+    }
+  },
+  "wizards": {
+    "firearm": [
+      {
+        "sourceScreen": "documents",
+        "routeTo": "/firearms/wizard",
+        "routeBack": "/application/[id]/documents?scroll=firearms",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "profile",
+        "routeTo": "/firearms/wizard",
+        "routeBack": "/(tabs)/profile?scroll=firearms",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "firearms",
+        "routeTo": "/firearms/wizard",
+        "routeBack": "/(tabs)/firearms?scroll=firearms",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "welcomeModal",
+        "routeTo": "/firearms/wizard",
+        "routeBack": "/(tabs)/?intro=1",
+        "clearRouteBackHistory": true
+      }
+    ],
+    "competency": [
+      {
+        "sourceScreen": "documents",
+        "routeTo": "/competency/wizard",
+        "routeBack": "/application/[id]/documents?scroll=competency",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "profile",
+        "routeTo": "/competency/wizard",
+        "routeBack": "/(tabs)/profile?scroll=competency",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "welcomeModal",
+        "routeTo": "/competency/wizard",
+        "routeBack": "/(tabs)/?intro=1",
+        "clearRouteBackHistory": true
+      }
+    ],
+    "id": [
+      {
+        "sourceScreen": "documents",
+        "routeTo": "/id/wizard",
+        "routeBack": "/application/[id]/documents?scroll=id",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "profile",
+        "routeTo": "/id/wizard",
+        "routeBack": "/(tabs)/profile?scroll=profile",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "welcomeModal",
+        "routeTo": "/id/wizard",
+        "routeBack": "/(tabs)/?intro=1",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "/firearms/wizard",
+        "routeTo": "/id/wizard",
+        "routeBack": "/firearms/wizard",
+        "clearRouteBackHistory": true
+      }
+    ],
+    "address": [
+      {
+        "sourceScreen": "documents",
+        "routeTo": "/address/wizard",
+        "routeBack": "/application/[id]/documents?scroll=address",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "profile",
+        "routeTo": "/address/wizard",
+        "routeBack": "/(tabs)/profile?scroll=profile",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "welcomeModal",
+        "routeTo": "/address/wizard",
+        "routeBack": "/(tabs)/?intro=1",
+        "clearRouteBackHistory": true
+      }
+    ],
+    "membership": [
+      {
+        "sourceScreen": "documents",
+        "routeTo": "/membership/wizard",
+        "routeBack": "/application/[id]/documents?scroll=memberships",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "profile",
+        "routeTo": "/membership/wizard",
+        "routeBack": "/(tabs)/profile?scroll=memberships",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "firearms",
+        "routeTo": "/membership/wizard",
+        "routeBack": "/(tabs)/firearms?scroll=memberships",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "welcomeModal",
+        "routeTo": "/membership/wizard",
+        "routeBack": "/(tabs)/?intro=1",
+        "clearRouteBackHistory": true
+      }
+    ],
+    "proficiency": [
+      {
+        "sourceScreen": "documents",
+        "routeTo": "/proficiency/wizard",
+        "routeBack": "/application/[id]/documents?scroll=proficiencies",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "profile",
+        "routeTo": "/proficiency/wizard",
+        "routeBack": "/(tabs)/profile?scroll=proficiencies",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "welcomeModal",
+        "routeTo": "/proficiency/wizard",
+        "routeBack": "/(tabs)/?intro=1",
+        "clearRouteBackHistory": true
+      }
+    ],
+    "safe": [
+      {
+        "sourceScreen": "documents",
+        "routeTo": "/safe/wizard",
+        "routeBack": "/application/[id]/documents?scroll=safes",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "firearms",
+        "routeTo": "/safe/wizard",
+        "routeBack": "/(tabs)/firearms?scroll=safes",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "welcomeModal",
+        "routeTo": "/safe/wizard",
+        "routeBack": "/(tabs)/?intro=1",
+        "clearRouteBackHistory": true
+      }
+    ],
+    "activityEvidence": [
+      {
+        "sourceScreen": "documents",
+        "routeTo": "/activity/wizard",
+        "routeBack": "/application/[id]/documents?scroll=activityEvidence",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "firearms",
+        "routeTo": "/activity/wizard",
+        "routeBack": "/(tabs)/firearms?scroll=activityEvidence",
+        "clearRouteBackHistory": true
+      }
+    ],
+    "supportingStatement": [
+      {
+        "sourceScreen": "documents",
+        "routeTo": "/supporting/wizard",
+        "routeBack": "/application/[id]/documents?scroll=supporting",
+        "clearRouteBackHistory": true
+      },
+      {
+        "sourceScreen": "profile",
+        "routeTo": "/supporting/wizard",
+        "routeBack": "/(tabs)/profile?scroll=supporting",
+        "clearRouteBackHistory": true
+      }
+    ]
+  }
+}

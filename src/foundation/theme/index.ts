@@ -2,3 +2,7 @@ export * from './colors';
 export * from './spacing';
 export * from './radii';
 export * from './typography';
+export * from './components';
+export * from './effects';
+export * from './semantic';
+export * from './tones';

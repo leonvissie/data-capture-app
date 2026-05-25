@@ -1,0 +1,533 @@
+{
+  "type": "ApplicationPolicy",
+  "jurisdiction": "ZA",
+  "version": "2025.10",
+  "effectiveFrom": "2025-10-14",
+  "notes": [],
+  "disabledColors": {
+    "label": "tones.neutrals.900",
+    "background": "tones.neutrals.100",
+    "border": "tones.neutrals.700"
+  },
+  "submissionChecks": {
+    "title": "Note that before you submit your application, you will be required to confirm that you:",
+    "footer": "Chances of a successful application are greatly improved if you meet these requirements.",
+    "checks": {
+      "convictedCheck": {
+        "key": "checkConvicted",
+        "applicationsTypes": [
+          "517g",
+          "518a"
+        ],
+        "label": "Do not have any Firearms Controls Act related convictions",
+        "description": "Have you been convicted of any offence in terms of the Firearms Control Act, 2000 (Act No. 60 of 2000) and sentenced to a period of imprisonment without the option of a fine."
+      },
+      "fitToPossess": {
+        "key": "checkFitToPossess",
+        "applicationsTypes": [
+          "517g",
+          "518a"
+        ],
+        "label": "Are fit to possess a firearm under the Act",
+        "description": "You are fit to possess a firearm in terms of the Firearms Control Act, 2000 (Act No. 60 of 2000)."
+      },
+      "mountedSafe": {
+        "key": "checkMountedSafe",
+        "applicationsTypes": [
+          "517g",
+          "518a"
+        ],
+        "label": "Have a SABS standards mounted safe for the firearm(s)",
+        "description": "You have a safe that is properly mounted to a fixed structure and which complies with the requirements of SABS standard 953- and / or 953-2."
+      },
+      "safeCarry": {
+        "key": "checkCarrySafely",
+        "applicationsTypes": [
+          "517g",
+          "518a"
+        ],
+        "label": "Will carry the firearm(s) safely as prescribed in the Act",
+        "description": "You will carry the firearm(s) as prescribed in Section 98(5)(a) of the Firearms Control Act, 2000 (Act No. 60 of 2000) and regulation 78 of the Firearms Control Regulations 2004."
+      },
+      "interpreter": {
+        "key": "checkInterpreter",
+        "applicationsTypes": [
+          "517g",
+          "518a"
+        ],
+        "label": "I am not using an interpreter for this application.",
+        "description": ""
+      },
+      "nominee": {
+        "key": "checkNominee",
+        "applicationsTypes": [
+          "517g",
+          "518a"
+        ],
+        "label": "The application is submitted by me (not by/for a nominee or authorized person).",
+        "description": ""
+      },
+      "literate": {
+        "key": "checkLiterate",
+        "applicationsTypes": [
+          "517g",
+          "518a"
+        ],
+        "label": "I confirm that I can read and write English.",
+        "description": ""
+      },
+      "liability": {
+        "key": "checkLiability",
+        "applicationsTypes": [
+          "517g",
+          "518a"
+        ],
+        "label": "I understand that GunCerts cannot guarantee that my application will be successful.",
+        "description": ""
+      }
+    }
+  },
+  "applicationTypes": {
+    "new": {
+      "title": "New Applications",
+      "status": "active",
+      "colors": {
+        "label": "tones.teal.onBase",
+        "background": "tones.teal.base",
+        "border": "tones.teal.base"
+      },
+      "cards": {
+        "competencyCert": {
+          "key": "517",
+          "label": "New: Competency Certificate",
+          "form": "",
+          "subLabel": "Form: SAPS-517",
+          "status": "active"
+        },
+        "fireArm": {
+          "key": "271",
+          "label": "New Firearm Licence",
+          "form": "",
+          "subLabel": "Form: SAPS-271",
+          "status": "hidden"
+        }
+      }
+    },
+    "renewal": {
+      "title": "Renewal Applications",
+      "status": "active",
+      "colors": {
+        "label": "tones.blue.onBase",
+        "background": "tones.blue.base",
+        "border": "tones.blue.base"
+      },
+      "cards": {
+        "competencyCert": {
+          "key": "517g",
+          "label": "Renewal: Competency Certificate",
+          "form": "",
+          "subLabel": "Form: SAPS-517(g)",
+          "status": "active"
+        },
+        "fireArm": {
+          "key": "518a",
+          "label": "Renewal: Firearm Licence",
+          "form": "",
+          "subLabel": "Form: SAPS-518(a)",
+          "status": "active"
+        }
+      }
+    },
+    "permit": {
+      "title": "Coming soon",
+      "status": "active",
+      "colors": {
+        "label": "tones.neutrals.0",
+        "background": "tones.orange.base",
+        "border": "tones.orange.base"
+      },
+      "cards": {
+
+        "whatNext": {
+          "key": "next",
+          "label": "What do you want to see next?",
+          "form": "",
+          "subLabel": "Tap here to tell using our Support page on our website (opens your web browser)",
+          "type": "url",
+          "target": "https://www.guncerts.co.za/support.html",
+          "status": "comingSoon"
+                },
+        "supportingStatements": {
+          "key": "motivation",
+          "label": "Motivations (March 2026)",
+          "form": "",
+          "subLabel": "A motivation wizard to help generate motivations for your applications",
+          "type": "screen",
+          "target": "...",
+          "status": "hidden"
+        },
+        "tempImportExport": {
+          "key": "520",
+          "label": "SAPS-520 (April 2026)",
+          "form": "",
+          "subLabel": "Temporary import/export permits",
+          "status": "hidden"
+        },
+        "newFirearm": {
+          "key": "271",
+          "label": "SAPS-271 (May 2026)",
+          "form": "",
+          "subLabel": "New firearm applications",
+          "status": "hidden"
+        }
+      }
+    },
+    "request": {
+      "title": "What would you like to see added next?",
+      "status": "hidden",
+      "colors": {
+        "label": "tones.neutrals.0",
+        "background": "tones.teal.base",
+        "border": "tones.teal.border"
+      },
+      "cards": {
+        "licenceToPossessFirearm": {
+          "key": "request271",
+          "label": "SAPS-271",
+          "form": "",
+          "subLabel": "Application for licence to possess a firearm",
+          "status": "active"
+        },
+        "competencyCertificate": {
+          "key": "request517",
+          "label": "SAPS-517",
+          "form": "",
+          "subLabel": "Application for a competency certificate",
+          "status": "active"
+        },
+        "furtherCompetencyCertificate": {
+          "key": "request517a",
+          "label": "SAPS-517a",
+          "form": "",
+          "subLabel": "Application for a further competency certificate",
+          "status": "hidden"
+        },
+        "duplicateLicencePermitEtc": {
+          "key": "request517b",
+          "label": "SAPS-517b",
+          "form": "",
+          "subLabel": "Application for a duplicate licence, permit, certificate or authorization for lost, stolen and defaced licences",
+          "status": "hidden"
+        },
+        "licenceParticularCategories": {
+          "key": "request517c",
+          "label": "SAPS-517c",
+          "form": "",
+          "subLabel": "Application for licence issued to particular categories of persons - dealers, manufacturers and gunsmiths",
+          "status": "hidden"
+        },
+        "manufactureNewType": {
+          "key": "request517d",
+          "label": "SAPS-517d",
+          "form": "",
+          "subLabel": "Application to manufacture a new firearm or ammunition type",
+          "status": "hidden"
+        },
+        "renewalPreviousAct": {
+          "key": "request517e",
+          "label": "SAPS-517e",
+          "form": "",
+          "subLabel": "Application for renewal of licence(s) in terms of the previous Act",
+          "status": "hidden"
+        },
+        "firearmFreeZone": {
+          "key": "request517f",
+          "label": "SAPS-517f",
+          "form": "",
+          "subLabel": "Application to declare premises a firearm free zone",
+          "status": "hidden"
+        },
+        "tempAuthorizationPossess": {
+          "key": "request518",
+          "label": "SAPS-518",
+          "form": "",
+          "subLabel": "Application for a temporary authorization to possess a firearm",
+          "status": "active"
+        },
+        "tempAuthorizationTradeEtc": {
+          "key": "request518b",
+          "label": "SAPS-518b",
+          "form": "",
+          "subLabel": "Application for a temporary authorization to trade in firearms and ammunition, to conduct business as a gunsmith or to display firearms and ammunition on premises other than those specified in dealers', manufacturers' or gunsmiths' licence",
+          "status": "active"
+        },
+        "accreditationAssociation": {
+          "key": "request519",
+          "label": "SAPS-519",
+          "form": "",
+          "subLabel": "Application for accreditation as an association",
+          "status": "hidden"
+        },
+        "accreditationBusiness": {
+          "key": "request519a",
+          "label": "SAPS-519a",
+          "form": "",
+          "subLabel": "Application for accreditation for business purposes",
+          "status": "hidden"
+        },
+        "accreditationOfficialInstitution": {
+          "key": "request519b",
+          "label": "SAPS-519b",
+          "form": "",
+          "subLabel": "Application for accreditation as an official institution",
+          "status": "hidden"
+        },
+        "importExportPersonalUse": {
+          "key": "request520",
+          "label": "SAPS-520",
+          "form": "",
+          "subLabel": "Application for a multiple import or export permit/permanent import or export permit/ temporary import or export permit/in-transit permit for personal use (Individuals and companies)",
+          "status": "active"
+        },
+        "importExportDealersManufacturers": {
+          "key": "request520a",
+          "label": "SAPS-520a",
+          "form": "",
+          "subLabel": "Application for multiple import or export permit/permanent import or export permit/temporary import or export permit/in-transit permit for dealers, manufacturers and gunsmiths",
+          "status": "hidden"
+        },
+        "transportPermit": {
+          "key": "request520b",
+          "label": "SAPS-520b",
+          "form": "",
+          "subLabel": "Application for permit to transport firearms and ammunition",
+          "status": "active"
+        },
+        "collectAmmunitionPermit": {
+          "key": "request520c",
+          "label": "SAPS-520c",
+          "form": "",
+          "subLabel": "Application for a permit to collect ammunition",
+          "status": "active"
+        },
+        "compensation": {
+          "key": "request520d",
+          "label": "SAPS-520d",
+          "form": "",
+          "subLabel": "Application for compensation",
+          "status": "hidden"
+        },
+        "notifyLostStolenLicences": {
+          "key": "request521",
+          "label": "SAPS-521",
+          "form": "",
+          "subLabel": "Notification of lost or stolen licences, permits, certificates and authorizations",
+          "status": "active"
+        },
+        "notifyCeaseBusiness": {
+          "key": "request521a",
+          "label": "SAPS-521a",
+          "form": "",
+          "subLabel": "Notification of ceasing to carry on business",
+          "status": "hidden"
+        },
+        "notifyChangeAddress": {
+          "key": "request521b",
+          "label": "SAPS-521b",
+          "form": "",
+          "subLabel": "Notification of change of address",
+          "status": "active"
+        },
+        "notifyChangeCircumstances": {
+          "key": "request521c",
+          "label": "SAPS-521c",
+          "form": "",
+          "subLabel": "Notification of change in circumstances",
+          "status": "active"
+        },
+        "notifyChangeAgentPremises": {
+          "key": "request521d",
+          "label": "SAPS-521d",
+          "form": "",
+          "subLabel": "Notification of change of commercial agent premises",
+          "status": "hidden"
+        },
+        "notifyAssignResponsiblePerson": {
+          "key": "request521e",
+          "label": "SAPS-521e",
+          "form": "",
+          "subLabel": "Notification on assignment of a new responsible person for juristic person",
+          "status": "hidden"
+        },
+        "notifyLostStolenFoundFirearms": {
+          "key": "request521f",
+          "label": "SAPS-521f",
+          "form": "",
+          "subLabel": "Notification of lost/stolen/found firearms",
+          "status": "active"
+        },
+        "notifyIncorrectInformation": {
+          "key": "request521g",
+          "label": "SAPS-521g",
+          "form": "",
+          "subLabel": "Notification of incorrect information",
+          "status": "active"
+        },
+        "notifyDeactivateFirearm": {
+          "key": "request521h",
+          "label": "SAPS-521h",
+          "form": "",
+          "subLabel": "Notification of requirement to deactivate a firearm",
+          "status": "hidden"
+        },
+        "cancelApplication": {
+          "key": "request522",
+          "label": "SAPS-522",
+          "form": "",
+          "subLabel": "Cancellation of an application for a licence, permit, certificate or authorization",
+          "status": "hidden"
+        },
+        "surrenderFirearmItems": {
+          "key": "request522a",
+          "label": "SAPS-522a",
+          "form": "",
+          "subLabel": "Surrendering of firearm item(s)",
+          "status": "hidden"
+        },
+        "forfeitureFirearmItems": {
+          "key": "request522b",
+          "label": "SAPS-522b",
+          "form": "",
+          "subLabel": "Forfeiture of firearm item(s)",
+          "status": "hidden"
+        },
+        "ackReceiptFirearmDocs": {
+          "key": "request523",
+          "label": "SAPS-523",
+          "form": "",
+          "subLabel": "Acknowledgement of receipt of firearm documentation",
+          "status": "hidden"
+        },
+        "remittanceAdvice": {
+          "key": "request523a",
+          "label": "SAPS-523a",
+          "form": "",
+          "subLabel": "Remittance advice for firearm applications",
+          "status": "hidden"
+        },
+        "noticeOfAppeal": {
+          "key": "request530",
+          "label": "SAPS-530",
+          "form": "",
+          "subLabel": "Notice of appeal",
+          "status": "active"
+        },
+        "alterFirearmByGunsmith": {
+          "key": "request531",
+          "label": "SAPS-531",
+          "form": "",
+          "subLabel": "Request to alter a firearm by a gunsmith",
+          "status": "hidden"
+        },
+        "infringementNotice": {
+          "key": "request532",
+          "label": "SAPS-532",
+          "form": "",
+          "subLabel": "Infringement notice",
+          "status": "hidden"
+        },
+        "responseToInfringement": {
+          "key": "request532a",
+          "label": "SAPS-532a",
+          "form": "",
+          "subLabel": "Response to infringement notice",
+          "status": "hidden"
+        },
+        "requestCancelLicencePermitEtc": {
+          "key": "request533",
+          "label": "SAPS-533",
+          "form": "",
+          "subLabel": "Request to cancel a firearm licence, permit, certificate or authorization",
+          "status": "hidden"
+        },
+        "requestSuspendLicencePermitEtc": {
+          "key": "request533a",
+          "label": "SAPS-533a",
+          "form": "",
+          "subLabel": "Request to suspend a firearm licence, permit, certificate or authorization",
+          "status": "hidden"
+        },
+        "transferOwnership": {
+          "key": "request534",
+          "label": "SAPS-534",
+          "form": "",
+          "subLabel": "Transfer of firearm ownership",
+          "status": "active"
+        },
+        "forwardingSchedule": {
+          "key": "request535",
+          "label": "SAPS-535",
+          "form": "",
+          "subLabel": "Forwarding schedule",
+          "status": "hidden"
+        },
+        "primersAuthorization": {
+          "key": "request536",
+          "label": "SAPS-536",
+          "form": "",
+          "subLabel": "Application for authorization to possess more than 2 400 primers",
+          "status": "hidden"
+        },
+        "listExemptFirearms": {
+          "key": "request349",
+          "label": "SAPS-349",
+          "form": "",
+          "subLabel": "List of firearms in possession of government departments and other bodies which are exempt from licensing",
+          "status": "hidden"
+        },
+        "dealersReturnReceived": {
+          "key": "request350a",
+          "label": "SAPS-350a",
+          "form": "",
+          "subLabel": "Dealer's return: stock received",
+          "status": "hidden"
+        },
+        "dealersReturnSupplied": {
+          "key": "request350b",
+          "label": "SAPS-350b",
+          "form": "",
+          "subLabel": "Dealer's return: stock supplied",
+          "status": "hidden"
+        },
+        "manufacturersReturnManufactured": {
+          "key": "request350c",
+          "label": "SAPS-350c",
+          "form": "",
+          "subLabel": "Manufacturer's return: stock manufactured",
+          "status": "hidden"
+        },
+        "manufacturersReturnSupplied": {
+          "key": "request350d",
+          "label": "SAPS-350d",
+          "form": "",
+          "subLabel": "Manufacturer's return: stock supplied",
+          "status": "hidden"
+        },
+        "gunsmithReturnReceived": {
+          "key": "request350e",
+          "label": "SAPS-350e",
+          "form": "",
+          "subLabel": "Gunsmith return: stock received",
+          "status": "hidden"
+        },
+        "gunsmithReturnSupplied": {
+          "key": "request350f",
+          "label": "SAPS-350f",
+          "form": "",
+          "subLabel": "Gunsmith return: stock supplied",
+          "status": "hidden"
+        }
+      }
+    }
+  }
+}

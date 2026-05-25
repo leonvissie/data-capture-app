@@ -1,0 +1,45 @@
+{
+  "cli": {
+    "version": ">= 10.0.0"
+  },
+  "build": {
+    "dev": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": { "APP_ENV": "dev" }
+    },
+    "staging": {
+      "channel": "staging",
+      "env": { "APP_ENV": "stage" }
+    },
+    "preview": {
+      "ios": {
+        "resourceClass": "m-medium",
+        "distribution": "store",
+        "autoIncrement": "buildNumber"    
+      },
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": { "APP_ENV": "stage" }
+    },
+    "internal": {
+      "ios": {
+        "resourceClass": "m-medium",
+        "distribution": "internal"
+      },
+      "env": { "APP_ENV": "dev" }
+    },
+    "production": {
+      "channel": "production",
+      "ios": {
+        "resourceClass": "m-medium",
+        "distribution": "store"
+      },
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": { "APP_ENV": "prod" }
+    }
+  }
+}

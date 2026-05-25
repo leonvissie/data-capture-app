@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "meta": {
+    "note": "First-pass SAPS-517 mapping. Coordinates are approximate and require visual calibration against 517.pdf.",
+    "units": "pt",
+    "pageScale": 1,
+    "globalOffset": {
+      "x": 0,
+      "y": 0
+    },
+    "postalAddressFallbackText": "SAME AS RESIDENTIAL ADDRESS"
+  },
+  "fields": [
+    { "key": "d4Handgun", "page": 2, "x": 180, "y": 694, "fontSize": 12, "transform": "uppercase" },
+    { "key": "d4Rifle", "page": 2, "x": 288, "y": 694, "fontSize": 12, "transform": "uppercase" },
+    { "key": "d4Shotgun", "page": 2, "x": 383, "y": 694, "fontSize": 12, "transform": "uppercase" },
+
+    { "key": "surname", "page": 2, "x": 125, "y": 572, "fontSize": 11, "transform": "uppercase" },
+    { "key": "fullNames", "page": 2, "x": 125, "y": 554, "fontSize": 11, "transform": "uppercase" },
+    { "key": "initials", "page": 2, "x": 490, "y": 572, "fontSize": 12, "mode": "split", "step": 19.25, "transform": "uppercase" },
+
+    { "key": "idTypeSAID", "page": 2, "x": 125, "y": 607, "fontSize": 12, "transform": "uppercase" },
+    { "key": "idTypePassport", "page": 2, "x": 125, "y": 607, "fontSize": 12, "transform": "uppercase" },
+    { "key": "idTypePR", "page": 2, "x": 317, "y": 607, "fontSize": 12, "transform": "uppercase" },
+
+    { "key": "saId1", "page": 2, "x": 258, "y": 590, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 6, "transform": "uppercase" },
+    { "key": "saId2", "page": 2, "x": 394, "y": 590, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 4, "transform": "uppercase" },
+    { "key": "saId3", "page": 2, "x": 490, "y": 590, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 2, "transform": "uppercase" },
+    { "key": "saId4", "page": 2, "x": 548, "y": 590, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 1, "transform": "uppercase" },
+    { "key": "passportNo", "page": 2, "x": 258, "y": 590, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 11, "transform": "uppercase" },
+
+    { "key": "age", "page": 2, "x": 126, "y": 536, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 3, "transform": "uppercase" },
+    { "key": "genderMale", "page": 2, "x": 258, "y": 536, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 4, "transform": "uppercase" },
+    { "key": "genderFemale", "page": 2, "x": 258, "y": 536, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 4, "transform": "uppercase" },
+    { "key": "birthYear", "page": 2, "x": 126, "y": 517, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 4, "transform": "uppercase" },
+    { "key": "birthMonth", "page": 2, "x": 221, "y": 517, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 2, "transform": "uppercase" },
+    { "key": "birthDay", "page": 2, "x": 280, "y": 517, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 2, "transform": "uppercase" },
+
+    { "key": "resAddress", "page": 2, "x": 166, "y": 500, "fontSize": 10, "transform": "uppercase" },
+    { "key": "resAddress2", "page": 2, "x": 49, "y": 481, "fontSize": 10, "transform": "uppercase" },
+    { "key": "resPostal", "page": 2, "x": 490, "y": 481, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 4, "transform": "uppercase" },
+    { "key": "postAddress", "page": 2, "x": 166, "y": 463, "fontSize": 10, "transform": "uppercase" },
+    { "key": "postAddress2", "page": 2, "x": 75, "y": 454, "fontSize": 10, "transform": "uppercase" },
+    { "key": "postPostal", "page": 2, "x": 490, "y": 454, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 4, "transform": "uppercase" },
+
+    { "key": "e14TradeOrProfession", "page": 2, "x": 164, "y": 391, "fontSize": 10, "transform": "uppercase" },
+    { "key": "e15SelfEmployedDetail", "page": 2, "x": 432, "y": 391, "fontSize": 10, "transform": "uppercase" },
+    { "key": "e16EmployerName", "page": 2, "x": 165, "y": 372, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 21, "transform": "uppercase" },
+    { "key": "e17EmployerAddress1", "page": 2, "x": 165, "y": 354, "fontSize": 10, "transform": "uppercase" },
+    { "key": "e17EmployerAddress2", "page": 2, "x": 49, "y": 336, "fontSize": 10, "transform": "uppercase" },
+    { "key": "e18EmployerPostalCode", "page": 2, "x": 490, "y": 336, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 4, "transform": "uppercase" },
+
+    { "key": "homePhone", "page": 2, "x": 220, "y": 318, "fontSize": 10, "transform": "uppercase" },
+    { "key": "workPhone", "page": 2, "x": 365, "y": 318, "fontSize": 10, "transform": "uppercase" },
+    { "key": "cellPhone", "page": 2, "x": 165, "y": 300, "fontSize": 10, "transform": "uppercase" },
+    { "key": "email", "page": 2, "x": 165, "y": 282, "fontSize": 10, "transform": "uppercase" },
+
+    { "key": "e22Single", "page": 2, "x": 75, "y": 226, "fontSize": 12, "transform": "uppercase" },
+    { "key": "e22Married", "page": 2, "x": 242, "y": 226, "fontSize": 12, "transform": "uppercase" },
+    { "key": "e22Divorced", "page": 2, "x": 245, "y": 226, "fontSize": 12, "transform": "uppercase" },
+    { "key": "e22Widow", "page": 2, "x": 340, "y": 226, "fontSize": 12, "transform": "uppercase" },
+    { "key": "e22Widower", "page": 2, "x": 415, "y": 226, "fontSize": 12, "transform": "uppercase" },
+    { "key": "e22Other", "page": 2, "x": 126, "y": 208, "fontSize": 12, "transform": "uppercase" },
+    { "key": "e22OtherText", "page": 2, "x": 136, "y": 208, "fontSize": 10, "transform": "uppercase" },
+    
+    { "key": "e23SpouseTypeId", "page": 2, "x": 125, "y": 124, "fontSize": 12, "transform": "uppercase" },
+    { "key": "e23SpouseTypePassport", "page": 2, "x": 220, "y": 124, "fontSize": 12, "transform": "uppercase" },
+    { "key": "e23SpouseSaId1", "page": 2, "x": 259, "y": 106, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 6, "transform": "uppercase" },
+    { "key": "e23SpouseSaId2", "page": 2, "x": 394, "y": 106, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 4, "transform": "uppercase" },
+    { "key": "e23SpouseSaId3", "page": 2, "x": 490, "y": 106, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 2, "transform": "uppercase" },
+    { "key": "e23SpouseSaId4", "page": 2, "x": 548, "y": 106, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 1, "transform": "uppercase" },
+    { "key": "e23SpousePassport", "page": 2, "x": 259, "y": 89, "fontSize": 12, "mode": "split", "step": 19.25, "maxLen": 11, "transform": "uppercase" },
+
+    { "key": "g1Yes", "page": 3, "x": 127, "y": 518, "fontSize": 12, "transform": "uppercase" },
+    { "key": "g1No", "page": 3, "x": 224, "y": 518, "fontSize": 12, "transform": "uppercase" },
+    { "key": "g2Yes", "page": 3, "x": 127, "y": 473, "fontSize": 12, "transform": "uppercase" },
+    { "key": "g2No", "page": 3, "x": 224, "y": 473, "fontSize": 12, "transform": "uppercase" },
+
+    { "key": "g3Pistol", "page": 3, "x": 157, "y": 435, "fontSize": 12, "transform": "uppercase" },
+    { "key": "g3Revolver", "page": 3, "x": 293, "y": 435, "fontSize": 12, "transform": "uppercase" },
+    { "key": "g3Rifle", "page": 3, "x": 426, "y": 435, "fontSize": 12, "transform": "uppercase" },
+    { "key": "g3Shotgun", "page": 3, "x": 550, "y": 435, "fontSize": 12, "transform": "uppercase" },
+    { "key": "g3Other", "page": 3, "x": 157, "y": 419, "fontSize": 12, "transform": "uppercase" },
+    { "key": "g3OtherText", "page": 3, "x": 170, "y": 419, "fontSize": 11, "transform": "uppercase" },
+
+    { "key": "h1Yes", "page": 3, "x": 127, "y": 343, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h1No", "page": 3, "x": 224, "y": 343, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h2TrainingInstitutionName", "page": 3, "x": 241, "y": 325, "fontSize": 10, "transform": "uppercase" },
+    { "key": "h3TrainingCertificateNumber", "page": 3, "x": 241, "y": 307, "fontSize": 10, "transform": "uppercase" },
+    { "key": "h4DateIssued", "page": 3, "x": 241, "y": 290, "fontSize": 10, "pattern": "YYYY-MM-DD", "transform": "uppercase" },
+
+    { "key": "h5Yes", "page": 3, "x": 127, "y": 234, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h5No", "page": 3, "x": 224, "y": 234, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h5Station1", "page": 3, "x": 144, "y": 218, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h5CaseNumber1", "page": 3, "x": 431, "y": 218, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h5Charge1", "page": 3, "x": 144, "y": 200, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h5Outcome1", "page": 3, "x": 144, "y": 182, "fontSize": 9, "transform": "uppercase" },
+
+    { "key": "h6Yes", "page": 4, "x": 127, "y": 781, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h6No", "page": 4, "x": 223, "y": 781, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h6Station1", "page": 4, "x": 144, "y": 764, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h6CaseNumber1", "page": 4, "x": 431, "y": 764, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h6Charge1", "page": 4, "x": 144, "y": 746, "fontSize": 9, "transform": "uppercase" },
+
+    { "key": "h7Yes", "page": 4, "x": 127, "y": 662, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h7No", "page": 4, "x": 223, "y": 662, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h7Station", "page": 4, "x": 144, "y": 646, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h7CaseNumber", "page": 4, "x": 431, "y": 646, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h7Circumstances", "page": 4, "x": 144, "y": 627, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h7FirearmDetails", "page": 4, "x": 144, "y": 609, "fontSize": 9, "transform": "uppercase" },
+
+    { "key": "h8Yes", "page": 4, "x": 127, "y": 508, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h8No", "page": 4, "x": 223, "y": 508, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h8Details", "page": 4, "x": 144, "y": 491, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h8Station1", "page": 4, "x": 144, "y": 491, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h8CaseNumber1", "page": 4, "x": 431, "y": 491, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h8Charge1", "page": 4, "x": 144, "y": 473, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h8Outcome1", "page": 4, "x": 431, "y": 473, "fontSize": 9, "transform": "uppercase" },
+
+    { "key": "h9Yes", "page": 4, "x": 127, "y": 389, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h9No", "page": 4, "x": 223, "y": 389, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h9Station1", "page": 4, "x": 144, "y": 372, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h9CaseNumber1", "page": 4, "x": 431, "y": 372, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h9Charge1", "page": 4, "x": 144, "y": 354, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h9Date1", "page": 4, "x": 144, "y": 336, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h9Period1", "page": 4, "x": 431, "y": 336, "fontSize": 9, "transform": "uppercase" },
+
+    { "key": "h10Yes", "page": 4, "x": 127, "y": 235, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h10No", "page": 4, "x": 223, "y": 235, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h10Station1", "page": 4, "x": 144, "y": 218, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h10CaseNumber1", "page": 4, "x": 431, "y": 218, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h10Circumstances1", "page": 4, "x": 144, "y": 200, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h10Outcome1", "page": 4, "x": 431, "y": 200, "fontSize": 9, "transform": "uppercase" },
+
+    { "key": "h11Yes", "page": 4, "x": 127, "y": 108, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h11No", "page": 4, "x": 223, "y": 108, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h11Details", "page": 4, "x": 49, "y": 90, "fontSize": 9, "transform": "uppercase" },
+
+    { "key": "h12Yes", "page": 5, "x": 127, "y": 773, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h12No", "page": 5, "x": 223, "y": 773, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h12Details", "page": 5, "x": 49, "y": 756, "fontSize": 9, "transform": "uppercase" },
+
+    { "key": "h13Yes", "page": 5, "x": 127, "y": 699, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h13No", "page": 5, "x": 223, "y": 699, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h13Details", "page": 5, "x": 49, "y": 682, "fontSize": 9, "transform": "uppercase" },
+
+    { "key": "h14Yes", "page": 5, "x": 127, "y": 626, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h14No", "page": 5, "x": 223, "y": 626, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h14Details", "page": 5, "x": 49, "y": 609, "fontSize": 9, "transform": "uppercase" },
+
+    { "key": "h15Yes", "page": 5, "x": 127, "y": 551, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h15No", "page": 5, "x": 223, "y": 551, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h15Details", "page": 5, "x": 49, "y": 536, "fontSize": 9, "transform": "uppercase" },
+
+    { "key": "h16Yes", "page": 5, "x": 127, "y": 488, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h16No", "page": 5, "x": 223, "y": 488, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h16Details", "page": 5, "x": 49, "y": 471, "fontSize": 9, "transform": "uppercase" },
+
+    { "key": "h17ConductBusiness", "page": 5, "x": 147, "y": 382, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h17GainfullyEmployed", "page": 5, "x": 261, "y": 382, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h17DedicatedHunter", "page": 5, "x": 356, "y": 382, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h17DedicatedSportPerson", "page": 5, "x": 452, "y": 382, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h17PrivateCollector", "page": 5, "x": 548, "y": 382, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h17PublicCollector", "page": 5, "x": 147, "y": 360, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h17Other", "page": 5, "x": 261, "y": 360, "fontSize": 12, "transform": "uppercase" },
+    { "key": "h17OtherReasonText", "page": 5, "x": 278, "y": 360, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h17FullDetails", "page": 5, "x": 144, "y": 343, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h17FullDetails1", "page": 5, "x": 144, "y": 343, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h17FullDetails2", "page": 5, "x": 49, "y": 327, "fontSize": 9, "transform": "uppercase" },
+    { "key": "h17FullDetails3", "page": 5, "x": 49, "y": 310, "fontSize": 9, "transform": "uppercase" }
+  ]
+}

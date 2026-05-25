@@ -1,0 +1,252 @@
+{
+  "type": "RequirementPolicy",
+  "appType": "517",
+  "jurisdiction": "ZA",
+  "formVersion": "SAPS-517-0.1",
+  "version": "2026.04",
+  "effectiveFrom": "2026-04-30",
+  "pdf": "../../assets/pdf/517.pdf",
+  "pdfFieldMap": "../../assets/fieldmap/517.json",
+  "addressLength": {
+    "line1Split": 70,
+    "maxLength": 124
+  },
+  "fieldLength": {
+    "h2TrainingInstitutionName": 55,
+    "h3TrainingCertificateSerial": 55,
+    "h4TrainingCertificateDateIssued": 55,
+    "h5CaseDetails": {
+      "policeStation": 32,
+      "caseNumber": 23,
+      "chargeOrOffence": 75,
+      "outcome": 75
+    },
+    "h6CaseDetails": {
+      "policeStation": 32,
+      "caseNumber": 23,
+      "chargeOrOffence": 75
+    },
+    "h7CaseDetails": {
+      "policeStation": 32,
+      "caseNumber": 23,
+      "circumstances": 75,
+      "firearmDetails": 75
+    },
+    "h8CaseDetails": {
+      "policeStation": 32,
+      "caseNumber": 23,
+      "chargeOrOffence": 32,
+      "outcome": 23
+    },
+    "h9CaseDetails": {
+      "policeStation": 32,
+      "caseNumber": 23,
+      "chargeOrOffence": 75,
+      "dateFrom": 32,
+      "period": 23
+    },
+    "h10CaseDetails": {
+      "policeStation": 32,
+      "caseNumber": 23,
+      "circumstances": 32,
+      "outcome": 23
+    },
+    "h11ToH16Details": 95
+  },
+  "maxItemsPerApplication": [
+    {
+      "itemKind": "COMPETENCY_CERT",
+      "maxCount": 1
+    }
+  ],
+  "notes": [
+    "Each SAPS 517 application requires its own supporting document set.",
+    "Take all originals required by SAPS to your DFO when submitting."
+  ],
+  "instructions": {
+    "paragraphFontSize": 10,
+    "titleFontSize": 13,
+    "titleBold": true,
+    "titleUnderline": true,
+    "subTitleFontSize": 11,
+    "subTitleBold": true,
+    "subTitleUnderline": false,
+    "notesTitle": "Important notes:",
+    "notes": [
+      {
+        "title": "Character references",
+        "text": [
+          "Some Designated Firearms Officers (DFOs) require character references to accompany the 517(g) application.",
+          "We recommend that you check with your DFO to ensure you include all required documents for your application.",
+          "Ensure each character reference is signed by the person providing the statement. These should be dated and signed within the last 3 months.",
+          "Character references do not need to be certified."
+        ]
+      },
+      {
+        "title": "Document certification:",
+        "text": [
+          "All copies of documents submitted must be certified as true copies of the original by a Commissioner of Oaths.",
+          "This can be done at a police station, post office, bank, or by a lawyer or notary public."
+        ]
+      },
+      {
+        "title": "Application submission date (Section E, questions 15 & 16, page 3):",
+        "text": [
+          "SAPS prefers that you hand in your application at least 90 days before expiration date to allow them enough time to process your application before it expires."
+        ]
+      },
+      {
+        "title": "Disclaimer",
+        "text": [
+          "It is your responsibility to ensure that all information and documents submitted are accurate, complete, and truthful.",
+          "GunCerts does not guarantee the success or approval of any application."
+        ]
+      }
+    ],
+    "formInstructionTitle": "Final steps for completing the SAPS 517(g) form:",
+    "formInstructions": [
+      {
+        "title": "",
+        "formSection": "Section E, Number 15",
+        "formPage": "Page 3",
+        "formSectionPageTextBold": true,
+        "formSectionPageTextItalics": true,
+        "formSectionPageTextUnderline": false,
+        "text": [
+          "Tick `YES` if you submitted your application at your SAPS station 90 days (or more) before expiry date.",
+          "Tick `NO` if you submitted your application less than 90 days before expiry date AND before it expired. Provide a reason why you didn't manage to submit the application 90 days before expiration."
+        ]
+      },
+      {
+        "title": "",
+        "formSection": "Section E, Number 16",
+        "formPage": "Page 3",
+        "formSectionPageTextBold": true,
+        "formSectionPageTextItalics": true,
+        "formSectionPageTextUnderline": false,
+        "text": [
+          "Tick `NO` if you submitted your renewal application before it expired.",
+          "Tick `YES` if you submitted your application after expiry and provide a reason in the space provided."
+        ]
+      },
+      {
+        "title": "",
+        "formSection": "Section F",
+        "formPage": "Page 3",
+        "formSectionPageTextBold": true,
+        "formSectionPageTextItalics": true,
+        "formSectionPageTextUnderline": false,
+        "text": [
+          "This section will be completed in the presence of the police officer receiving your application.",
+          "Ensure you have passport photos as prescribed in the `Note:` section of this section."
+        ]
+      },
+      {
+        "title": "",
+        "formSection": "Accompanying declaration by applicant",
+        "formPage": "Pages 5&6",
+        "formSectionPageTextBold": true,
+        "formSectionPageTextItalics": true,
+        "formSectionPageTextUnderline": false,
+        "text": [
+          "This section will be completed in the presence of the police officer receiving your application."
+        ]
+      }
+    ]
+  },
+  "declarations": [
+    {
+      "code": "INTERPRETER",
+      "requiredForApplication": true,
+      "display": true,
+      "displayOrder": 42,
+      "applicationField": "checkInterpreter",
+      "heading": "Interpreter",
+      "text": "I am not using an interpreter for this application.",
+      "helpKey": ""
+    },
+    {
+      "code": "MINOR",
+      "requiredForApplication": true,
+      "display": true,
+      "displayOrder": 44,
+      "applicationField": "checkMinor",
+      "heading": "Minor",
+      "text": "I confirm that I am not a minor (under the age of 18).",
+      "helpKey": ""
+    },
+    {
+      "code": "LITERATE",
+      "requiredForApplication": true,
+      "display": true,
+      "displayOrder": 46,
+      "applicationField": "checkLiterate",
+      "heading": "Literacy",
+      "text": "I confirm that I can read and write English.",
+      "helpKey": ""
+    },
+    {
+      "code": "LIABILITY",
+      "requiredForApplication": true,
+      "display": true,
+      "displayOrder": 48,
+      "applicationField": "checkLiability",
+      "heading": "GunCerts liability",
+      "text": "I understand that GunCerts cannot guarantee that my application will be successful.",
+      "helpKey": ""
+    }
+  ],
+  "requirements": [
+    {
+      "code": "SAPS_517_FORM",
+      "displayOrder": 70,
+      "label": "SAPS 517 information",
+      "checklistLabel": "Completed SAPS 517 application form",
+      "description": "Generated application form for SAPS 517 submission.",
+      "helpKey": "helpForm517",
+      "required": true,
+      "requiredForApplication": true,
+      "requireUpload": false,
+      "isChecklistItem": true,
+      "isSupportingDocument": false,
+      "cardStyle": "statusMini",
+      "scope": {
+        "perApp": true
+      }
+    },
+    {
+      "code": "ADVERSE_SUPPORTING_DOCS",
+      "displayOrder": 50,
+      "label": "Adverse-history supporting documents",
+      "description": "Include written explanations and supporting documents for any adverse-history Yes answers.",
+      "helpKey": "helpDocsGeneralUpload",
+      "required": false,
+      "requiredForApplication": false,
+      "requireUpload": false,
+      "isChecklistItem": true,
+      "isSupportingDocument": false,
+      "annexure": "F",
+      "cardStyle": "single",
+      "scope": {
+        "perApp": true
+      }
+    },
+    {
+      "code": "UNDER21_SUPPORTING_DOCS",
+      "displayOrder": 51,
+      "label": "Under-21 compelling reasons and proof",
+      "description": "Include compelling reasons and supporting proof if applicant is under 21.",
+      "helpKey": "helpDocsGeneralUpload",
+      "required": false,
+      "requiredForApplication": false,
+      "requireUpload": false,
+      "isChecklistItem": true,
+      "isSupportingDocument": false,
+      "annexure": "G",
+      "cardStyle": "single",
+      "scope": {
+        "perApp": true
+      }
+    }
+  ]
+}

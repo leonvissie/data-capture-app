@@ -1,0 +1,777 @@
+{
+  "version": 1,
+  "meta": {
+    "note": "Approximate coordinates; adjust to fit the exact PDF.",
+    "units": "pt",
+    "pageScale": 1,
+    "globalOffset": {
+      "x": 0,
+      "y": 0
+    },
+    "moreThan4Firearms": "*** SEE ANNEXURE A1 FOR LIST OF FIREARMS ***",
+    "postalAddressFallbackText": "SAME AS RESIDENTIAL ADDRESS"
+  },
+  "fields": [
+    {
+      "key": "licType11",
+      "page": 1,
+      "x": 257,
+      "y": 364,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType12",
+      "page": 1,
+      "x": 257,
+      "y": 342,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType13",
+      "page": 1,
+      "x": 257,
+      "y": 314,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType14",
+      "page": 1,
+      "x": 257,
+      "y": 286,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType15",
+      "page": 1,
+      "x": 257,
+      "y": 258,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType16",
+      "page": 1,
+      "x": 257,
+      "y": 236,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType17",
+      "page": 1,
+      "x": 257,
+      "y": 214,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType18",
+      "page": 1,
+      "x": 257,
+      "y": 186,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType19",
+      "page": 1,
+      "x": 257,
+      "y": 158,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType21",
+      "page": 1,
+      "x": 545,
+      "y": 384,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType22",
+      "page": 1,
+      "x": 545,
+      "y": 364,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType23",
+      "page": 1,
+      "x": 545,
+      "y": 342,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType31",
+      "page": 1,
+      "x": 545,
+      "y": 286,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType32",
+      "page": 1,
+      "x": 545,
+      "y": 258,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType33",
+      "page": 1,
+      "x": 545,
+      "y": 236,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType34",
+      "page": 1,
+      "x": 545,
+      "y": 214,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType35",
+      "page": 1,
+      "x": 545,
+      "y": 186,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType36",
+      "page": 1,
+      "x": 545,
+      "y": 158,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licType37",
+      "page": 1,
+      "x": 545,
+      "y": 130,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "firearmLicenseNo1",
+      "page": 2,
+      "x": 50,
+      "y": 758,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "firearmLicenseNo1Issued",
+      "page": 2,
+      "x": 394,
+      "y": 758,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "firearmLicenseNo1Expires",
+      "page": 2,
+      "x": 484,
+      "y": 758,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "firearmLicenseNo2",
+      "page": 2,
+      "x": 50,
+      "y": 741,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "firearmLicenseNo2Issued",
+      "page": 2,
+      "x": 394,
+      "y": 741,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "firearmLicenseNo2Expires",
+      "page": 2,
+      "x": 484,
+      "y": 741,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "firearmLicenseNo3",
+      "page": 2,
+      "x": 50,
+      "y": 723,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "firearmLicenseNo3Issued",
+      "page": 2,
+      "x": 394,
+      "y": 723,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "firearmLicenseNo3Expires",
+      "page": 2,
+      "x": 484,
+      "y": 723,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "firearmLicenseNo4",
+      "page": 2,
+      "x": 50,
+      "y": 704,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "firearmLicenseNo4Issued",
+      "page": 2,
+      "x": 394,
+      "y": 704,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "firearmLicenseNo4Expires",
+      "page": 2,
+      "x": 484,
+      "y": 704,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "idTypeSAID",
+      "page": 2,
+      "x": 125,
+      "y": 591,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "idTypePassport",
+      "page": 2,
+      "x": 239,
+      "y": 591,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "idTypePR",
+      "page": 2,
+      "x": 548,
+      "y": 591,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "saId1",
+      "page": 2,
+      "x": 258,
+      "y": 574,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 6,
+      "transform": "uppercase"
+    },
+    {
+      "key": "saId2",
+      "page": 2,
+      "x": 394,
+      "y": 574,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 4,
+      "transform": "uppercase"
+    },
+    {
+      "key": "saId3",
+      "page": 2,
+      "x": 490,
+      "y": 574,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 3,
+      "transform": "uppercase"
+    },
+    {
+      "key": "saId4",
+      "page": 2,
+      "x": 548,
+      "y": 574,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 3,
+      "transform": "uppercase"
+    },
+    {
+      "key": "passportNo",
+      "page": 2,
+      "x": 200,
+      "y": 555,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "transform": "uppercase"
+    },
+    {
+      "key": "surname",
+      "page": 2,
+      "x": 142,
+      "y": 538,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "initials",
+      "page": 2,
+      "x": 489,
+      "y": 538,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19,
+      "maxLen": 4,
+      "transform": "uppercase"
+    },
+    {
+      "key": "fullNames",
+      "page": 2,
+      "x": 142,
+      "y": 520,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "resAddress",
+      "page": 2,
+      "x": 142,
+      "y": 502,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "resAddress2",
+      "page": 2,
+      "x": 50,
+      "y": 483,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "resPostal",
+      "page": 2,
+      "x": 490,
+      "y": 483,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19,
+      "maxLen": 4,
+      "transform": "uppercase"
+    },
+    {
+      "key": "postAddress",
+      "page": 2,
+      "x": 142,
+      "y": 464,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "postAddress2",
+      "page": 2,
+      "x": 50,
+      "y": 447,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "postPostal",
+      "page": 2,
+      "x": 490,
+      "y": 446,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19,
+      "maxLen": 4,
+      "transform": "uppercase"
+    },
+    {
+      "key": "homeDial",
+      "page": 2,
+      "x": 228,
+      "y": 428,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "homeNumber",
+      "page": 2,
+      "x": 254,
+      "y": 428,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "workDial",
+      "page": 2,
+      "x": 396,
+      "y": 428,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "workNumber",
+      "page": 2,
+      "x": 422,
+      "y": 428,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "faxDial",
+      "page": 2,
+      "x": 396,
+      "y": 410,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "faxNumber",
+      "page": 2,
+      "x": 422,
+      "y": 410,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "cellPhone",
+      "page": 2,
+      "x": 164,
+      "y": 410,
+      "fontSize": 10,
+      "mode": "split",
+      "step": 6,
+      "maxLen": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "email",
+      "page": 2,
+      "x": 164,
+      "y": 392,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "fullNameSurname",
+      "page": 2,
+      "x": 261,
+      "y": 118,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "idTypeSAID",
+      "page": 2,
+      "x": 356,
+      "y": 100,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "idTypePassport",
+      "page": 2,
+      "x": 548,
+      "y": 100,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "idTypePR",
+      "page": 2,
+      "x": 548,
+      "y": 100,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "passportNo",
+      "page": 2,
+      "x": 261,
+      "y": 65,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "transform": "uppercase"
+    },
+    {
+      "key": "saId1",
+      "page": 2,
+      "x": 261,
+      "y": 82,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 13,
+      "transform": "uppercase"
+    },
+    {
+      "key": "saId2",
+      "page": 2,
+      "x": 394,
+      "y": 82,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 4,
+      "transform": "uppercase"
+    },
+    {
+      "key": "saId3",
+      "page": 2,
+      "x": 490,
+      "y": 82,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 3,
+      "transform": "uppercase"
+    },
+    {
+      "key": "saId4",
+      "page": 2,
+      "x": 548,
+      "y": 82,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 3,
+      "transform": "uppercase"
+    },
+    {
+      "key": "cellPhone",
+      "page": 3,
+      "x": 166,
+      "y": 796,
+      "fontSize": 10,
+      "mode": "split",
+      "step": 6,
+      "maxLen": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "resAddress",
+      "page": 3,
+      "x": 165,
+      "y": 779,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "resAddress2",
+      "page": 3,
+      "x": 50,
+      "y": 760,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "resPostal",
+      "page": 3,
+      "x": 490,
+      "y": 760,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19,
+      "maxLen": 4,
+      "transform": "uppercase"
+    },
+    {
+      "key": "postAddress",
+      "page": 3,
+      "x": 165,
+      "y": 742,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "postAddress2",
+      "page": 3,
+      "x": 50,
+      "y": 724,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "postPostal",
+      "page": 3,
+      "x": 490,
+      "y": 725,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19,
+      "maxLen": 4,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q37yes",
+      "page": 3,
+      "x": 95,
+      "y": 640,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q37no",
+      "page": 3,
+      "x": 158,
+      "y": 640,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q37r1",
+      "page": 3,
+      "x": 231,
+      "y": 640,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q37r2",
+      "page": 3,
+      "x": 51,
+      "y": 623,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q37r3",
+      "page": 3,
+      "x": 51,
+      "y": 606,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q37r4",
+      "page": 3,
+      "x": 51,
+      "y": 589,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q38yes",
+      "page": 3,
+      "x": 95,
+      "y": 540,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q38no",
+      "page": 3,
+      "x": 158,
+      "y": 540,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q38r1",
+      "page": 3,
+      "x": 231,
+      "y": 539,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q38r2",
+      "page": 3,
+      "x": 51,
+      "y": 522,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q38r3",
+      "page": 3,
+      "x": 51,
+      "y": 505,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q39yes",
+      "page": 3,
+      "x": 95,
+      "y": 466,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q39no",
+      "page": 3,
+      "x": 158,
+      "y": 466,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q39r1",
+      "page": 3,
+      "x": 231,
+      "y": 468,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q39r2",
+      "page": 3,
+      "x": 51,
+      "y": 449,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q39r3",
+      "page": 3,
+      "x": 51,
+      "y": 432,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q39r4",
+      "page": 3,
+      "x": 51,
+      "y": 415,
+      "fontSize": 11,
+      "transform": "uppercase"
+    }
+  ]
+}

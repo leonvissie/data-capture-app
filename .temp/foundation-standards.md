@@ -372,6 +372,67 @@ Every PR should pass:
 
 ---
 
+# Expo & Platform Config Rules
+
+## Android edge-to-edge (Android 16+)
+
+Android 16 makes edge-to-edge mandatory.
+
+For Expo apps:
+- do NOT set `android.edgeToEdgeEnabled` in `app.json` or `app.config.*`,
+- remove legacy `edgeToEdgeEnabled` entries from templates,
+- and rely on default platform behavior plus safe-area/layout handling in shared primitives.
+
+This avoids `EDGE_TO_EDGE_PLUGIN` warnings during native runs/builds.
+
+## Expo Router + iOS Pods baseline (mandatory)
+
+When using Expo Router / React Navigation, the following native dependencies MUST be installed before first native prebuild/run:
+- `expo-linking`
+- `react-native-screens`
+- `react-native-gesture-handler`
+- `react-native-safe-area-context`
+
+Without these, iOS pod install may fail with errors like:
+- `Unable to find a specification for RNScreens depended upon by ExpoHead`
+
+Use:
+- `npx expo install expo-linking react-native-screens react-native-gesture-handler react-native-safe-area-context`
+
+Then run:
+- `npx expo run:ios` (preferred) or `cd ios && pod install --repo-update`
+
+This dependency check should be treated as part of foundation setup, not feature work.
+
+## Native readiness checklist (before first iOS run)
+
+Before first `npx expo run:ios`, verify:
+- required Expo Router native deps are present in `package.json`,
+- `app.json` has no deprecated platform flags (for example `android.edgeToEdgeEnabled`),
+- JS dependencies are installed (`npm install`),
+- and only then run native prebuild/build.
+
+## Expo SDK 56 baseline and reliability rules
+
+For SDK 56 projects, enforce the following at foundation setup time:
+
+- use Expo-managed version installs for native packages (`npx expo install ...`), not ad hoc `npm install` version pinning,
+- run `npx expo install --fix` after adding/upgrading native modules,
+- keep `expo`, `react-native`, and Expo package versions aligned to the same SDK line,
+- run iOS builds via `npx expo run:ios` (preferred) instead of manually driving Xcode/CocoaPods first,
+- if iOS native compile errors reference missing RN/Fabric/Yoga headers, run a full native reset:
+  - `npx expo prebuild --clean`
+  - `npx expo run:ios`
+
+From Expo SDK 56 docs:
+- SDK 56 targets React Native `0.85` and React `19.2.3`,
+- minimum Node.js is `22.13.x`,
+- iOS baseline is `16.4+` and Xcode baseline is `26.2+`.
+
+These platform/toolchain baselines must be checked before debugging app-level code.
+
+---
+
 # PR / Code Review Checklist
 
 Every PR must confirm:

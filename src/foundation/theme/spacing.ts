@@ -6,4 +6,5 @@ export const spacing = {
   xl: 20,
   '2xl': 24,
   '3xl': 32,
+  '4xl': 40,
 } as const;

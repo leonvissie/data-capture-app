@@ -1,0 +1,835 @@
+{
+  "version": 1,
+  "meta": {
+    "note": "Approximate coordinates; adjust to fit the exact PDF.",
+    "units": "pt",
+    "pageScale": 1,
+    "globalOffset": {
+      "x": 0,
+      "y": 0
+    },
+    "postalAddressFallbackText": "SAME AS RESIDENTIAL ADDRESS"
+  },
+  "fields": [
+      {
+      "key": "certPossess",
+      "page": 2,
+      "x": 406,
+      "y": 750,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "certTrade",
+      "page": 2,
+      "x": 406,
+      "y": 732,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "certManufacture",
+      "page": 2,
+      "x": 406,
+      "y": 714,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "certBusiness",
+      "page": 2,
+      "x": 406,
+      "y": 696,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "certCollector",
+      "page": 2,
+      "x": 406,
+      "y": 678,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "certMuzzle",
+      "page": 2,
+      "x": 406,
+      "y": 660,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+
+  
+  
+    {
+      "key": "licTypeH",
+      "page": 2,
+      "x": 227,
+      "y": 580,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHcertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 580,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHdate",
+      "page": 2,
+      "x": 452,
+      "y": 580,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHexpire",
+      "page": 2,
+      "x": 507,
+      "y": 580,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeHR",
+      "page": 2,
+      "x": 227,
+      "y": 562,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHRcertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 562,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHRdate",
+      "page": 2,
+      "x": 452,
+      "y": 562,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHRexpire",
+      "page": 2,
+      "x": 507,
+      "y": 562,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeR",
+      "page": 2,
+      "x": 227,
+      "y": 544,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeRcertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 544,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeRdate",
+      "page": 2,
+      "x": 452,
+      "y": 544,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeRexpire",
+      "page": 2,
+      "x": 507,
+      "y": 544,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeS",
+      "page": 2,
+      "x": 227,
+      "y": 526,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeScertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 526,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeSdate",
+      "page": 2,
+      "x": 452,
+      "y": 526,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeSexpire",
+      "page": 2,
+      "x": 507,
+      "y": 526,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeHS",
+      "page": 2,
+      "x": 227,
+      "y": 508,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHScertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 508,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHSdate",
+      "page": 2,
+      "x": 452,
+      "y": 508,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHSexpire",
+      "page": 2,
+      "x": 507,
+      "y": 508,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeRS",
+      "page": 2,
+      "x": 227,
+      "y": 490,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeRScertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 490,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeRSdate",
+      "page": 2,
+      "x": 452,
+      "y": 490,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeRSexpire",
+      "page": 2,
+      "x": 507,
+      "y": 490,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeHRS",
+      "page": 2,
+      "x": 227,
+      "y": 471,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHRScertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 471,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHRSdate",
+      "page": 2,
+      "x": 452,
+      "y": 471,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHRSexpire",
+      "page": 2,
+      "x": 507,
+      "y": 471,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeM",
+      "page": 2,
+      "x": 227,
+      "y": 454,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeMcertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 454,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeMdate",
+      "page": 2,
+      "x": 452,
+      "y": 454,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeMexpire",
+      "page": 2,
+      "x": 507,
+      "y": 454,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeHM",
+      "page": 2,
+      "x": 227,
+      "y": 435,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHMcertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 435,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHMdate",
+      "page": 2,
+      "x": 452,
+      "y": 435,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHMexpire",
+      "page": 2,
+      "x": 507,
+      "y": 435,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeHMR",
+      "page": 2,
+      "x": 227,
+      "y": 417,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHMRcertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 417,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHMRdate",
+      "page": 2,
+      "x": 452,
+      "y": 417,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHMRexpire",
+      "page": 2,
+      "x": 507,
+      "y": 417,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeHMRS",
+      "page": 2,
+      "x": 227,
+      "y": 397,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHMRScertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 397,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHMRSdate",
+      "page": 2,
+      "x": 452,
+      "y": 397,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeHMRSexpire",
+      "page": 2,
+      "x": 507,
+      "y": 397,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeMR",
+      "page": 2,
+      "x": 227,
+      "y": 375,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeMRcertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 375,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeMRdate",
+      "page": 2,
+      "x": 452,
+      "y": 375,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeMRexpire",
+      "page": 2,
+      "x": 507,
+      "y": 375,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeMRS",
+      "page": 2,
+      "x": 227,
+      "y": 359,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeMRScertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 359,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeMRSdate",
+      "page": 2,
+      "x": 452,
+      "y": 359,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeMRSexpire",
+      "page": 2,
+      "x": 507,
+      "y": 359,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "licTypeMS",
+      "page": 2,
+      "x": 227,
+      "y": 342,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeMScertNumber",
+      "page": 2,
+      "x": 377,
+      "y": 342,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeMSdate",
+      "page": 2,
+      "x": 452,
+      "y": 342,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+    {
+      "key": "licTypeMSexpire",
+      "page": 2,
+      "x": 507,
+      "y": 342,
+      "fontSize": 9,
+      "transform": "uppercase"
+    },
+
+    {
+      "key": "idTypeSAID",
+      "page": 2,
+      "x": 125,
+      "y": 229,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "idTypePassport",
+      "page": 2,
+      "x": 298,
+      "y": 229,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "idTypePR",
+      "page": 2,
+      "x": 545,
+      "y": 229,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "saId1",
+      "page": 2,
+      "x": 258,
+      "y": 212,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 6,
+      "transform": "uppercase"
+    },
+    {
+      "key": "saId2",
+      "page": 2,
+      "x": 394,
+      "y": 212,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 4,
+      "transform": "uppercase"
+    },
+    {
+      "key": "saId3",
+      "page": 2,
+      "x": 490,
+      "y": 212,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 3,
+      "transform": "uppercase"
+    },
+    {
+      "key": "saId4",
+      "page": 2,
+      "x": 548,
+      "y": 212,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 3,
+      "transform": "uppercase"
+    },
+    {
+      "key": "passportNo",
+      "page": 2,
+      "x": 258,
+      "y": 194,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.25,
+      "maxLen": 16,
+      "transform": "uppercase"
+    },
+    {
+      "key": "surname",
+      "page": 2,
+      "x": 142,
+      "y": 176,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "initials",
+      "page": 2,
+      "x": 489,
+      "y": 176,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19,
+      "maxLen": 4,
+      "transform": "uppercase"
+    },
+    {
+      "key": "fullNames",
+      "page": 2,
+      "x": 142,
+      "y": 158,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "resAddress",
+      "page": 2,
+      "x": 142,
+      "y": 118,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "resAddress2",
+      "page": 2,
+      "x": 50,
+      "y": 94,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "resPostal",
+      "page": 2,
+      "x": 490,
+      "y": 93,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19,
+      "maxLen": 4,
+      "transform": "uppercase"
+    },
+    {
+      "key": "postAddress",
+      "page": 2,
+      "x": 142,
+      "y": 76,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "postAddress2",
+      "page": 2,
+      "x": 50,
+      "y": 58,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "postPostal",
+      "page": 2,
+      "x": 490,
+      "y": 58,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19,
+      "maxLen": 4,
+      "transform": "uppercase"
+    },
+    {
+      "key": "homeDial",
+      "page": 3,
+      "x": 224,
+      "y": 801,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "homeNumber",
+      "page": 3,
+      "x": 250,
+      "y": 801,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "workDial",
+      "page": 3,
+      "x": 394,
+      "y": 801,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "workNumber",
+      "page": 3,
+      "x": 420,
+      "y": 801,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "faxDial",
+      "page": 3,
+      "x": 396,
+      "y": 48,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "faxNumber",
+      "page": 3,
+      "x": 422,
+      "y": 48,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "cellPhone",
+      "page": 3,
+      "x": 164,
+      "y": 784,
+      "fontSize": 10,
+      "mode": "split",
+      "step": 6,
+      "maxLen": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "email",
+      "page": 3,
+      "x": 164,
+      "y": 767,
+      "fontSize": 10,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q15yes",
+      "page": 3,
+      "x": 95,
+      "y": 640,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q15no",
+      "page": 3,
+      "x": 158,
+      "y": 640,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q15r1",
+      "page": 3,
+      "x": 231,
+      "y": 640,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q15r2",
+      "page": 3,
+      "x": 51,
+      "y": 623,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q15r3",
+      "page": 3,
+      "x": 51,
+      "y": 606,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q16yes",
+      "page": 3,
+      "x": 95,
+      "y": 540,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q16no",
+      "page": 3,
+      "x": 158,
+      "y": 540,
+      "fontSize": 12,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q16r1",
+      "page": 3,
+      "x": 231,
+      "y": 539,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q16r2",
+      "page": 3,
+      "x": 51,
+      "y": 522,
+      "fontSize": 11,
+      "transform": "uppercase"
+    },
+    {
+      "key": "q16r3",
+      "page": 3,
+      "x": 51,
+      "y": 505,
+      "fontSize": 11,
+      "transform": "uppercase"
+    }
+  ]
+}

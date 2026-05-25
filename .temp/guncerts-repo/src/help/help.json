@@ -1,0 +1,878 @@
+{
+  "type": "HelpPolicy",
+  "schemaVersion": "1.0",
+  "jurisdiction": "ZA",
+  "locale": "en-ZA",
+  "version": "2026.03",
+  "effectiveFrom": "2026-02-24",
+  "lastUpdated": "2026-02-24",
+  "a11y": {
+    "minContrastRatio": 4.5,
+    "allowMarkdown": true
+  },
+  "theme": {
+    "helpColors": {
+      "heading": "text.primary",
+      "paragraph": "text.secondary",
+      "subHeading": "text.primary",
+      "text": "text.primary",
+      "bullet": "text.primary",
+      "number": "text.primary",
+      "linkText": "brand.primary.base",
+      "background": "background.surface",
+      "divider": "border.default"
+    },
+    "disabledColors": {
+      "heading": "text.disabled",
+      "paragraph": "text.disabled",
+      "subHeading": "text.disabled",
+      "text": "text.disabled",
+      "bullet": "text.disabled",
+      "number": "text.disabled",
+      "linkText": "text.disabled",
+      "background": "background.surface",
+      "divider": "border.subtle"
+    }
+  },
+  "topics": {
+    "selectFirearm": {
+      "key": "helpDocsSelectFirearm",
+      "heading": "Select firearms",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Choose a firearm that shares the same licence section (Section 13/15/16).",
+            "Only one firearm from the same licence section (Section 13/15/16) can be added to a renewal."
+          ]
+        }
+      ]
+    },
+    "selectCompetency": {
+      "key": "helpDocsSelectCompetency",
+      "heading": "Select competency",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Select the competency certificate you want to use for this application."
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "You can only add one competency certificate to a renewal application.",
+            "If only one competency certificate is available for your profile, the app may select it automatically."
+          ]
+        }
+      ]
+    },
+    "docsId": {
+      "key": "helpDocsId",
+      "heading": "Proof of identity",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "A valid form of proof of identity.",
+            "Accepted documents must be clear, in colour where possible, and show the same full names used on the application.",
+            "The following are accepted forms of identity:"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "South African ID card (photos of front and back);",
+            "Green barcoded ID book (photo of photo/ID number page);",
+            "Valid passport (photo page with photo, passport number, expiry);",
+            "For foreign nationals: Passport and permanent residence permit."
+          ]
+        }
+      ]
+    },
+    "docsProofOfAddress": {
+      "key": "helpDocsProofOfAddress",
+      "heading": "Proof of address",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Document must show your residential address and your name, dated within the last 3 months at the time of submission.",
+            "Examples of proof of address include (this is not a complete list):"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Municipality/water/electricity bill;",
+            "Bank letter or stamped statement with address;",
+            "Lease/rental agreement signed by both parties."
+          ]
+        }
+      ]
+    },
+    "docsFirearmLicense": {
+      "key": "helpDocsFirearmLicence",
+      "heading": "Firearm licence card",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Select the firearm you want to include for this application."
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "You can only add one firearm licence to a renewal application.",
+            "If only one firearm has been added to your profile, the app may select it automatically.",
+            "For Section 518(a) renewals, firearm choices are filtered by the categories on the selected competency certificates.",
+            "If a firearm does not match any selected competency category, it will not be available for selection."
+          ]
+        }
+      ]
+    },
+    "docsCompCert": {
+      "key": "helpDocsCompCert",
+      "heading": "Competency certificate expiry",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "GunCerts shows two competency certificate expiry calculations so you can compare them side by side."
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Cert issue date expiry: This starts from the competency certificate issue date. If matching firearms are Section 13 only, the app uses 5 years. If any matching firearm is Section 15 or 16, the app uses 10 years.",
+            "Firearm-based expiry: This uses the soonest valid expiry date from firearms that match at least one category on the competency certificate.",
+            "Reminder styling uses the earliest valid expiry date across the available calculations so the app takes the more cautious view."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "items": [
+            "The certificate card shows the issue date together with both calculated expiry values."
+          ]
+        }
+      ]
+    },
+    "settingsCompCertCalc": {
+      "key": "helpSettingsCompCertCalc",
+      "heading": "Competency expiry calculation",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Different DFOs may calculate competency expiry differently. This setting lets you choose which approach your DFO uses so reminders and card highlighting follow the same method."
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Comp issue date: Uses the competency certificate issue date. If matching firearms are Section 13 only, the app uses 5 years. If any matching firearm is Section 15 or 16, the app uses 10 years.",
+            "Firearm expiry: Uses the earliest valid firearm expiry date from firearms that match at least one category on the competency certificate.",
+            "I don't know: Keeps the more cautious approach and shows a warning when the two methods lead to different reminder outcomes. This is the safest approach."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "items": [
+            "Changing this setting resets competency reminders so they can be recalculated using the selected method."
+          ]
+        }
+      ]
+    },
+    "docsFirearmSafe": {
+      "key": "helpDocsSafes",
+      "heading": "Firearm storage",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Add your firearm storage to the application. This should show the safes where the firearms of the application will be stored.",
+            "If possible also include proof that the safes are SABS 953-1 or 953-2 compliant and properly mounted to a fixed structure.",
+            "You can upload an installation certificate, invoice, or clear photos that prove compliance and mounting.",
+            "If you use more than one safe, upload evidence for each.",
+            "You can add additional safes by pressing the \"+\" button.",
+            "For each safe, upload at least the following photo evidence:"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "The safe with the door closed (show entire safe);",
+            "The safe with the door open (empty it for your safety);",
+            "The bolts used to secure the safe to the wall/ground/other fixed surface."
+          ]
+        }
+      ]
+    },
+    "docsSupportingStatement": {
+      "key": "helpDocSupportingStatement",
+      "heading": "Character references",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "The built-in GunCerts character reference wizard is the easiest way to get your personalised character references for firearm licence applications.",
+            "Once you have created the character references, they will automatically be added to your application.",
+            "You don't have to use this wizard if you prefer to use your own character references.",
+            "Provide written statements from people who know you well and can confirm you are responsible and of sound mind to possess a firearm.",
+            "Statements should be signed and dated by the nominated individuals.",
+            "Not all DFOs require character references for competency renewals. We recommend that you check with your local DFO to confirm if they require this."
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Suggested person for the 1st statement: spouse/partner or a family member.",
+            "Suggested person for the 2nd statement: a friend, neighbour or colleague.",
+            "Suggested person for the 3rd statement: another friend, neighbour or colleague."
+          ]
+        }
+      ]
+    },
+    "docsMotivation": {
+      "key": "helpDocMotivation",
+      "heading": "Motivation letter",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "You can choose one of three options: create a motivation using the wizard, use the standard motivation text, or indicate that you will attach your own motivation.",
+            "The motivation wizard uses your selected application firearm and profile data to generate a structured motivation letter for your application."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "items": [
+            "If you choose standard motivation text, GunCerts includes the following wording for each firearm attached to the renewal application:"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "\"I declare that the circumstances for the use of this firearm have not changed, and that it is still used as originally motivated.\"",
+            "\"I confirm that I have continued to comply with all the requirements under which the firearm was originally licensed to me.\"",
+            "\"Since the licence was issued, I have adhered to all stipulations and regulations of the Firearms Control Act (FCA) and will continue to do so.\""
+          ]
+        },
+        {
+          "type": "paragraph",
+          "items": [
+            "Use the wizard option when you want a generated motivation, use the standard text option for the built-in wording, or select your own motivation if you prefer to submit your own motivation.",
+            "Check with your local DFO what they expect for renewal motivations before submission."
+          ]
+        }
+      ]
+    },
+    "docsPassportPhotos": {
+      "key": "helpDocsPassportPhotos",
+      "heading": "Passport photos",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "The application form provides detailed guidance of the passport photo requirements.",
+            "Submit two recent colour passport-size photos with a plain background.",
+            "Write your full name and ID/passport number on the back of each photo before handing them in at the station."
+          ]
+        }
+      ]
+    },
+    "docsAssociationMembership": {
+      "key": "helpDocsAssociationMembership",
+      "heading": "Firearm association membership",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "For Section 16 firearms, you require proof of up-to-date firearm association membership and dedicated status certificate(s).",
+            "Some associations issue both a membership card and a separate letter confirming your current membership. Others issue only the letter.",
+            "If you are a member of more than one firearm association, include all relevant memberships.",
+            "You can add additional memberships by pressing the \"+\" button."
+          ]
+        }
+      ]
+    },
+    "docsAssociationLetter": {
+      "key": "helpDocsAssociationLetter",
+      "heading": "Proof of current membership",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Upload the letter from your association that confirms your current membership or good standing.",
+            "For most associations, this is the main document that proves you are currently a paid-up member."
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "The letter should show your name and the association name.",
+            "If available, it should also show your membership number and current membership validity.",
+            "Some associations issue this letter on its own, while others issue it together with a separate membership card."
+          ]
+        }
+      ]
+    },
+    "documentsProficiency": {
+      "key": "helpDocsProficiency",
+      "heading": "Proficiency documents",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Proficiency documents are generally not required because your competency certificate usually covers this requirement.",
+            "Some Designated Firearms Officers (DFOs) may still ask for proficiency documents to be included with the application.",
+            "If you are not sure whether to include them, check with your local DFO before you submit."
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Only include proficiency documents that are relevant to the application you are creating.",
+            "Make sure the document clearly shows the training provider and the firearm type covered.",
+            "If you upload proficiency documents, they will be included in the checklist and supporting documents bundle for the application."
+          ]
+        }
+      ]
+    },
+    "docsDedicatedHunter": {
+      "key": "helpDocsDedicatedHunter",
+      "heading": "Dedicated hunter certificate",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Certificate or letter from your association confirming your dedicated hunter status.",
+            "Ensure the certificate covers the period when you submit the application."
+          ]
+        }
+      ]
+    },
+    "docsDedicatedSport": {
+      "key": "helpDocsDedicatedSport",
+      "heading": "Dedicated sport shooter certificate",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Certificate or letter from your association confirming your dedicated sport shooter status.",
+            "Validity dates must extend beyond the application submission."
+          ]
+        }
+      ]
+    },
+    "declConvicted": {
+      "key": "helpConvicted",
+      "heading": "Convictions declaration",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "You are confirming you have not been convicted of an offence under the Firearms Control Act that resulted in imprisonment without an option of a fine.",
+            "If you have any convictions or pending matters, disclose them to your Designated Firearms Officer with supporting documents or an affidavit."
+          ]
+        }
+      ]
+    },
+    "declFitToPossess": {
+      "key": "helpFitToPossess",
+      "heading": "Fit to possess",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "You confirm you have not been declared unfit to possess a firearm in terms of the Firearms Control Act.",
+            "If you were previously declared unfit but the status was lifted, submit proof of the upliftment with your application."
+          ]
+        }
+      ]
+    },
+    "declCarrySafely": {
+      "key": "helpCarrySafely",
+      "heading": "Carrying safely",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "You undertake to carry the firearm in accordance with Section 98(5)(a) of the Act and Regulation 78.",
+            "Use a proper holster or safe container, keep the firearm under your control, and do not leave it unattended in vehicles or public places."
+          ]
+        }
+      ]
+    },
+    "declMountedSafe": {
+      "key": "helpMountedSafe",
+      "heading": "Mounted safe",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "You confirm you have a safe that is securely mounted to a fixed structure and complies with SABS 953-1 or 953-2.",
+            "If renting or in a shared property, ensure the mounting is permitted and that only you have access to the keys or combination."
+          ]
+        }
+      ]
+    },
+    "wizardMembership": {
+      "key": "helpWizardMembership",
+      "heading": "Membership wizard tips",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Upload your firearm association membership documents."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "When adding your firearm association membership, you'll need:"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Proof of your valid and current membership from your firearm association.",
+            "Membership card if your association provides one.",
+            "Dedicated status certificate(s) (Hunting and/or Sport shooting).",
+            "If your association issues endorsements, you will be able to add them here for each firearm you've added to the app.",
+            "A phone with a camera, a good quality image, or a single page PDF of the relevant documents."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "items": [
+            "Some associations issue only a letter that confirms your current membership. Others issue both a letter and a separate membership card. Add both if your association provides them."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "Tips for a clear photo"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Clean your camera lens to reduce image blur and glare.",
+            "Place the documents on a plain, solid-colour background.",
+            "Keep the photo in focus so details are sharp and readable.",
+            "Hold the camera steady and fill the frame with the document.",
+            "Use good lighting and avoid glare or heavy shadows across the text."
+          ]
+        }
+      ]
+    },
+    "wizardId": {
+      "key": "helpWizardId",
+      "heading": "Proof of ID wizard tips",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "We will guide you through photographing your ID or passport so your details are ready when you need them."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "Before you start"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Have your ID card, ID book, or passport ready.",
+            "Use a plain, solid-colour background.",
+            "Make sure the document is clean and unobstructed."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "Tips for a clear photo"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Fill the frame with the document.",
+            "Avoid glare or shadows across the text.",
+            "Keep the camera steady so details stay sharp."
+          ]
+        }
+      ]
+    },
+    "wizardAddress": {
+      "key": "helpWizardAddress",
+      "heading": "Proof of address wizard tips",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "We will guide you through capturing proof of your residential address so it is ready when you need it."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "Before you start"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Use a document less than 3 months old.",
+            "Make sure your name and address are clearly visible.",
+            "Use a plain background and good lighting."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "Tips for a clear photo"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Fill the frame with the document.",
+            "Avoid glare or shadows across the text.",
+            "Keep the camera steady so details stay sharp."
+          ]
+        }
+      ]
+    },
+    "wizardSafe": {
+      "key": "helpWizardSafe",
+      "heading": "Safe wizard tips",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Take photos of your safe so you can keep proof of compliance handy and include it in your renewal application when needed."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "Before you start"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "For your safety, make sure the safe is empty and accessible.",
+            "Wipe dust or glare off the plates and serials.",
+            "It is recommended that you include photos of the safe closed, open (no contents), and the bolts securing it to a fixed surface."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "Tips for a clear photo"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Clean your camera lens to reduce image blur and glare.",
+            "Use good lighting to keep labels readable. Avoid glare or reflections.",
+            "Hold the camera steady and fill the frame with the safe."
+          ]
+        }
+      ]
+    },
+    "wizardCompetency": {
+      "key": "helpWizardCompetency",
+      "heading": "Competency wizard tips",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "GunCerts shows two competency certificate expiry calculations so you can compare them side by side."
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Cert issue date expiry: This starts from the competency certificate issue date. If matching firearms are Section 13 only, the app uses 5 years. If any matching firearm is Section 15 or 16, the app uses 10 years.",
+            "Firearm-based expiry: This uses the soonest valid expiry date from firearms that match at least one category on the competency certificate.",
+            "You can set the calculation method used by your DFO in the Settings tab under Preferences. The default setting applies both methods and notifies you of the soonest expiry date."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "When adding a competency certificate, you'll need:"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Your SAPS competency certificate and good lighting.",
+            "A phone with a camera to take a photo of your certificate.",
+            "You can also upload an existing photo of your competency certificate from your photo library."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "Tips for a clear photo"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Clean your camera lens to reduce image blur and glare.",
+            "Use good lighting and avoid glare or heavy shadows across the text.",
+            "Place the certificate on a plain, solid-colour background.",
+            "Keep the photo in focus so details are sharp and readable.",
+            "Hold the camera steady and fill the frame with the certificate page."
+          ]
+        }
+      ]
+    },
+    "wizardFirearms": {
+      "key": "helpWizardFirearms",
+      "heading": "Firearm licence wizard tips",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "We will guide you through photographing the front and back of your licence card and scan the barcode to prefill the firearm details."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "Before you start"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Have your SAPS firearm licence card ready.",
+            "A plain, solid-colour background to put your card on.",
+            "Remove anything that could be obstructing the barcode, like stickers or dirt.",
+            "Make sure you can photograph/upload images of the FRONT and BACK of the card.",
+            "NOTE: some older firearm licence barcodes will not scan. Input firearm info manually in these instances."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "Tips for a clear photo"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Clean your camera lens to reduce image blur and glare.",
+            "Place the licence card on a plain, solid-colour background.",
+            "Keep the photo in focus so details are sharp and readable.",
+            "Hold the camera steady and fill the frame with the licence card.",
+            "Use good lighting and avoid glare or reflections on the card."
+          ]
+        }
+      ]
+    },
+    "helpTemplate": {
+      "key": "helptemplate",
+      "heading": "Firearm Renewal Help",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "subheading",
+          "text": "SAPS Firearm Renewal Help"
+        },
+        {
+          "type": "paragraph",
+          "items": [
+            "Here is some help text.",
+            "More help text to test the first help screen."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "Important checklist"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Testing a bullet point list item",
+            "Testing a second bullet point list item"
+          ]
+        },
+        {
+          "type": "numbered",
+          "items": [
+            "Testing a numbered list item",
+            "Testing a second numbered list item"
+          ]
+        },
+        {
+          "type": "links",
+          "items": [
+            {
+              "ref": "firearmRenewalLink"
+            }
+          ]
+        }
+      ]
+    },
+    "helpMotivationSetupFirearm": {
+      "key": "helpMotivationSetupFirearm",
+      "heading": "Motivation setup: firearm",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Placeholder help content for the setup firearm card.",
+            "This modal is here to validate the help icon placement and shared help modal behaviour before the final motivation-specific content is written."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "What this card does"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Lets you choose the firearm for this motivation.",
+            "Will later include short guidance aligned to the motivation workflow."
+          ]
+        }
+      ]
+    },
+    "helpMotivationSetupApplication": {
+      "key": "helpMotivationSetupApplication",
+      "heading": "Motivation setup: application details",
+      "audience": [
+        "holder"
+      ],
+      "sections": [
+        {
+          "type": "paragraph",
+          "items": [
+            "Placeholder help content for the setup application card.",
+            "This will later become section-aware so the guidance changes for section 13, 15 and 16 motivations."
+          ]
+        },
+        {
+          "type": "heading",
+          "items": [
+            "What this card does"
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Shows the key setup details used to shape the motivation.",
+            "Will later explain each visible field and pill in the same order as the UI."
+          ]
+        }
+      ]
+    }
+  },
+  "links": {
+    "firearmRenewalLink": {
+      "text": "SAPS Firearm Renewal Form",
+      "href": "https://www.saps.gov.za/services/firearms/requirements.php",
+      "rel": "external",
+      "analyticsId": "link_firearm_renewal_form"
+    }
+  }
+}

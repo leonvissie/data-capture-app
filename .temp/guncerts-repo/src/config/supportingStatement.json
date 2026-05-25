@@ -1,0 +1,156 @@
+{
+  "version": "2026.03",
+  "slotRelationshipRules": {
+    "spouse_family": [
+      "spouse",
+      "family",
+      "friend"
+    ],
+    "friend_colleague_neighbour": [
+      "family",
+      "friend",
+      "colleague",
+      "neighbour"
+    ],
+    "additional_reference": [
+      "family",
+      "friend",
+      "colleague",
+      "neighbour"
+    ]
+  },
+  "relationshipOptions": {
+    "spouse": [
+      "Husband",
+      "Wife",
+      "Partner"
+    ],
+    "family": [
+      "Father",
+      "Mother",
+      "Brother",
+      "Sister",
+      "Son",
+      "Daughter",
+      "Uncle",
+      "Aunt",
+      "Cousin",
+      "Grandfather",
+      "Grandmother"
+    ],
+    "friend": [
+      "Friend",
+      "Close friend",
+      "Family friend",
+      "Long-time friend"
+    ],
+    "colleague": [
+      "Colleague",
+      "Manager",
+      "Direct report"
+    ],
+    "neighbour": [
+      "Neighbour",
+      "Immediate neighbour",
+      "Nearby neighbour"
+    ]
+  },
+  "firearmContextOptions": [
+    "Shooting range",
+    "Shooting competitions",
+    "Hunting"
+  ],
+  "firearmScenarioSection": {
+    "title": "Firearm Activities",
+    "description": "Select the activities the person is aware that you do, or activities they have joined you on.",
+    "selectionMode": "multiple",
+    "knowledgeOptions": [
+      {
+        "value": "aware",
+        "label": "are aware that",
+        "phrase": "am aware that"
+      },
+      {
+        "value": "accompany",
+        "label": "accompany you",
+        "phrase": "accompany"
+      },
+      {
+        "value": "haveAccompanied",
+        "label": "have accompanied you",
+        "phrase": "have accompanied"
+      }
+    ],
+    "frequencyOptions": [
+      "once",
+      "twice",
+      "multiple times"
+    ],
+    "frequencyPeriodOptions": [
+      "a month",
+      "a year"
+    ],
+    "scenarios": [
+      {
+        "key": "hunting",
+        "label": "Hunting",
+        "visible": true,
+        "template": "I {{knowledgePhrase}} {{applicantFirstName}} {{showGoes}} on hunting trips {{showAtLeast}} {{frequency}} {{frequencyPeriod}} and have personally seen {{applicantObjectPronoun}} handle firearms in a safe and responsible manner, and care for the animals."
+      },
+      {
+        "key": "sportShooting",
+        "label": "Sport shooting",
+        "visible": true,
+        "template": "I {{knowledgePhrase}} {{applicantFirstName}} {{takesPartInTo}} sport shooting activities {{showAtLeast}} {{frequency}} {{frequencyPeriod}} and when I have seen {{applicantObjectPronoun}} operate firearms, it is always safely and responsibly."
+      },
+      {
+        "key": "farmPestControl",
+        "label": "Farm or property pest control",
+        "visible": true,
+        "template": "I {{knowledgePhrase}} {{applicantFirstName}} {{showPerformsTo}} lawful culling and pest control activities using firearms {{showAtLeast}} {{frequency}} {{frequencyPeriod}}, and I have seen that this is done with proper handling of firearms and care for the animals."
+      },
+      {
+        "key": "trainingCourses",
+        "label": "Firearm training courses",
+        "visible": true,
+        "template": "I {{knowledgePhrase}} {{applicantFirstName}} {{showAttendsTo}} firearm training {{showAtLeast}} {{frequency}} {{frequencyPeriod}} and have observed a strong focus on safety and responsible firearm handling."
+      },
+      {
+        "key": "shootingRange",
+        "label": "Shooting range",
+        "visible": false,
+        "template": "I {{knowledgePhrase}} {{applicantFirstName}} {{showOn}} visits {{showTo}} the shooting range {{showAtLeast}} {{frequency}} {{frequencyPeriod}} and when I have seen {{applicantObjectPronoun}} operate firearms, it is always safely and responsibly."
+      },
+      {
+        "key": "shootingCompetitions",
+        "label": "Shooting competitions",
+        "visible": false,
+        "template": "I {{knowledgePhrase}} {{applicantFirstName}} take part in shooting competitions {{showAtLeast}} {{frequency}} {{frequencyPeriod}} and when I have seen {{applicantObjectPronoun}} handle firearms, {{applicantSubjectPronoun}} does so safely and responsibly."
+      },
+      {
+        "key": "recreationalTargetPractice",
+        "label": "Recreational target practice",
+        "visible": false,
+        "template": "I {{knowledgePhrase}} {{applicantFirstName}} does recreational target practice {{showAtLeast}} {{frequency}} {{frequencyPeriod}} and have seen safe, controlled and responsible firearm use."
+      }
+    ]
+  },
+  "template": {
+    "title": "CHARACTER REFERENCE",
+    "intro": "I, {{supporterFullName}}, ID number {{supporterIdNumber}}, residing at {{supporterAddress}}, declare:",
+    "aware": "1. I am aware that {{applicantFullName}} is applying for a firearm licence.",
+    "relationship": "2. {{relationshipSentence}}",
+    "yearsKnown": "3. I have known {{applicantFirstName}} for {{yearsKnown}} years.",
+    "emotionalStable": "4. In my opinion {{applicantFirstName}} is emotionally stable, calm and able to control his temper.",
+    "inclinedViolent": "5. I have never seen {{applicantFirstName}} act violently or recklessly.",
+    "aggressive": "6. {{applicantFirstName}} is not aggressive and behaves respectfully toward others.",
+    "substances": "7. To my knowledge {{applicantFirstName}} does not abuse alcohol or drugs.",
+    "responsible": "8. In my opinion {{applicantFirstName}} is very responsible and I would trust them to use and handle a firearm.",
+    "comments": "9. {{additionalComments}}",
+    "colleague": {
+      "workplace": "We work together at {{colleagueWorkplace}} where {{applicantFirstName}} is {{colleagueRole}}.",
+      "firearmTogether": "{{firearmTogetherSentence}}"
+    },
+    "closing": "DATED AT {{place}} THIS {{date}}\n\n{{supporterFullName}}"
+  }
+}

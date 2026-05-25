@@ -1,0 +1,581 @@
+{
+  "version": 1,
+  "meta": {
+    "note": "Approximate coordinates; adjust to fit the exact PDF.",
+    "units": "pt",
+    "pageScale": 1,
+    "globalOffset": {
+      "x": 0,
+      "y": 0
+    },
+    "motivationText": [
+      "I declare that the circumstances for the use of this firearm has not changed, and that it is",
+      "still used as was originally motivated for.",
+      "I confirm that I have continued to comply with all the requirements under which the firearm",
+      "was originally licenCed to me.",
+      "Since the licence was issued, I have adhered to all stipulations and regulations of the ",
+      "Firearms Control Act (FCA) and will continue to do so."
+    ],
+    "motivationTextLineHeight": 16,
+    "postalAddressFallbackText": "SAME AS RESIDENTIAL ADDRESS"
+  },
+  "fields": [
+    {
+      "key": "idTypeSAID",
+      "page": 1,
+      "x": 139,
+      "y": 455,
+      "fontSize": 12
+    },
+    {
+      "key": "idTypePassport",
+      "page": 1,
+      "x": 237,
+      "y": 455,
+      "fontSize": 12
+    },
+    {
+      "key": "saId1",
+      "page": 1,
+      "x": 258,
+      "y": 439,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.5,
+      "maxLen": 6
+    },
+    {
+      "key": "saId2",
+      "page": 1,
+      "x": 394,
+      "y": 439,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.5,
+      "maxLen": 4
+    },
+    {
+      "key": "saId3",
+      "page": 1,
+      "x": 491,
+      "y": 439,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.5,
+      "maxLen": 3
+    },
+    {
+      "key": "saId4",
+      "page": 1,
+      "x": 549,
+      "y": 439,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.5,
+      "maxLen": 3
+    },
+    {
+      "key": "passportNo",
+      "page": 1,
+      "x": 256,
+      "y": 423,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19.5
+    },
+    {
+      "key": "surname",
+      "page": 1,
+      "x": 176,
+      "y": 407,
+      "fontSize": 10
+    },
+    {
+      "key": "initials",
+      "page": 1,
+      "x": 491,
+      "y": 407,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19,
+      "maxLen": 4
+    },
+    {
+      "key": "resAddress",
+      "page": 1,
+      "x": 176,
+      "y": 374,
+      "fontSize": 10
+    },
+    {
+      "key": "resAddress2",
+      "page": 1,
+      "x": 59,
+      "y": 358,
+      "fontSize": 10
+    },
+    {
+      "key": "resPostal",
+      "page": 1,
+      "x": 491,
+      "y": 358,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19,
+      "maxLen": 4
+    },
+    {
+      "key": "postAddress",
+      "page": 1,
+      "x": 176,
+      "y": 341,
+      "fontSize": 10
+    },
+    {
+      "key": "postAddress2",
+      "page": 1,
+      "x": 59,
+      "y": 326,
+      "fontSize": 10
+    },
+    {
+      "key": "postPostal",
+      "page": 1,
+      "x": 490,
+      "y": 326,
+      "fontSize": 12,
+      "mode": "split",
+      "step": 19,
+      "maxLen": 4
+    },
+    {
+      "key": "homeDial",
+      "page": 1,
+      "x": 240,
+      "y": 310,
+      "fontSize": 11
+    },
+    {
+      "key": "homeNumber",
+      "page": 1,
+      "x": 268,
+      "y": 310,
+      "fontSize": 11
+    },
+    {
+      "key": "workDial",
+      "page": 1,
+      "x": 416,
+      "y": 310,
+      "fontSize": 11
+    },
+    {
+      "key": "workNumber",
+      "page": 1,
+      "x": 443,
+      "y": 310,
+      "fontSize": 11
+    },
+    {
+      "key": "faxDial",
+      "page": 1,
+      "x": 416,
+      "y": 294,
+      "fontSize": 11
+    },
+    {
+      "key": "faxNumber",
+      "page": 1,
+      "x": 443,
+      "y": 294,
+      "fontSize": 11
+    },
+    {
+      "key": "cellPhone",
+      "page": 1,
+      "x": 176,
+      "y": 294,
+      "fontSize": 10,
+      "mode": "split",
+      "step": 6,
+      "maxLen": 12
+    },
+    {
+      "key": "email",
+      "page": 1,
+      "x": 176,
+      "y": 278,
+      "fontSize": 10
+    },
+    {
+      "key": "firearmRifle",
+      "page": 1,
+      "x": 176,
+      "y": 192,
+      "fontSize": 12
+    },
+    {
+      "key": "firearmShotgun",
+      "page": 1,
+      "x": 295,
+      "y": 192,
+      "fontSize": 12
+    },
+    {
+      "key": "firearmHandgun",
+      "page": 1,
+      "x": 413,
+      "y": 192,
+      "fontSize": 12
+    },
+    {
+      "key": "firearmHandMachineCarbine",
+      "page": 1,
+      "x": 530,
+      "y": 192,
+      "fontSize": 12
+    },
+    {
+      "key": "actionSemi",
+      "page": 2,
+      "x": 295,
+      "y": 777,
+      "fontSize": 12
+    },
+    {
+      "key": "actionAuto",
+      "page": 2,
+      "x": 413,
+      "y": 777,
+      "fontSize": 12
+    },
+    {
+      "key": "actionManual",
+      "page": 2,
+      "x": 548,
+      "y": 777,
+      "fontSize": 12
+    },
+    {
+      "key": "actionDescription",
+      "page": 2,
+      "x": 295,
+      "y": 761,
+      "fontSize": 10
+    },
+    {
+      "key": "manufacturerNameAddress1",
+      "page": 2,
+      "x": 193,
+      "y": 732,
+      "maxLen": 60,
+      "fontSize": 10
+    },
+    {
+      "key": "manufacturerNameAddress2",
+      "page": 2,
+      "x": 59,
+      "y": 716,
+      "maxLen": 82,
+      "fontSize": 10
+    },
+    {
+      "key": "firearmCalibre",
+      "page": 2,
+      "x": 217,
+      "y": 699,
+      "fontSize": 10
+    },
+    {
+      "key": "firearmMake",
+      "page": 2,
+      "x": 217,
+      "y": 683,
+      "fontSize": 10
+    },
+    {
+      "key": "firearmModel",
+      "page": 2,
+      "x": 217,
+      "y": 667,
+      "fontSize": 10
+    },
+    {
+      "key": "barrelSerialNumber",
+      "page": 2,
+      "x": 217,
+      "y": 636,
+      "fontSize": 10
+    },
+    {
+      "key": "barrelMake",
+      "page": 2,
+      "x": 487,
+      "y": 636,
+      "fontSize": 10
+    },
+    {
+      "key": "frameSerialNumber",
+      "page": 2,
+      "x": 217,
+      "y": 620,
+      "fontSize": 10
+    },
+    {
+      "key": "frameMake",
+      "page": 2,
+      "x": 487,
+      "y": 620,
+      "fontSize": 10
+    },
+    {
+      "key": "receiverSerialNumber",
+      "page": 2,
+      "x": 217,
+      "y": 604,
+      "fontSize": 10
+    },
+    {
+      "key": "receiverMake",
+      "page": 2,
+      "x": 487,
+      "y": 604,
+      "fontSize": 10
+    },
+    {
+      "key": "licType11",
+      "page": 2,
+      "x": 276,
+      "y": 546,
+      "fontSize": 12
+    },
+    {
+      "key": "licType12",
+      "page": 2,
+      "x": 276,
+      "y": 530,
+      "fontSize": 12
+    },
+    {
+      "key": "licType13",
+      "page": 2,
+      "x": 276,
+      "y": 510,
+      "fontSize": 12
+    },
+    {
+      "key": "licType14",
+      "page": 2,
+      "x": 276,
+      "y": 485,
+      "fontSize": 12
+    },
+    {
+      "key": "licType15",
+      "page": 2,
+      "x": 276,
+      "y": 482,
+      "fontSize": 12
+    },
+    {
+      "key": "licType16",
+      "page": 2,
+      "x": 276,
+      "y": 466,
+      "fontSize": 12
+    },
+    {
+      "key": "licType17",
+      "page": 2,
+      "x": 276,
+      "y": 450,
+      "fontSize": 12
+    },
+    {
+      "key": "licType18",
+      "page": 2,
+      "x": 276,
+      "y": 434,
+      "fontSize": 12
+    },
+    {
+      "key": "licType19",
+      "page": 2,
+      "x": 276,
+      "y": 418,
+      "fontSize": 12
+    },
+    {
+      "key": "licType21",
+      "page": 2,
+      "x": 276,
+      "y": 384,
+      "fontSize": 12
+    },
+    {
+      "key": "licType22",
+      "page": 2,
+      "x": 276,
+      "y": 368,
+      "fontSize": 12
+    },
+    {
+      "key": "licType23",
+      "page": 2,
+      "x": 276,
+      "y": 352,
+      "fontSize": 12
+    },
+    {
+      "key": "licType31",
+      "page": 2,
+      "x": 545,
+      "y": 562,
+      "fontSize": 12
+    },
+    {
+      "key": "licType32",
+      "page": 2,
+      "x": 545,
+      "y": 546,
+      "fontSize": 12
+    },
+    {
+      "key": "licType33",
+      "page": 2,
+      "x": 545,
+      "y": 530,
+      "fontSize": 12
+    },
+    {
+      "key": "licType34",
+      "page": 2,
+      "x": 545,
+      "y": 514,
+      "fontSize": 12
+    },
+    {
+      "key": "licType35",
+      "page": 2,
+      "x": 545,
+      "y": 498,
+      "fontSize": 12
+    },
+    {
+      "key": "licType36",
+      "page": 2,
+      "x": 545,
+      "y": 482,
+      "fontSize": 12
+    },
+    {
+      "key": "licType37",
+      "page": 2,
+      "x": 545,
+      "y": 466,
+      "fontSize": 12
+    },
+    {
+      "key": "hasCertificate",
+      "page": 2,
+      "x": 530,
+      "y": 270,
+      "fontSize": 12
+    },
+    {
+      "key": "certHandgun",
+      "page": 2,
+      "x": 295,
+      "y": 254,
+      "fontSize": 12
+    },
+    {
+      "key": "certShotgun",
+      "page": 2,
+      "x": 354,
+      "y": 254,
+      "fontSize": 12
+    },
+    {
+      "key": "certRifle",
+      "page": 2,
+      "x": 413,
+      "y": 254,
+      "fontSize": 12
+    },
+    {
+      "key": "certHandMachineCarbine",
+      "page": 2,
+      "x": 530,
+      "y": 254,
+      "fontSize": 12
+    },
+    {
+      "key": "convictedOffence",
+      "page": 2,
+      "x": 530,
+      "y": 198,
+      "fontSize": 12
+    },
+    {
+      "key": "declaredUnfit",
+      "page": 2,
+      "x": 530,
+      "y": 178,
+      "fontSize": 12
+    },
+    {
+      "key": "hasSafe",
+      "page": 2,
+      "x": 530,
+      "y": 158,
+      "fontSize": 12
+    },
+    {
+      "key": "safeDescription1",
+      "page": 3,
+      "x": 59,
+      "y": 789,
+      "maxLen": 82,
+      "fontSize": 10
+    },
+    {
+      "key": "safeDescription2",
+      "page": 3,
+      "x": 59,
+      "y": 773,
+      "maxLen": 82,
+      "fontSize": 10
+    },
+    {
+      "key": "safeDescription3",
+      "page": 3,
+      "x": 59,
+      "y": 757,
+      "maxLen": 82,
+      "fontSize": 10
+    },
+    {
+      "key": "safeDescription4",
+      "page": 3,
+      "x": 59,
+      "y": 741,
+      "maxLen": 82,
+      "fontSize": 10
+    },
+    {
+      "key": "willCarrySafely",
+      "page": 3,
+      "x": 530,
+      "y": 702,
+      "fontSize": 12
+    },
+    {
+      "key": "motivationApplicationText",
+      "page": 3,
+      "x": 59,
+      "y": 639,
+      "fontSize": 9
+    }
+  ]
+}

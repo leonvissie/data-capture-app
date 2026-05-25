@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet } from 'react-native';
 
 import { AppText } from '@/foundation/components/layout/AppText';
-import { useSurfacePalette } from '@/foundation/hooks/useThemeMode';
+import { useTones } from '@/foundation/hooks/useTones';
 import { radii, spacing } from '@/foundation/theme';
 
 type PrimaryButtonProps = {
@@ -11,7 +11,8 @@ type PrimaryButtonProps = {
 };
 
 export function PrimaryButton({ label, onPress, disabled }: PrimaryButtonProps) {
-  const palette = useSurfacePalette();
+  const tones = useTones();
+  const teal = tones.teal;
   return (
     <Pressable
       accessibilityRole="button"
@@ -21,12 +22,12 @@ export function PrimaryButton({ label, onPress, disabled }: PrimaryButtonProps) 
       style={({ pressed }) => [
         styles.base,
         {
-          backgroundColor: pressed ? palette.primaryEmphasis : palette.primary,
+          backgroundColor: pressed ? teal.emphasis : teal.base,
           opacity: disabled ? 0.5 : 1,
         },
       ]}
     >
-      <AppText variant="buttonLabel" style={{ color: '#FFFFFF' }}>
+      <AppText variant="buttonLabel" style={{ color: teal.onBase }}>
         {label}
       </AppText>
     </Pressable>
