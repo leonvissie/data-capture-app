@@ -1,0 +1,68 @@
+{
+  "expo": {
+    "name": "Cinlo",
+    "slug": "cinlo",
+    "version": "1.1",
+    "orientation": "portrait",
+    "icon": "./assets/icons/canonical/cinlo_96.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/icons/canonical/cinlo_192.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#00020B"
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#00020B",
+          "image": "./assets/icons/canonical/cinlo_192.png",
+          "resizeMode": "contain",
+          "imageWidth": 180,
+          "ios": {
+            "backgroundColor": "#00020B",
+            "image": "./assets/splash/cinlo-splash-mobile.png",
+            "imageWidth": 1024,
+            "resizeMode": "contain"
+          },
+          "android": {
+            "backgroundColor": "#00020B",
+            "image": "./assets/icons/canonical/cinlo_192.png",
+            "resizeMode": "contain"
+          }
+        }
+      ],
+      "expo-sqlite"
+    ],
+    "ios": {
+      "buildNumber": "1",
+      "supportsTablet": false,
+      "icon": "./assets/icons/canonical/cinlo_1024.png",
+      "bundleIdentifier": "com.ureondigital.cinlo",
+      "appleTeamId": "6WJR2G5WSK",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "versionCode": 2,
+      "package": "com.ureondigital.cinlo",
+      "icon": "./assets/icons/canonical/cinlo_96.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icons/canonical/cinlo-padded.png",
+        "backgroundColor": "#00020B"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/icons/web/favicon.ico"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ddaed41f-62ce-49ea-b180-81d18efbada1"
+      }
+    }
+  }
+}
