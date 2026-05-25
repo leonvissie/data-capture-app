@@ -27,7 +27,7 @@ export const componentMetrics = {
     keyPressedOpacity: 0.8,
     keyDisabledOpacity: 0.5,
     sectionGap: spacing.lg,
-    dotsMarginTop: spacing.xs,
+    dotsMarginTop: spacing.md,
   },
   authPinScreen: {
     copyGap: spacing.md,
