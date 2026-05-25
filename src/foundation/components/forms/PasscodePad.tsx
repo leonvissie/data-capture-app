@@ -3,7 +3,8 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { AppText } from '@/foundation/components/layout/AppText';
 import { useTones } from '@/foundation/hooks/useTones';
-import { componentMetrics, radii, spacing, typography } from '@/foundation/theme';
+import { minimumTouchTarget } from '@/foundation/lib/accessibility';
+import { componentMetrics, radii, typography } from '@/foundation/theme';
 
 type PasscodePadProps = {
   length?: number;
@@ -144,11 +145,17 @@ function PasscodeKey({
 }
 
 const styles = StyleSheet.create({
-  wrap: { alignItems: 'center', gap: spacing.lg },
-  dots: { flexDirection: 'row', marginTop: spacing.xs },
+  wrap: { alignItems: 'center', gap: componentMetrics.passcodePad.sectionGap },
+  dots: { flexDirection: 'row', marginTop: componentMetrics.passcodePad.dotsMarginTop },
   dot: { backgroundColor: 'transparent' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' },
   row: { flexDirection: 'row', justifyContent: 'center' },
-  key: { alignItems: 'center', justifyContent: 'center', borderWidth: 1 },
+  key: {
+    minWidth: minimumTouchTarget.minWidth,
+    minHeight: minimumTouchTarget.minHeight,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+  },
   keyContent: { alignItems: 'center', justifyContent: 'center' },
 });

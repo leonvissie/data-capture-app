@@ -26,5 +26,11 @@ export const componentMetrics = {
     dotRadius: 7,
     keyPressedOpacity: 0.8,
     keyDisabledOpacity: 0.5,
+    sectionGap: spacing.lg,
+    dotsMarginTop: spacing.xs,
+  },
+  authPinScreen: {
+    copyGap: spacing.md,
+    footerPaddingVertical: spacing.md,
   },
 } as const;
