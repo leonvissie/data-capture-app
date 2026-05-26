@@ -1,37 +1,48 @@
 {
   "expo": {
-    "name": "Data Capture App",
+    "name": "Datira",
     "slug": "data-capture-app",
     "scheme": "datacapture",
     "version": "0.1.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/datira-icon-192.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/datira-splash-512.png",
       "resizeMode": "contain",
       "backgroundColor": "#F8FAFC"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ureondigital.datacaptureapp"
+      "bundleIdentifier": "com.ureondigital.datira",
+      "splash": {
+        "image": "./assets/datira-splash-512.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#F8FAFC"
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/android-icon-foreground.png",
+        "foregroundImage": "./assets/datira-icon-512.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "splash": {
+        "image": "./assets/datira-splash-725.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#F8FAFC"
       },
       "permissions": [
         "android.permission.USE_BIOMETRIC",
         "android.permission.USE_FINGERPRINT"
       ],
-      "package": "com.ureondigital.datacaptureapp"
+      "package": "com.ureondigital.datira"
     },
     "plugins": [
       "expo-router",
       "expo-secure-store",
-      "expo-local-authentication"
+      "expo-local-authentication",
+      "expo-splash-screen"
     ]
   }
 }

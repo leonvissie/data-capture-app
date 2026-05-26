@@ -101,6 +101,35 @@ Everything must come from theme tokens.
 
 The existing app colour system should be reused across projects unless intentionally rebranded.
 
+Canonical source of truth for company apps:
+- `src/foundation/theme/colors.ts`
+
+All app themes must derive from this canonical palette/token system unless a documented rebrand exception is approved.
+
+## Functional vs Brand Colour Layers (Mandatory)
+
+To support multiple future app brands without breaking accessibility/compliance, colour tokens must be split into two layers:
+
+1. Functional UI tokens (required)
+- file: `src/foundation/theme/colors.ts`
+- purpose: readable, accessible working colours for:
+  - surfaces,
+  - text,
+  - borders/dividers,
+  - semantic status states,
+  - high-contrast interactive defaults.
+
+2. Brand expression tokens (optional, app-specific)
+- file: `src/foundation/theme/brandColors.ts` (or `brand.ts`)
+- purpose: brand accents, gradients, glows, decorative colour systems.
+
+Rules:
+- Functional tokens must remain stable and accessibility-first across apps.
+- Brand tokens may vary per app/product brand.
+- Feature screens must not bypass functional tokens with raw brand values.
+- Brand tokens must be consumed through shared foundation components/helpers, not ad hoc per-screen styling.
+- Rebranding should primarily require brand token updates, not component rewrites.
+
 Primary palette:
 
 - Primary Teal: `#0E9384`
@@ -126,6 +155,52 @@ Semantic states:
 must be centrally defined and tokenised.
 
 No feature-level semantic colour choices.
+
+## Colour Accessibility & High Contrast (Mandatory)
+
+All apps must be colour-blind-friendly and high-contrast-compatible in both light and dark mode.
+
+Required:
+- colour meaning must never rely on hue alone (always pair with text/icon/shape/state),
+- interactive and textual contrast must meet at least WCAG AA targets in both light and dark modes,
+- semantic state colours (success/warning/error/info) must remain distinguishable for common colour-vision deficiencies,
+- shared components must expose a high-contrast-friendly visual treatment using foundation tokens,
+- token changes in `src/foundation/theme/colors.ts` must be validated against both normal and colour-vision-deficiency viewing conditions,
+- no feature-level overrides that reduce contrast or semantic distinguishability.
+- brand gradients/accent colours must not replace functional text/surface/semantic tokens for critical UX states.
+
+When state is communicated (for example error/success/warning):
+- use at least two channels:
+  - colour + label text, or
+  - colour + icon, or
+  - colour + shape/border pattern.
+
+This requirement applies to:
+- buttons,
+- pills/chips,
+- notices/banners,
+- form validation states,
+- charts/legends,
+- and all modal/dialog status messaging.
+
+## Brand Token Usage Boundaries
+
+Brand tokens are allowed for:
+- hero/marketing-style visual accents,
+- decorative backgrounds,
+- non-critical chart accents (with secondary differentiators).
+
+Brand tokens are not allowed as sole styling for:
+- body text contrast surfaces,
+- form field readability states,
+- destructive/confirmation semantics,
+- critical status communication,
+- lock/auth/security decision states.
+
+If brand tokens are applied in functional UI:
+- functional contrast requirements still take precedence,
+- semantic clarity must remain intact in light and dark mode,
+- and colour-blind-safe differentiation must still pass.
 
 ---
 
@@ -258,6 +333,93 @@ These should exist before feature work begins:
 - AppModal
 - ConfirmationDialog
 - BottomSheet
+
+## Screen Scaffolding Blueprint (Mandatory)
+
+Every new screen/route must follow the shared scaffolding blueprint.
+
+Screens MUST use foundation layout primitives:
+- `AppScreen` for static layouts
+- `AppScrollScreen` for scrolling layouts
+- `AppModalScreen` for full-screen modals
+
+Feature screens must NOT render their own:
+- `SafeAreaView`,
+- ad hoc root wrappers,
+- or route-level spacing systems.
+
+This ensures:
+- safe area consistency,
+- consistent top/bottom rhythm,
+- and global layout behavior without per-screen rework.
+
+## Header Contract (Mandatory)
+
+All top-level screens must use a shared header pattern from foundation.
+
+Header spacing, typography, and action placement (back/add/settings/etc.) must be controlled by shared components/tokens.
+
+Feature screens must NOT hand-place:
+- title baselines,
+- icon button offsets,
+- custom header paddings,
+- or one-off title rows.
+
+If a new header pattern is required:
+- extend the shared header component,
+- do not create a local route-specific header layout.
+
+## Modal/Sheet Contract (Mandatory)
+
+All overlays must use shared shells:
+- `AppModal`
+- `ConfirmationDialog`
+- `BottomSheet`
+
+No per-feature modal shell duplication is allowed.
+
+Modal safe-area handling, header spacing, close action placement, and body/footer padding must be standardized in shared primitives.
+
+## Component Tokenization Contract (Mandatory)
+
+Shared UI components must be implemented with token layers:
+
+1. global tokens (`spacing`, `typography`, `radii`, colour/tone tokens)
+2. component tokens (`componentMetrics.<componentName>.*`)
+3. component implementation referencing only tokenized values
+
+No raw layout literals in shared UI components for:
+- spacing,
+- sizing,
+- typography,
+- corner radius,
+- semantic colour decisions.
+
+When a UX tweak is requested (for example “increase gap above PIN dots”):
+- the expected implementation is a token change,
+- not per-screen style edits.
+
+## Accessibility-by-default Contract
+
+Accessibility must be built into shared primitives so screens inherit it automatically.
+
+Shared components must provide:
+- minimum touch targets,
+- accessibility role/state defaults,
+- sensible labels/hints for controls where possible,
+- contrast-safe token usage in light/dark modes.
+
+Screens should only provide custom accessibility text when context-specific.
+
+## New Screen Template Rule
+
+When adding a new tab/screen/route:
+- start from shared scaffold,
+- use shared header contract,
+- use shared button/content/form primitives,
+- and avoid local style systems.
+
+Any exception must be documented in the PR with reason and follow-up plan.
 
 ---
 
@@ -431,6 +593,25 @@ From Expo SDK 56 docs:
 
 These platform/toolchain baselines must be checked before debugging app-level code.
 
+## Launch & Splash Build Approach (Mandatory)
+
+All apps must follow a shared splash initialization approach to avoid per-project drift.
+
+Requirements:
+- include `expo-splash-screen` in project dependencies,
+- include `expo-splash-screen` in Expo plugins/config when required by SDK behavior,
+- call splash `preventAutoHide` during app bootstrap,
+- hide splash only after foundation bootstrap readiness criteria are met (storage/auth/bootstrap state),
+- keep splash hide policy centralized in shared root/bootstrap flow (not in feature screens),
+- if platform behavior differs, platform-specific timing/handling must still be implemented in shared bootstrap/root layout code.
+
+Rules:
+- do not hide splash from route-level feature screens,
+- do not duplicate splash timing logic across multiple files/features,
+- do not couple splash readiness to feature-specific data loading.
+
+This ensures consistent app startup behavior, predictable launch UX, and reusable foundation bootstrapping across all apps.
+
 ---
 
 # PR / Code Review Checklist
@@ -447,6 +628,11 @@ Every PR must confirm:
 - [ ] Shared components improved generically where appropriate
 - [ ] Tests added/updated where required
 - [ ] No unsafe debug logging
+- [ ] New/updated screens use mandatory shared screen scaffolding
+- [ ] Header pattern uses shared foundation contract (no local header layout)
+- [ ] Modal/sheet UX uses shared overlay shells only
+- [ ] Shared UI tweaks are token-driven (not route-level formatting)
+- [ ] Shared components include accessibility defaults where applicable
 
 ---
 

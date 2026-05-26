@@ -2,24 +2,47 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 import * as SystemUI from 'expo-system-ui';
+import * as SplashScreen from 'expo-splash-screen';
 
 import { ThemeModeProvider, useSurfacePalette } from '@/foundation/hooks/useThemeMode';
+import { AppBootstrapProvider } from '@/foundation/services/bootstrap/AppBootstrapProvider';
+import { useAppBootstrap } from '@/foundation/services/bootstrap/AppBootstrapProvider';
 import { AppLockProvider } from '@/foundation/services/security/AppLockProvider';
-import { initializeStorage } from '@/foundation/services/storage/database';
+
+void SplashScreen.preventAutoHideAsync();
 
 function AppNavigator() {
   const palette = useSurfacePalette();
+  const { isReady } = useAppBootstrap();
 
   useEffect(() => {
-    void initializeStorage();
     void SystemUI.setBackgroundColorAsync(palette.background);
   }, [palette.background]);
+
+  useEffect(() => {
+    if (!isReady) return;
+
+    if (Platform.OS === 'ios') {
+      const timer = setTimeout(() => {
+        void SplashScreen.hideAsync();
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+
+    void SplashScreen.hideAsync();
+    return;
+  }, [isReady]);
 
   return (
     <>
       <StatusBar style="auto" />
       <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="onboarding" />
+        <Stack.Screen name="unlock" />
+        <Stack.Screen name="pin-setup" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="modals" options={{ presentation: 'modal' }} />
       </Stack>
@@ -31,9 +54,11 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <ThemeModeProvider>
-        <AppLockProvider>
-          <AppNavigator />
-        </AppLockProvider>
+        <AppBootstrapProvider>
+          <AppLockProvider>
+            <AppNavigator />
+          </AppLockProvider>
+        </AppBootstrapProvider>
       </ThemeModeProvider>
     </SafeAreaProvider>
   );
