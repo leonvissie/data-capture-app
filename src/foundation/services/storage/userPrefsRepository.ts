@@ -18,6 +18,14 @@ export type UserPrefs = {
 };
 
 const CURRENT_TOUR_VERSION = 1;
+type UserPrefsListener = (prefs: UserPrefs) => void;
+const userPrefsListeners = new Set<UserPrefsListener>();
+
+function notifyUserPrefsListeners(prefs: UserPrefs) {
+  for (const listener of userPrefsListeners) {
+    listener(prefs);
+  }
+}
 
 function toUserPrefs(row: {
   profile_id: string;
@@ -88,6 +96,7 @@ export async function getOrCreateUserPrefs(): Promise<UserPrefs> {
   if (!created) {
     throw new Error('Failed to create user preferences.');
   }
+  notifyUserPrefsListeners(created);
   return created;
 }
 
@@ -122,7 +131,15 @@ export async function updateUserPrefs(next: Partial<Pick<UserPrefs, 'hasComplete
     ],
   );
 
+  notifyUserPrefsListeners(merged);
   return merged;
+}
+
+export function subscribeUserPrefs(listener: UserPrefsListener): () => void {
+  userPrefsListeners.add(listener);
+  return () => {
+    userPrefsListeners.delete(listener);
+  };
 }
 
 export const userPrefsConstants = {

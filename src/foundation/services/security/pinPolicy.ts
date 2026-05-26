@@ -1,4 +1,4 @@
-import { getSecureValue, setSecureValue } from './secureStore';
+import { deleteSecureValue, getSecureValue, setSecureValue } from './secureStore';
 
 const PIN_KEY = 'security.pin';
 const FAIL_COUNT_KEY = 'security.failCount';
@@ -18,6 +18,12 @@ export async function setPin(pin: string): Promise<void> {
   await setSecureValue(PIN_KEY, pin);
   await setSecureValue(FAIL_COUNT_KEY, '0');
   await setSecureValue(LOCKED_UNTIL_KEY, '0');
+}
+
+export async function clearPinCredentials(): Promise<void> {
+  await deleteSecureValue(PIN_KEY);
+  await deleteSecureValue(FAIL_COUNT_KEY);
+  await deleteSecureValue(LOCKED_UNTIL_KEY);
 }
 
 export async function verifyPin(pin: string): Promise<{ success: boolean; lockedUntil: number }> {

@@ -1,8 +1,12 @@
 import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { AppState } from 'react-native';
 
-import { hasPinConfigured, setPin as persistPin, verifyPin } from './pinPolicy';
+import { confirmDialog } from '@/foundation/services/dialogs/dialogService';
+import { getOrCreateUserPrefs, subscribeUserPrefs } from '@/foundation/services/storage/userPrefsRepository';
+
 import { canUseBiometrics, promptBiometricUnlock } from './biometric';
+import { hasPinConfigured, setPin as persistPin, verifyPin } from './pinPolicy';
+import { resetAppDataAndCredentials } from './resetAppDataService';
 
 type AppLockContextValue = {
   isLocked: boolean;
@@ -12,10 +16,9 @@ type AppLockContextValue = {
   setPin: (pin: string) => Promise<void>;
   unlockWithPin: (pin: string) => Promise<boolean>;
   unlockWithBiometrics: () => Promise<boolean>;
+  requestDestructiveReset: () => Promise<void>;
   lock: () => void;
 };
-
-const APP_LOCK_TIMEOUT_MS = 60_000;
 
 const AppLockContext = createContext<AppLockContextValue | null>(null);
 
@@ -25,16 +28,40 @@ export function AppLockProvider({ children }: PropsWithChildren) {
   const [lockoutRemainingMs, setLockoutRemainingMs] = useState(0);
   const [lockoutUntil, setLockoutUntil] = useState(0);
   const [biometricAvailable, setBiometricAvailable] = useState(false);
+  const [biometricEnabled, setBiometricEnabled] = useState(false);
+  const [lockTimeoutMs, setLockTimeoutMs] = useState(60_000);
   const [backgroundedAt, setBackgroundedAt] = useState<number | null>(null);
 
   useEffect(() => {
     void (async () => {
-      const configured = await hasPinConfigured();
+      const [configured, prefs, bioHardwareAvailable] = await Promise.all([
+        hasPinConfigured(),
+        getOrCreateUserPrefs(),
+        canUseBiometrics(),
+      ]);
+
       setRequiresPinSetup(!configured);
       setLocked(configured);
-      setBiometricAvailable(await canUseBiometrics());
+      setBiometricEnabled(prefs.biometricEnabled);
+      setBiometricAvailable(bioHardwareAvailable && prefs.biometricEnabled);
+      setLockTimeoutMs(Math.max(0, prefs.autoLockMinutes) * 60_000);
     })();
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = subscribeUserPrefs((prefs) => {
+      setBiometricEnabled(prefs.biometricEnabled);
+      setLockTimeoutMs(Math.max(0, prefs.autoLockMinutes) * 60_000);
+    });
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    void (async () => {
+      const hardwareAvailable = await canUseBiometrics();
+      setBiometricAvailable(hardwareAvailable && biometricEnabled);
+    })();
+  }, [biometricEnabled]);
 
   useEffect(() => {
     if (!lockoutUntil) return;
@@ -54,13 +81,14 @@ export function AppLockProvider({ children }: PropsWithChildren) {
         setBackgroundedAt(Date.now());
         return;
       }
-      if (backgroundedAt && Date.now() - backgroundedAt > APP_LOCK_TIMEOUT_MS) {
+
+      if (backgroundedAt && Date.now() - backgroundedAt > lockTimeoutMs) {
         setLocked(true);
       }
       setBackgroundedAt(null);
     });
     return () => sub.remove();
-  }, [backgroundedAt]);
+  }, [backgroundedAt, lockTimeoutMs]);
 
   const value = useMemo<AppLockContextValue>(
     () => ({
@@ -88,17 +116,39 @@ export function AppLockProvider({ children }: PropsWithChildren) {
         return false;
       },
       async unlockWithBiometrics() {
+        if (!biometricEnabled) return false;
         const ok = await promptBiometricUnlock();
         if (ok) {
           setLocked(false);
         }
         return ok;
       },
+      async requestDestructiveReset() {
+        const confirmed = await confirmDialog({
+          title: 'Reset app data?',
+          message:
+            'This will permanently delete all local data and reset your security credentials. This action cannot be undone.',
+          confirmText: 'Reset & Delete',
+          cancelText: 'Cancel',
+        });
+        if (!confirmed) return;
+
+        await resetAppDataAndCredentials();
+        const prefs = await getOrCreateUserPrefs();
+
+        setBiometricEnabled(prefs.biometricEnabled);
+        setBiometricAvailable((await canUseBiometrics()) && prefs.biometricEnabled);
+        setLockTimeoutMs(Math.max(0, prefs.autoLockMinutes) * 60_000);
+        setLockoutUntil(0);
+        setLockoutRemainingMs(0);
+        setLocked(true);
+        setRequiresPinSetup(true);
+      },
       lock() {
         setLocked(true);
       },
     }),
-    [biometricAvailable, isLocked, lockoutRemainingMs, requiresPinSetup],
+    [biometricAvailable, biometricEnabled, isLocked, lockoutRemainingMs, requiresPinSetup],
   );
 
   return <AppLockContext.Provider value={value}>{children}</AppLockContext.Provider>;

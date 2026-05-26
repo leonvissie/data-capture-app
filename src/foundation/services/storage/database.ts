@@ -150,3 +150,13 @@ export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
 export async function initializeStorage(): Promise<void> {
   await getDatabase();
 }
+
+export async function resetStorage(): Promise<void> {
+  if (dbPromise) {
+    const db = await dbPromise;
+    await db.closeAsync();
+    dbPromise = null;
+  }
+  await SQLite.deleteDatabaseAsync(DB_NAME);
+  await initializeStorage();
+}

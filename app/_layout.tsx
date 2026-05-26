@@ -8,6 +8,7 @@ import * as SplashScreen from 'expo-splash-screen';
 
 import { ThemeModeProvider, useSurfacePalette } from '@/foundation/hooks/useThemeMode';
 import { AppBootstrapProvider } from '@/foundation/services/bootstrap/AppBootstrapProvider';
+import { DialogProvider } from '@/foundation/services/dialogs/DialogProvider';
 import { useAppBootstrap } from '@/foundation/services/bootstrap/AppBootstrapProvider';
 import { AppLockProvider } from '@/foundation/services/security/AppLockProvider';
 
@@ -55,9 +56,11 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <ThemeModeProvider>
         <AppBootstrapProvider>
-          <AppLockProvider>
-            <AppNavigator />
-          </AppLockProvider>
+          <DialogProvider>
+            <AppLockProvider>
+              <AppNavigator />
+            </AppLockProvider>
+          </DialogProvider>
         </AppBootstrapProvider>
       </ThemeModeProvider>
     </SafeAreaProvider>
