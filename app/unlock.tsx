@@ -1,5 +1,6 @@
 import { Redirect } from 'expo-router';
 
+import { DestructiveButton } from '@/foundation/components/buttons/DestructiveButton';
 import { PasscodePad } from '@/foundation/components/forms/PasscodePad';
 import { SecondaryButton } from '@/foundation/components/buttons/SecondaryButton';
 import { AppScreen } from '@/foundation/components/layout/AppScreen';
@@ -24,7 +25,7 @@ export default function UnlockScreen() {
         footer={
           <AuthFooterActions>
             {biometricAvailable ? <SecondaryButton label="Use Biometrics" onPress={() => void useBiometrics()} /> : null}
-            <SecondaryButton label="Forgot PIN? Reset app data" onPress={() => void requestDestructiveReset()} />
+            <DestructiveButton label="Forgot PIN? Reset app data" onPress={() => void requestDestructiveReset()} size="sm" tone="warning" />
           </AuthFooterActions>
         }
       >

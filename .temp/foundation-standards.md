@@ -311,10 +311,76 @@ These should exist before feature work begins:
 - StickyHeaderLayout
 
 ## Buttons
-- PrimaryButton
-- SecondaryButton
+- Button (single shared base API)
 - IconButton
 - FloatingActionButton
+
+## Button System Contract (Mandatory)
+
+All apps must use one shared foundation `Button` primitive with controlled variants/tokens.
+
+Required `Button` API surface:
+- `variant`: `solid | outline | ghost | soft`
+- `size`: `sm | md | lg`
+- `shape`: `pill | rounded`
+- `tone`: foundation colour tone key from `src/foundation/theme/colors.ts`
+- `selected`, `disabled`, `loading` states
+
+Variant definitions:
+- `solid`: `background = tone.base`, `border = tone.base` (or transparent), `text = tone.onBase`
+- `outline`: `background = transparent|surface`, `border = tone.border`, `text = tone.base`
+- `ghost`: `background = transparent`, `border = transparent`, `text = tone.base`
+- `soft`: `background = tone.surface` (or `tone.background`), `border = tone.border`, `text = tone.base`
+
+### Token Slot Overrides (Allowed, Guarded)
+
+Buttons may expose optional slot overrides for advanced usage:
+- `backgroundToken`
+- `pressedBackgroundToken`
+- `borderToken`
+- `textToken`
+
+Rules:
+- overrides must reference approved foundation token keys only,
+- raw hex/rgb values are forbidden in feature code and shared button usage,
+- defaults must still be computed from `variant + tone`,
+- overrides are for edge cases; they must not replace the standard variant system.
+
+### Guardrails
+
+- Do not create route-level button clones.
+- Do not add feature-specific button components for style-only differences.
+- If a visual tweak is requested (height/padding/radius/pressed state), update button tokens/variants in foundation.
+- Keep semantic clarity: destructive actions should default to warning/error tones, even when overrides are used.
+- Ensure all variant+tone combinations used by product flows meet contrast requirements in light and dark mode.
+
+### Button Accessibility Validation Matrix (Mandatory)
+
+For every `variant x tone` combination used in product flows, validate:
+- text/background contrast at rest state meets WCAG AA,
+- pressed state remains contrast-safe and visually distinct,
+- disabled state remains legible and clearly non-interactive,
+- selected state (where applicable) is distinguishable without relying on colour alone.
+
+Validation process:
+- run this matrix for light and dark mode,
+- run checks under common colour-vision-deficiency simulation,
+- document approved combinations in foundation button docs,
+- block PRs introducing unvalidated combinations in production flows.
+
+### Usage Rules
+
+- Use `solid` for primary call-to-action on the screen.
+- Use `outline` for secondary supporting actions.
+- Use `ghost` for low-emphasis text actions.
+- Use `soft` for selected chips/options and low-harshness alerting actions.
+- Use `size` tokens (`sm/md/lg`) for height adjustments, never local minHeight literals.
+- Use `shape` tokens for consistency (`pill` for chips/inline actions, `rounded` for cards/option buttons where appropriate).
+
+### Implementation Rule
+
+`PrimaryButton`, `SecondaryButton`, and `DestructiveButton` (if retained) must be thin wrappers around the shared base `Button` only.  
+No duplicated style logic across wrappers is allowed.
 
 ## Content
 - Card
@@ -496,6 +562,10 @@ All dialogs/modals must use shared:
 - dialog services,
 - layout patterns.
 
+Exception (narrow):
+- native/system alerts may be used only for OS-level permission/system-linking flows where shared modal shells are unsuitable.
+- any exception must include a short code comment and PR note explaining why shared dialog service was not appropriate.
+
 ---
 
 # Logging Rules
@@ -576,7 +646,7 @@ Before first `npx expo run:ios`, verify:
 
 ## Expo SDK 56 baseline and reliability rules
 
-For SDK 56 projects, enforce the following at foundation setup time:
+For active Expo SDK line projects, enforce the following at foundation setup time:
 
 - use Expo-managed version installs for native packages (`npx expo install ...`), not ad hoc `npm install` version pinning,
 - run `npx expo install --fix` after adding/upgrading native modules,
@@ -586,12 +656,11 @@ For SDK 56 projects, enforce the following at foundation setup time:
   - `npx expo prebuild --clean`
   - `npx expo run:ios`
 
-From Expo SDK 56 docs:
-- SDK 56 targets React Native `0.85` and React `19.2.3`,
-- minimum Node.js is `22.13.x`,
-- iOS baseline is `16.4+` and Xcode baseline is `26.2+`.
-
-These platform/toolchain baselines must be checked before debugging app-level code.
+Version policy:
+- do not hard-code exact SDK/RN/React/Node/Xcode numbers in this standards document,
+- verify current supported versions against official Expo docs at bootstrap/upgrade time,
+- record the resolved toolchain in repo-specific docs (`README` or setup docs) and lockfiles,
+- treat these checks as preconditions before debugging app-level code.
 
 ## Launch & Splash Build Approach (Mandatory)
 
@@ -638,37 +707,23 @@ Every PR must confirm:
 
 # Data Capture App: Initial Architecture
 
-## Core features
+## Canonical Domain Model
 
-### Themes
-User-defined categories/themes.
+All data-capture apps must use the canonical model:
+- Category
+- Section
+- Option
+- Entry
+- EntryValue
 
-Example:
-- Sneezing
-- Headaches
-- Medication
-- Symptoms
+Model notes:
+- `Category` is the top-level tracker/container.
+- `Section` groups related options within a category.
+- `Option` defines selectable/capturable units inside a section.
+- `Entry` is the captured event/timestamp container.
+- `EntryValue` stores captured values linked to an entry + option (and supports extensibility for value types).
 
-### Theme Items
-Custom buttons/actions within a theme.
-
-Example:
-- 1 sneeze
-- 2 sneezes
-- severe sneeze
-
-### Entries
-Timestamped captured events.
-
-Includes:
-- date/time to minute precision,
-- notes,
-- linked theme/item.
-
-### Analytics
-Initial version:
-- modal/table view only,
-- graph placeholder architecture ready for future charts.
+Do not introduce legacy parallel naming models (for example theme/item) in foundation standards or new feature schemas.
 
 ---
 
@@ -764,3 +819,11 @@ The long-term objective is to create a reusable mobile application foundation th
 - standardises accessibility,
 - standardises theming,
 - and enables multiple developers to work consistently across projects.
+
+---
+
+# Terminology Convention
+
+Standards prose uses British English (`colour`, `theming`, etc.) for documentation consistency.
+
+Code/API naming follows implementation and ecosystem conventions (for example `backgroundColor`, `colorKey`, `borderColor`) and must not be renamed for prose consistency.

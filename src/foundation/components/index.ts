@@ -4,8 +4,10 @@ export * from './layout/AppScrollScreen';
 export * from './layout/AppModalScreen';
 export * from './layout/StickyHeaderLayout';
 
+export * from './buttons/Button';
 export * from './buttons/PrimaryButton';
 export * from './buttons/SecondaryButton';
+export * from './buttons/DestructiveButton';
 export * from './buttons/IconButton';
 export * from './buttons/FloatingActionButton';
 

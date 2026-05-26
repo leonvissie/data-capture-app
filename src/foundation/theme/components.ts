@@ -3,6 +3,11 @@ import { spacing } from '@/foundation/theme/spacing';
 export const componentMetrics = {
   button: {
     minHeight: 52,
+    size: {
+      sm: 32,
+      md: 40,
+      lg: 48,
+    },
     horizontalPadding: spacing.lg,
     verticalPadding: spacing.md,
   },
@@ -32,5 +37,7 @@ export const componentMetrics = {
   authPinScreen: {
     copyGap: spacing.md,
     footerPaddingVertical: spacing.md,
+    footerActionsTopPadding: spacing.lg,
+    footerActionsMaxWidth: 240,
   },
 } as const;

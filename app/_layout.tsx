@@ -45,6 +45,7 @@ function AppNavigator() {
         <Stack.Screen name="unlock" />
         <Stack.Screen name="pin-setup" />
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="dev/button-lab" />
         <Stack.Screen name="modals" options={{ presentation: 'modal' }} />
       </Stack>
     </>
