@@ -2,7 +2,6 @@ import { spacing } from '@/foundation/theme/spacing';
 
 export const componentMetrics = {
   button: {
-    minHeight: 52,
     size: {
       sm: 32,
       md: 40,
@@ -10,6 +9,21 @@ export const componentMetrics = {
     },
     horizontalPadding: spacing.lg,
     verticalPadding: spacing.md,
+  },
+  roundIconButton: {
+    size: {
+      sm: 32,
+      md: 40,
+      lg: 48,
+    },
+    borderWidth: 1,
+    floating: {
+      shadowOpacity: 0.1,
+      shadowRadius: 3,
+      shadowOffsetWidth: 0,
+      shadowOffsetHeight: 1,
+      elevation: 2,
+    },
   },
   chip: {
     minHeight: 30,

@@ -9,6 +9,8 @@ export * from './buttons/PrimaryButton';
 export * from './buttons/SecondaryButton';
 export * from './buttons/DestructiveButton';
 export * from './buttons/IconButton';
+export * from './buttons/RoundIconButton';
+export * from './buttons/roundIconButtonTypes';
 export * from './buttons/FloatingActionButton';
 
 export * from './content/Card';

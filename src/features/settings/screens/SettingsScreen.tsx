@@ -88,6 +88,7 @@ export function SettingsScreen() {
 
       <View style={styles.actions}>
         {__DEV__ ? <SecondaryButton label="Open Button Lab" onPress={() => router.push('/dev/button-lab')} /> : null}
+        {__DEV__ ? <SecondaryButton label="Open Round Icon Lab" onPress={() => router.push('/dev/round-icon-lab')} /> : null}
         <DestructiveButton label="Lock app now" onPress={lock} />
         <DestructiveButton label="Reset app data" onPress={() => void requestDestructiveReset()} />
       </View>

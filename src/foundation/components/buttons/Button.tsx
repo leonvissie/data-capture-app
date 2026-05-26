@@ -20,6 +20,8 @@ type ButtonProps = {
   label: string;
   onPress: () => void;
   disabled?: boolean;
+  loading?: boolean;
+  selected?: boolean;
   size?: ButtonSize;
   variant?: ButtonVariant;
   shape?: ButtonShape;
@@ -33,6 +35,8 @@ export function Button({
   label,
   onPress,
   disabled = false,
+  loading = false,
+  selected = false,
   size = 'md',
   variant = 'solid',
   shape = 'pill',
@@ -42,12 +46,14 @@ export function Button({
   const tones = useTones();
   const t = tones[tone];
 
+  const resolvedVariant = selected ? 'solid' : variant;
+
   const defaults =
-    variant === 'solid'
+    resolvedVariant === 'solid'
       ? { background: t.base, pressedBackground: t.emphasis, border: t.base, text: t.onBase }
-      : variant === 'outline'
+      : resolvedVariant === 'outline'
         ? { background: 'transparent', pressedBackground: t.surface, border: t.border, text: t.base }
-        : variant === 'ghost'
+        : resolvedVariant === 'ghost'
           ? { background: 'transparent', pressedBackground: t.surface, border: 'transparent', text: t.base }
           : { background: t.surface, pressedBackground: t.base, border: t.border, text: t.base };
 
@@ -56,12 +62,14 @@ export function Button({
   const borderColor = tokens?.border ? t[tokens.border] : defaults.border;
   const textColor = tokens?.text ? t[tokens.text] : defaults.text;
 
+  const isDisabled = disabled || loading;
+
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityState={{ disabled }}
+      accessibilityState={{ disabled: isDisabled, selected, busy: loading }}
       onPress={onPress}
-      disabled={disabled}
+      disabled={isDisabled}
       style={({ pressed }) => [
         styles.base,
         {
@@ -69,12 +77,12 @@ export function Button({
           borderRadius: shape === 'pill' ? radii.pill : radii.lg,
           backgroundColor: pressed ? pressedBackgroundColor : backgroundColor,
           borderColor,
-          opacity: disabled ? 0.5 : 1,
+          opacity: isDisabled ? 0.5 : 1,
         },
       ]}
     >
       {({ pressed }) => (
-        <AppText variant="buttonLabel" style={{ color: pressed && variant === 'soft' && !disabled ? t.onBase : textColor }}>
+        <AppText variant="buttonLabel" style={{ color: pressed && resolvedVariant === 'soft' && !isDisabled ? t.onBase : textColor }}>
           {label}
         </AppText>
       )}

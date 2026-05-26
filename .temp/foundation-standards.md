@@ -314,6 +314,7 @@ These should exist before feature work begins:
 - Button (single shared base API)
 - IconButton
 - FloatingActionButton
+- RoundIconButton
 
 ## Button System Contract (Mandatory)
 
@@ -381,6 +382,28 @@ Validation process:
 
 `PrimaryButton`, `SecondaryButton`, and `DestructiveButton` (if retained) must be thin wrappers around the shared base `Button` only.  
 No duplicated style logic across wrappers is allowed.
+
+## Round Icon Button Contract (Mandatory)
+
+All apps must use one shared foundation `RoundIconButton` primitive with a centralized icon-type registry.
+
+Required API surface:
+- `buttonType` from shared `roundIconButtonTypes` registry
+- `size`: `sm | md | lg` (optional numeric override allowed for controlled edge cases)
+- `disabled`, optional `loading`
+- `floating` (default `false`)
+- token-slot overrides via a single `tokens` object (`background`, `pressedBackground`, `icon`, `border`)
+
+Rules:
+- no route-level icon glyph strings for round action buttons,
+- icon presets/tone defaults must be resolved centrally from registry mapping,
+- visual metrics (size, border width, floating elevation) must come from component tokens,
+- no hardcoded hex/rgb values in shared round-icon implementation or usage.
+
+Floating guardrail:
+- `floating` is restricted to overlay contexts (for example media/card overlay actions),
+- do not use floating round icon buttons in standard header/form/row action layouts,
+- prefer a shared wrapper (`FloatingRoundIconButton`) for approved floating usage.
 
 ## Content
 - Card
