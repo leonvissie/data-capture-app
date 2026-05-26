@@ -4,8 +4,9 @@ import { useRouter } from 'expo-router';
 
 import { DestructiveButton } from '@/foundation/components/buttons/DestructiveButton';
 import { SecondaryButton } from '@/foundation/components/buttons/SecondaryButton';
+import { Button } from '@/foundation/components/buttons/Button';
 import { AppScrollScreen } from '@/foundation/components/layout/AppScrollScreen';
-import { AppText } from '@/foundation/components/layout/AppText';
+import { PageHeader } from '@/foundation/components/layout/PageHeader';
 import { SettingsChoiceRow } from '@/foundation/components/settings/SettingsChoiceRow';
 import { SettingsSection } from '@/foundation/components/settings/SettingsSection';
 import { SettingsToggleRow } from '@/foundation/components/settings/SettingsToggleRow';
@@ -13,11 +14,13 @@ import { canUseBiometrics } from '@/foundation/services/security/biometric';
 import { useAppLock } from '@/foundation/services/security/AppLockProvider';
 import { getOrCreateUserPrefs, updateUserPrefs } from '@/foundation/services/storage/userPrefsRepository';
 import { spacing } from '@/foundation/theme';
+import { appConfig } from '@/config/appConfig';
 
 export function SettingsScreen() {
   const router = useRouter();
   const [prefs, setPrefs] = useState<Awaited<ReturnType<typeof getOrCreateUserPrefs>> | null>(null);
   const [preferencesOpen, setPreferencesOpen] = useState(true);
+  const [devOpen, setDevOpen] = useState(true);
   const [biometricSupported, setBiometricSupported] = useState(false);
   const { lock, requestDestructiveReset } = useAppLock();
 
@@ -65,8 +68,7 @@ export function SettingsScreen() {
 
   return (
     <AppScrollScreen>
-      <AppText variant="pageTitle">Settings</AppText>
-      <AppText>Configure security and lock behavior.</AppText>
+      <PageHeader title="Settings" subtitle="Configure security and lock behavior." />
 
       <SettingsSection title="Preferences" open={preferencesOpen} onToggle={setPreferencesOpen}>
         <SettingsToggleRow
@@ -87,11 +89,18 @@ export function SettingsScreen() {
       </SettingsSection>
 
       <View style={styles.actions}>
-        {__DEV__ ? <SecondaryButton label="Open Button Lab" onPress={() => router.push('/dev/button-lab')} /> : null}
-        {__DEV__ ? <SecondaryButton label="Open Round Icon Lab" onPress={() => router.push('/dev/round-icon-lab')} /> : null}
-        <DestructiveButton label="Lock app now" onPress={lock} />
+        <Button label="Lock app now" onPress={lock} tone="blue" variant="solid" />
         <DestructiveButton label="Reset app data" onPress={() => void requestDestructiveReset()} />
       </View>
+
+      {appConfig.features.showDevTools ? (
+        <SettingsSection title="Dev" open={devOpen} onToggle={setDevOpen}>
+          <View style={styles.devActions}>
+            <SecondaryButton label="Open Button Lab" onPress={() => router.push('/dev/button-lab')} />
+            <SecondaryButton label="Open Round Icon Lab" onPress={() => router.push('/dev/round-icon-lab')} />
+          </View>
+        </SettingsSection>
+      ) : null}
     </AppScrollScreen>
   );
 }
@@ -100,5 +109,9 @@ const styles = StyleSheet.create({
   actions: {
     gap: spacing.md,
     paddingTop: spacing.sm,
+  },
+  devActions: {
+    gap: spacing.sm,
+    paddingVertical: spacing.md,
   },
 });

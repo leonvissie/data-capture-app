@@ -704,6 +704,23 @@ Rules:
 
 This ensures consistent app startup behavior, predictable launch UX, and reusable foundation bootstrapping across all apps.
 
+## Dev Tools Gating Contract (Mandatory)
+
+Development-only UI/routes/features must be controlled through app config flags, not ad hoc checks.
+
+Required config flags:
+- `appConfig.features.showDevTools` (boolean): controls whether dev UI/routes are exposed and whether debug/info logging is enabled.
+
+When `showDevTools` is `false`:
+- do not render Dev sections in Settings or other feature screens,
+- do not register dev-only routes in the root navigator,
+- and guard dev-only screens with redirect fallback to a non-dev route (defense in depth).
+
+Rules:
+- do not rely solely on `__DEV__` checks for gating shared app behavior,
+- keep dev-feature gating centralized in `appConfig`,
+- all dev labs/playgrounds/debug tools must follow this contract.
+
 ---
 
 # PR / Code Review Checklist

@@ -31,6 +31,19 @@ type ButtonProps = {
 
 const buttonHeights = componentMetrics.button.size;
 
+export function resolveButtonDefaults(variant: ButtonVariant, tone: ReturnType<typeof useTones>[ToneKey]) {
+  if (variant === 'solid') {
+    return { background: tone.base, pressedBackground: tone.emphasis, border: tone.base, text: tone.onBase };
+  }
+  if (variant === 'outline') {
+    return { background: 'transparent', pressedBackground: tone.surface, border: tone.border, text: tone.base };
+  }
+  if (variant === 'ghost') {
+    return { background: 'transparent', pressedBackground: tone.surface, border: 'transparent', text: tone.base };
+  }
+  return { background: tone.surface, pressedBackground: tone.base, border: tone.border, text: tone.base };
+}
+
 export function Button({
   label,
   onPress,
@@ -48,14 +61,7 @@ export function Button({
 
   const resolvedVariant = selected ? 'solid' : variant;
 
-  const defaults =
-    resolvedVariant === 'solid'
-      ? { background: t.base, pressedBackground: t.emphasis, border: t.base, text: t.onBase }
-      : resolvedVariant === 'outline'
-        ? { background: 'transparent', pressedBackground: t.surface, border: t.border, text: t.base }
-        : resolvedVariant === 'ghost'
-          ? { background: 'transparent', pressedBackground: t.surface, border: 'transparent', text: t.base }
-          : { background: t.surface, pressedBackground: t.base, border: t.border, text: t.base };
+  const defaults = resolveButtonDefaults(resolvedVariant, t);
 
   const backgroundColor = tokens?.background ? t[tokens.background] : defaults.background;
   const pressedBackgroundColor = tokens?.pressedBackground ? t[tokens.pressedBackground] : defaults.pressedBackground;

@@ -3,6 +3,7 @@ export * from './layout/AppText';
 export * from './layout/AppScrollScreen';
 export * from './layout/AppModalScreen';
 export * from './layout/StickyHeaderLayout';
+export * from './layout/PageHeader';
 
 export * from './buttons/Button';
 export * from './buttons/PrimaryButton';

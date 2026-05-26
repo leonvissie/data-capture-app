@@ -11,6 +11,7 @@ import { AppBootstrapProvider } from '@/foundation/services/bootstrap/AppBootstr
 import { DialogProvider } from '@/foundation/services/dialogs/DialogProvider';
 import { useAppBootstrap } from '@/foundation/services/bootstrap/AppBootstrapProvider';
 import { AppLockProvider } from '@/foundation/services/security/AppLockProvider';
+import { appConfig } from '@/config/appConfig';
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -45,8 +46,8 @@ function AppNavigator() {
         <Stack.Screen name="unlock" />
         <Stack.Screen name="pin-setup" />
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="dev/button-lab" />
-        <Stack.Screen name="dev/round-icon-lab" />
+        {appConfig.features.showDevTools ? <Stack.Screen name="dev/button-lab" /> : null}
+        {appConfig.features.showDevTools ? <Stack.Screen name="dev/round-icon-lab" /> : null}
         <Stack.Screen name="modals" options={{ presentation: 'modal' }} />
       </Stack>
     </>

@@ -42,7 +42,7 @@ function resolveSize(size: IconSize): number {
   return sizeMap[size];
 }
 
-function resolvePreset(type: RoundIconButtonType): Preset {
+export function resolveRoundIconButtonPreset(type: RoundIconButtonType): Preset {
   switch (type) {
     case 'chatbubble-ellipses':
       return { iconName: 'chatbubble-ellipses', tone: 'orange', backgroundToken: 'base', pressedBackgroundToken: 'emphasis', iconToken: 'onBase', borderToken: 'base' };
@@ -101,7 +101,7 @@ export function RoundIconButton({
   tokens,
 }: RoundIconButtonProps) {
   const tones = useTones();
-  const preset = resolvePreset(buttonType);
+  const preset = resolveRoundIconButtonPreset(buttonType);
   const resolvedTone = tones[tone ?? preset.tone];
   const dimension = resolveSize(size);
   const iconSize = Math.round(dimension * 0.45);

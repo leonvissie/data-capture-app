@@ -1,26 +1,27 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Redirect } from 'expo-router';
 
 import { Button } from '@/foundation/components/buttons/Button';
 import { RoundIconButton } from '@/foundation/components/buttons/RoundIconButton';
 import { AppScrollScreen } from '@/foundation/components/layout/AppScrollScreen';
 import { AppText } from '@/foundation/components/layout/AppText';
+import { PageHeader } from '@/foundation/components/layout/PageHeader';
 import { ROUND_ICON_BUTTON_TYPES } from '@/foundation/components/buttons/roundIconButtonTypes';
 import { spacing } from '@/foundation/theme';
+import { appConfig } from '@/config/appConfig';
 
 export default function RoundIconLabScreen() {
+  if (!appConfig.features.showDevTools) return <Redirect href="/(tabs)/settings" />;
+
   const router = useRouter();
   const [size, setSize] = useState<'sm' | 'md' | 'lg'>('md');
   const [floating, setFloating] = useState(false);
 
   return (
     <AppScrollScreen>
-      <View style={styles.headerRow}>
-        <AppText variant="pageTitle">Round Icon Lab</AppText>
-        <RoundIconButton buttonType="close" accessibilityLabel="Close round icon lab" onPress={() => router.back()} size="md" />
-      </View>
-      <AppText>Dev-only preview of all round icon button types and floating behavior.</AppText>
+      <PageHeader title="Round Icon Lab" subtitle="Dev-only preview of all round icon button types and floating behavior." rightAction={{ buttonType: 'close', accessibilityLabel: 'Close round icon lab', onPress: () => router.back() }} />
 
       <View style={styles.group}>
         <AppText variant="sectionTitle">Size</AppText>
@@ -57,11 +58,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: spacing.sm,
-    alignItems: 'center',
-  },
-  headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
   },
 });

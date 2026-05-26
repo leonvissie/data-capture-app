@@ -1,28 +1,28 @@
 import { AppScrollScreen } from '@/foundation/components/layout/AppScrollScreen';
 import { AppText } from '@/foundation/components/layout/AppText';
 import { Button, type ButtonSize, type ButtonVariant } from '@/foundation/components/buttons/Button';
-import { RoundIconButton } from '@/foundation/components/buttons/RoundIconButton';
+import { PageHeader } from '@/foundation/components/layout/PageHeader';
 import { spacing, type ToneKey } from '@/foundation/theme';
 import { StyleSheet, View } from 'react-native';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
+import { Redirect } from 'expo-router';
+import { appConfig } from '@/config/appConfig';
 
 const tones: ToneKey[] = ['teal', 'blue', 'green', 'orange', 'red', 'grey'];
 const sizeOptions: ButtonSize[] = ['sm', 'md', 'lg'];
 const variantOptions: ButtonVariant[] = ['solid', 'outline', 'soft'];
 
 export default function ButtonLabScreen() {
+  if (!appConfig.features.showDevTools) return <Redirect href="/(tabs)/settings" />;
+
   const router = useRouter();
   const [size, setSize] = useState<ButtonSize>('sm');
   const [variant, setVariant] = useState<ButtonVariant>('solid');
 
   return (
     <AppScrollScreen>
-      <View style={styles.headerRow}>
-        <AppText variant="pageTitle">Button Lab</AppText>
-        <RoundIconButton buttonType="close" accessibilityLabel="Close button lab" onPress={() => router.back()} size="md" />
-      </View>
-      <AppText>Dev-only preview for button tone, variant, size, and token-slot overrides.</AppText>
+      <PageHeader title="Button Lab" subtitle="Dev-only preview for button tone, variant, size, and token-slot overrides." rightAction={{ buttonType: 'close', accessibilityLabel: 'Close button lab', onPress: () => router.back() }} />
 
       <View style={styles.group}>
         <AppText variant="sectionTitle">Height</AppText>
@@ -88,10 +88,5 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     flexDirection: 'row',
     flexWrap: 'wrap',
-  },
-  headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
 });
