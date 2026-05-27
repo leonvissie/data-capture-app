@@ -3,6 +3,7 @@ import { StyleSheet, TextInput, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import { AppScrollScreen, AppText, Button, InlineNotice, PageHeader, TextField, ValidationSummaryCard } from '@/foundation/components';
+import { applyDateMask, applyTimeMask, buildOccurredAtIso, formatDateForEntryInput, formatTimeForEntryInput } from '@/foundation/lib/dateTime';
 import { getCategoryById, type CategoryRecord } from '@/foundation/services/storage/categoryRepository';
 import { createQuickCountEntry } from '@/foundation/services/storage/entryRepository';
 import { useValidationAnchors } from '@/foundation/validation/useValidationAnchors';
@@ -37,13 +38,21 @@ export function CaptureWizardScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState<CategoryRecord | null>(null);
   const [countValue, setCountValue] = useState('');
+  const [entryDate, setEntryDate] = useState(() => formatDateForEntryInput(new Date()));
+  const [entryTime, setEntryTime] = useState(() => formatTimeForEntryInput(new Date()));
+  const [didClearDateDefault, setDidClearDateDefault] = useState(false);
+  const [didClearTimeDefault, setDidClearTimeDefault] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [issues, setIssues] = useState<ValidationIssue[]>([]);
   const countRef = useRef<TextInput>(null);
+  const dateRef = useRef<TextInput>(null);
+  const timeRef = useRef<TextInput>(null);
   const { registerAnchor, focusAnchor } = useValidationAnchors();
 
   useEffect(() => registerAnchor('countValue', () => countRef.current?.focus()), [registerAnchor]);
+  useEffect(() => registerAnchor('entryDate', () => dateRef.current?.focus()), [registerAnchor]);
+  useEffect(() => registerAnchor('entryTime', () => timeRef.current?.focus()), [registerAnchor]);
 
   useEffect(() => {
     let cancelled = false;
@@ -65,12 +74,54 @@ export function CaptureWizardScreen() {
   }, [categoryId]);
 
   const copy = useMemo(() => (category ? getWizardCopy(category) : null), [category]);
+  const headerTitle = useMemo(() => {
+    if (!category) return 'Capture';
+    if (category.categoryType === 'quickCount' && category.measurementUnit.trim()) {
+      return `${category.name} (${category.measurementUnit.trim()})`;
+    }
+    return category.name;
+  }, [category]);
   const warningIssues = issues.filter((issue) => issue.severity === 'warning');
   const blockingIssues = issues.filter((issue) => issue.severity === 'blocking');
 
   const validateQuickCount = (): ValidationIssue[] => {
     const trimmed = countValue.trim();
     const next: ValidationIssue[] = [];
+    const occurredAtResult = buildOccurredAtIso(entryDate, entryTime);
+
+    if (!entryDate.trim()) {
+      next.push({
+        key: 'entry_date_required',
+        severity: 'blocking',
+        message: 'Date is required.',
+        fieldId: 'entryDate',
+        anchor: 'entryDate',
+      });
+      return next;
+    }
+
+    if (!entryTime.trim()) {
+      next.push({
+        key: 'entry_time_required',
+        severity: 'blocking',
+        message: 'Time is required.',
+        fieldId: 'entryTime',
+        anchor: 'entryTime',
+      });
+      return next;
+    }
+
+    if (occurredAtResult.error) {
+      next.push({
+        key: 'entry_datetime_invalid',
+        severity: 'blocking',
+        message: occurredAtResult.error,
+        fieldId: 'entryDate',
+        anchor: 'entryDate',
+      });
+      return next;
+    }
+
     if (!trimmed) {
       next.push({
         key: 'count_required',
@@ -116,9 +167,15 @@ export function CaptureWizardScreen() {
     setSaveError(null);
     setIsSaving(true);
     try {
+      const occurredAtResult = buildOccurredAtIso(entryDate, entryTime);
+      if (!occurredAtResult.iso) {
+        setSaveError(occurredAtResult.error ?? 'Date and time are invalid.');
+        return;
+      }
       await createQuickCountEntry({
         categoryId: category.id,
         value: Number(countValue.trim()),
+        occurredAt: occurredAtResult.iso,
       });
       router.replace('/(tabs)/home');
     } catch {
@@ -131,7 +188,7 @@ export function CaptureWizardScreen() {
   return (
     <AppScrollScreen>
       <PageHeader
-        title={category ? category.name : 'Capture'}
+        title={headerTitle}
         leftAction={{ buttonType: 'back', accessibilityLabel: 'Go back', onPress: () => router.back() }}
       />
 
@@ -143,6 +200,40 @@ export function CaptureWizardScreen() {
           <AppText>{copy.detail}</AppText>
           {category.categoryType === 'quickCount' ? (
             <View style={styles.form}>
+              <View style={styles.dateTimeRow}>
+                <View style={styles.halfField}>
+                  <TextField
+                    ref={dateRef}
+                    value={entryDate}
+                    onFocus={() => {
+                      if (!didClearDateDefault) {
+                        setEntryDate('');
+                        setDidClearDateDefault(true);
+                      }
+                    }}
+                    onChangeText={(value) => setEntryDate(applyDateMask(value))}
+                    placeholder="dd/mm/yyyy"
+                    accessibilityLabel="Entry date"
+                    keyboardType="number-pad"
+                  />
+                </View>
+                <View style={styles.halfField}>
+                  <TextField
+                    ref={timeRef}
+                    value={entryTime}
+                    onFocus={() => {
+                      if (!didClearTimeDefault) {
+                        setEntryTime('');
+                        setDidClearTimeDefault(true);
+                      }
+                    }}
+                    onChangeText={(value) => setEntryTime(applyTimeMask(value))}
+                    placeholder="HH:mm"
+                    accessibilityLabel="Entry time"
+                    keyboardType="number-pad"
+                  />
+                </View>
+              </View>
               <TextField
                 ref={countRef}
                 value={countValue}
@@ -191,5 +282,12 @@ export function CaptureWizardScreen() {
 const styles = StyleSheet.create({
   form: {
     gap: spacing.md,
+  },
+  dateTimeRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  halfField: {
+    flex: 1,
   },
 });
