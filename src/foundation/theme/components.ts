@@ -1,6 +1,24 @@
 import { spacing } from '@/foundation/theme/spacing';
 
 export const componentMetrics = {
+  tabBar: {
+    height: 72,
+    horizontalMargin: spacing.lg,
+    bottomGap: spacing.md,
+    borderRadius: 32,
+    horizontalPadding: spacing.lg,
+    verticalPadding: spacing.sm,
+    sideItemMinWidth: 72,
+    sideIconSize: 24,
+    centerButtonSize: 72,
+    centerIconSize: 30,
+    centerButtonLift: 18,
+    shadowOpacity: 0.14,
+    shadowRadius: 8,
+    shadowOffsetWidth: 0,
+    shadowOffsetHeight: 2,
+    elevation: 6,
+  },
   button: {
     size: {
       sm: 32,

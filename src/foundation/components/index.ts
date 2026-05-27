@@ -4,6 +4,7 @@ export * from './layout/AppScrollScreen';
 export * from './layout/AppModalScreen';
 export * from './layout/StickyHeaderLayout';
 export * from './layout/PageHeader';
+export * from './navigation/AppTabBar';
 
 export * from './buttons/Button';
 export * from './buttons/PrimaryButton';
