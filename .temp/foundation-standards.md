@@ -528,6 +528,58 @@ Use:
 
 ---
 
+# Validation Contract (Mandatory)
+
+All user-input flows must use a shared validation contract and shared UI patterns.
+
+## Shared Types
+
+Use one shared issue model from foundation validation:
+- `ValidationIssue`
+- `severity`: `warning` | `blocking`
+- optional `fieldId`
+- optional `anchor`
+
+## Severity Rules
+
+- `blocking` issues must prevent submit/finalise.
+- `warning` issues may allow continue depending on flow policy.
+- the same `fieldId` may emit different severities in different contexts/rule thresholds.
+
+## Submit Gate
+
+All submit/finalise actions must use a shared gate helper to resolve:
+- proceed,
+- continue with warnings,
+- or blocked.
+
+Do not duplicate this decision tree in feature screens.
+
+## Anchor/Focus Behavior
+
+Validation issues should include `anchor`/`fieldId` when actionable.
+
+Shared anchor/focus helpers must be used to:
+- focus the first invalid field where possible,
+- otherwise scroll to the first actionable section anchor.
+
+## Shared Validation UI
+
+Warning/blocker summaries must use shared foundation components (for example a shared validation summary/warning card), not ad hoc per-screen alert formatting.
+
+Rules:
+- use non-colour cues in addition to colour,
+- provide clear actionable copy,
+- keep warning vs blocker treatments visually distinct.
+
+## Implementation Structure
+
+Validation logic must live in feature validation modules (`features/*/validation/*`) and return shared `ValidationIssue[]`.
+
+Screens may orchestrate when validation is run, but must not own duplicated rule implementations.
+
+---
+
 ## Repository pattern
 
 All persistence must go through repositories/services.
@@ -891,3 +943,24 @@ Persist Home display controls in `user_prefs`:
 - `home_category_sort` (`recent` | `name`).
 
 These fields must be migration-safe and defaulted for backward compatibility.
+
+## Category Tone Mapping (Mandatory)
+
+Category types must use shared, stable tone mapping so colour intent remains consistent across:
+- category creation controls,
+- category cards/list rows,
+- capture flow headers/cards.
+
+Rules:
+- define mapping in one shared foundation resolver/map,
+- do not hardcode per-screen category colours,
+- and keep mappings accessibility-safe in light and dark mode.
+
+## Theme Mode Preference (Mandatory)
+
+Apps must support `System`, `Light`, and `Dark` mode from Settings.
+
+Rules:
+- persist mode in `user_prefs.preferred_theme_mode`,
+- apply persisted mode during bootstrap (before normal app interaction),
+- and route all theme changes through shared theme provider/hooks (no per-screen colour mode state).

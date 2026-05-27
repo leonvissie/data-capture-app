@@ -14,6 +14,11 @@ import {
 } from '@/foundation/components';
 import { spacing } from '@/foundation/theme';
 import { useHomeCaptureController } from '@/features/capture/hooks/useHomeCaptureController';
+import {
+  resolveCaptureAddCategoryCardVariant,
+  resolveCaptureCategoryCardTone,
+  resolveCaptureCategoryCardVariant,
+} from '@/features/capture/presentation';
 
 export function TodayScreen() {
   const router = useRouter();
@@ -96,8 +101,8 @@ export function TodayScreen() {
           key={category.id}
           title={category.name}
           subtitle={`${category.typeLabel} · Open capture wizard`}
-          tone="teal"
-          variant="soft"
+          tone={resolveCaptureCategoryCardTone(category.categoryType)}
+          variant={resolveCaptureCategoryCardVariant(hasAnyCategories)}
           onPress={() => router.push(`/capture/${category.id}`)}
         />
       ))}
@@ -105,7 +110,7 @@ export function TodayScreen() {
         title={addCategoryLabel}
         subtitle="Create and configure a capture category."
         tone="green"
-        variant="solid"
+        variant={resolveCaptureAddCategoryCardVariant(hasAnyCategories)}
         onPress={() => router.push('/categories/create')}
       />
 

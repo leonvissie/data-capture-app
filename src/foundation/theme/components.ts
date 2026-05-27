@@ -3,9 +3,9 @@ import { spacing } from '@/foundation/theme/spacing';
 export const componentMetrics = {
   tabBar: {
     height: 72,
-    horizontalMargin: spacing.lg,
+    horizontalMargin: spacing.none,
     bottomGap: spacing.md,
-    borderRadius: 32,
+    borderRadius: spacing.none,
     horizontalPadding: spacing.lg,
     verticalPadding: spacing.sm,
     sideItemMinWidth: 72,

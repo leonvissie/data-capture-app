@@ -27,7 +27,7 @@ type ActionCardProps = {
   }>;
 };
 
-function resolveColors(
+export function resolveActionCardColors(
   variant: ActionCardVariant,
   tone: ReturnType<typeof useTones>[ToneKey],
   palette: ReturnType<typeof useSurfacePalette>,
@@ -73,7 +73,7 @@ export function ActionCard({
 }: ActionCardProps) {
   const palette = useSurfacePalette();
   const tones = useTones();
-  const colors = resolveColors(variant, tones[tone], palette);
+  const colors = resolveActionCardColors(variant, tones[tone], palette);
   const m = componentMetrics.actionCard;
 
   return (

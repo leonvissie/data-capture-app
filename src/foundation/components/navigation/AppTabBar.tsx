@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react';
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -24,6 +24,7 @@ const LABEL_BY_ROUTE: Record<string, string> = {
 type ExpoTabBarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0];
 
 export function AppTabBar({ state, descriptors, navigation }: ExpoTabBarProps) {
+  const router = useRouter();
   const insets = useSafeAreaInsets();
   const palette = useSurfacePalette();
   const tones = useTones();
@@ -81,7 +82,15 @@ export function AppTabBar({ state, descriptors, navigation }: ExpoTabBarProps) {
               target: route.key,
               canPreventDefault: true,
             });
-            if (!isFocused && !event.defaultPrevented) {
+
+            if (event.defaultPrevented) return;
+
+            if (isCenter && isFocused) {
+              router.push('/categories/create');
+              return;
+            }
+
+            if (!isFocused) {
               navigation.navigate(route.name, route.params);
             }
           };

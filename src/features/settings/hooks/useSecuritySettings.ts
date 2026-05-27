@@ -2,8 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { Alert, Linking, Platform } from 'react-native';
 
 import { canUseBiometrics } from '@/foundation/services/security/biometric';
+import { useThemeMode } from '@/foundation/hooks/useThemeMode';
 import { useAppLock } from '@/foundation/services/security/AppLockProvider';
-import { getOrCreateUserPrefs, type UserPrefs, updateUserPrefs } from '@/foundation/services/storage/userPrefsRepository';
+import { getOrCreateUserPrefs, type ThemeModePref, type UserPrefs, updateUserPrefs } from '@/foundation/services/storage/userPrefsRepository';
 
 type AlertLike = {
   alert: (title: string, message?: string, buttons?: Array<{ text: string; style?: 'default' | 'cancel' | 'destructive'; onPress?: () => void }>) => void;
@@ -46,6 +47,10 @@ export function createSecuritySettingsController(deps: SecuritySettingsControlle
       const updated = await deps.updatePrefs({ showHomeTutorialCta: value });
       deps.setPrefs(updated);
     },
+    async setPreferredThemeMode(value: ThemeModePref) {
+      const updated = await deps.updatePrefs({ preferredThemeMode: value });
+      deps.setPrefs(updated);
+    },
     lockNow() {
       deps.lock();
     },
@@ -56,6 +61,7 @@ export function createSecuritySettingsController(deps: SecuritySettingsControlle
 }
 
 export function useSecuritySettings() {
+  const { setScreenMode } = useThemeMode();
   const [prefs, setPrefs] = useState<UserPrefs | null>(null);
   const [biometricSupported, setBiometricSupported] = useState(false);
   const [preferencesOpen, setPreferencesOpen] = useState(true);
@@ -67,6 +73,14 @@ export function useSecuritySettings() {
       { value: 1, label: '1 min' },
       { value: 2, label: '2 min' },
       { value: 5, label: '5 min' },
+    ],
+    [],
+  );
+  const themeModeOptions = useMemo(
+    () => [
+      { value: 'system' as const, label: 'System' },
+      { value: 'light' as const, label: 'Light' },
+      { value: 'dark' as const, label: 'Dark' },
     ],
     [],
   );
@@ -102,10 +116,15 @@ export function useSecuritySettings() {
     devOpen,
     setDevOpen,
     autoLockOptions,
+    themeModeOptions,
     biometricSupported,
     setBiometricEnabled: controller.setBiometricEnabled,
     setAutoLockMinutes: controller.setAutoLockMinutes,
     setShowHomeTutorialCta: controller.setShowHomeTutorialCta,
+    setPreferredThemeMode: async (value: ThemeModePref) => {
+      await controller.setPreferredThemeMode(value);
+      setScreenMode(value);
+    },
     lockNow: controller.lockNow,
     resetNow: controller.resetNow,
   };

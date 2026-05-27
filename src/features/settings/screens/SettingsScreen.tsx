@@ -22,9 +22,11 @@ export function SettingsScreen() {
     devOpen,
     setDevOpen,
     autoLockOptions,
+    themeModeOptions,
     setBiometricEnabled,
     setAutoLockMinutes,
     setShowHomeTutorialCta,
+    setPreferredThemeMode,
     lockNow,
     resetNow,
   } = useSecuritySettings();
@@ -46,6 +48,13 @@ export function SettingsScreen() {
           value={prefs?.biometricEnabled ?? false}
           onValueChange={(value) => void setBiometricEnabled(value)}
           disabled={Platform.OS === 'web'}
+        />
+        <SettingsChoiceRow
+          label="Theme mode"
+          help="Choose app appearance behavior."
+          value={prefs?.preferredThemeMode ?? 'system'}
+          options={themeModeOptions}
+          onChange={(value) => void setPreferredThemeMode(value)}
         />
         <SettingsChoiceRow
           label="Auto-lock"

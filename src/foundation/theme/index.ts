@@ -6,3 +6,4 @@ export * from './components';
 export * from './effects';
 export * from './semantic';
 export * from './tones';
+export * from './categoryTones';

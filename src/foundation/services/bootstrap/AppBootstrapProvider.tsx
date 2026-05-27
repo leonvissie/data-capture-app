@@ -1,5 +1,6 @@
 import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useState } from 'react';
 
+import { useThemeMode } from '@/foundation/hooks/useThemeMode';
 import { initializeStorage } from '@/foundation/services/storage/database';
 import { getOrCreateUserPrefs, updateUserPrefs, userPrefsConstants } from '@/foundation/services/storage/userPrefsRepository';
 
@@ -14,6 +15,7 @@ type BootstrapState = {
 const BootstrapContext = createContext<BootstrapState | null>(null);
 
 export function AppBootstrapProvider({ children }: PropsWithChildren) {
+  const { setScreenMode } = useThemeMode();
   const [isReady, setIsReady] = useState(false);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [shouldRunTour, setShouldRunTour] = useState(false);
@@ -22,11 +24,12 @@ export function AppBootstrapProvider({ children }: PropsWithChildren) {
     void (async () => {
       await initializeStorage();
       const prefs = await getOrCreateUserPrefs();
+      setScreenMode(prefs.preferredThemeMode);
       setHasCompletedOnboarding(prefs.hasCompletedOnboarding);
       setShouldRunTour(!prefs.hasCompletedTour || prefs.tourVersion < userPrefsConstants.CURRENT_TOUR_VERSION);
       setIsReady(true);
     })();
-  }, []);
+  }, [setScreenMode]);
 
   const value = useMemo<BootstrapState>(
     () => ({
