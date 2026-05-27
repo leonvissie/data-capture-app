@@ -1,5 +1,5 @@
 export const appConfig = {
   features: {
-    showDevTools: true,
+    showDevTools: false,
   },
 } as const;

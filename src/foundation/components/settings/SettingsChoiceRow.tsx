@@ -31,7 +31,7 @@ export function SettingsChoiceRow<T extends string | number>({
   const teal = tones.teal;
 
   return (
-    <View style={[styles.row, !hideDivider && { borderBottomColor: grey.border }]}>
+    <View style={[styles.row, !hideDivider ? { borderBottomColor: grey.border, borderBottomWidth: 1 } : { borderBottomWidth: 0 }]}>
       <View style={styles.copy}>
         <AppText variant="bodyStrong">{label}</AppText>
         <AppText variant="bodySmall" style={{ color: grey.base }}>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   row: {
     paddingVertical: spacing.md,
     gap: spacing.sm,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0,
   },
   copy: {
     gap: spacing.xs,
