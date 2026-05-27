@@ -60,6 +60,8 @@ export function resolveRoundIconButtonPreset(type: RoundIconButtonType): Preset 
       return { iconName: 'create-outline', tone: 'teal', backgroundToken: 'base', pressedBackgroundToken: 'emphasis', iconToken: 'onBase', borderToken: 'base' };
     case 'help':
       return { iconName: 'help-outline', tone: 'grey', backgroundToken: 'base', pressedBackgroundToken: 'emphasis', iconToken: 'onBase', borderToken: 'base' };
+    case 'filter':
+      return { iconName: 'options-outline', tone: 'grey', backgroundToken: 'base', pressedBackgroundToken: 'emphasis', iconToken: 'onBase', borderToken: 'base' };
     case 'archive':
       return { iconName: 'archive-outline', tone: 'orange', backgroundToken: 'base', pressedBackgroundToken: 'emphasis', iconToken: 'onBase', borderToken: 'base' };
     case 'home':

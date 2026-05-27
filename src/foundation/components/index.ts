@@ -16,6 +16,8 @@ export * from './buttons/roundIconButtonTypes';
 export * from './buttons/FloatingActionButton';
 
 export * from './content/Card';
+export * from './content/ActionCard';
+export * from './content/CategoryCard';
 export * from './content/SectionHeader';
 export * from './content/EmptyState';
 export * from './content/InlineNotice';

@@ -103,6 +103,16 @@ const migrations: Migration[] = [
       `);
     },
   },
+  {
+    version: 3,
+    apply: async (db) => {
+      await db.execAsync(`
+        ALTER TABLE user_prefs ADD COLUMN show_home_tutorial_cta INTEGER NOT NULL DEFAULT 1;
+        ALTER TABLE user_prefs ADD COLUMN home_category_filter TEXT NOT NULL DEFAULT 'all';
+        ALTER TABLE user_prefs ADD COLUMN home_category_sort TEXT NOT NULL DEFAULT 'recent';
+      `);
+    },
+  },
 ];
 
 let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;

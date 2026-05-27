@@ -4,6 +4,8 @@ import { getOrCreateDefaultProfile } from './profileRepository';
 import { getDatabase } from './database';
 
 export type ThemeModePref = 'system' | 'light' | 'dark';
+export type HomeCategoryFilter = 'all' | 'quickCount' | 'timedActivity' | 'journal';
+export type HomeCategorySort = 'recent' | 'name';
 
 export type UserPrefs = {
   profileId: string;
@@ -13,6 +15,9 @@ export type UserPrefs = {
   preferredThemeMode: ThemeModePref;
   autoLockMinutes: number;
   biometricEnabled: boolean;
+  showHomeTutorialCta: boolean;
+  homeCategoryFilter: HomeCategoryFilter;
+  homeCategorySort: HomeCategorySort;
   createdAt: string;
   updatedAt: string;
 };
@@ -35,11 +40,19 @@ function toUserPrefs(row: {
   preferred_theme_mode: string;
   auto_lock_minutes: number;
   biometric_enabled: number;
+  show_home_tutorial_cta: number;
+  home_category_filter: string;
+  home_category_sort: string;
   created_at: string;
   updated_at: string;
 }): UserPrefs {
   const mode = row.preferred_theme_mode;
   const preferredThemeMode: ThemeModePref = mode === 'light' || mode === 'dark' ? mode : 'system';
+  const filter = row.home_category_filter;
+  const sort = row.home_category_sort;
+  const homeCategoryFilter: HomeCategoryFilter =
+    filter === 'quickCount' || filter === 'timedActivity' || filter === 'journal' ? filter : 'all';
+  const homeCategorySort: HomeCategorySort = sort === 'name' ? 'name' : 'recent';
 
   return {
     profileId: row.profile_id,
@@ -49,6 +62,9 @@ function toUserPrefs(row: {
     preferredThemeMode,
     autoLockMinutes: row.auto_lock_minutes,
     biometricEnabled: row.biometric_enabled === 1,
+    showHomeTutorialCta: row.show_home_tutorial_cta === 1,
+    homeCategoryFilter,
+    homeCategorySort,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -64,11 +80,15 @@ async function getByProfileId(profileId: string): Promise<UserPrefs | null> {
     preferred_theme_mode: string;
     auto_lock_minutes: number;
     biometric_enabled: number;
+    show_home_tutorial_cta: number;
+    home_category_filter: string;
+    home_category_sort: string;
     created_at: string;
     updated_at: string;
   }>(
     `SELECT profile_id, has_completed_onboarding, has_completed_tour, tour_version,
-            preferred_theme_mode, auto_lock_minutes, biometric_enabled, created_at, updated_at
+            preferred_theme_mode, auto_lock_minutes, biometric_enabled, show_home_tutorial_cta,
+            home_category_filter, home_category_sort, created_at, updated_at
      FROM user_prefs
      WHERE profile_id = ?`,
     [profileId],
@@ -87,8 +107,9 @@ export async function getOrCreateUserPrefs(): Promise<UserPrefs> {
   await db.runAsync(
     `INSERT INTO user_prefs (
       profile_id, has_completed_onboarding, has_completed_tour, tour_version,
-      preferred_theme_mode, auto_lock_minutes, biometric_enabled, created_at, updated_at
-    ) VALUES (?, 0, 0, ?, 'system', 1, 0, ?, ?)`,
+      preferred_theme_mode, auto_lock_minutes, biometric_enabled, show_home_tutorial_cta,
+      home_category_filter, home_category_sort, created_at, updated_at
+    ) VALUES (?, 0, 0, ?, 'system', 1, 0, 1, 'all', 'recent', ?, ?)`,
     [profile.id, CURRENT_TOUR_VERSION, now, now],
   );
 
@@ -100,7 +121,22 @@ export async function getOrCreateUserPrefs(): Promise<UserPrefs> {
   return created;
 }
 
-export async function updateUserPrefs(next: Partial<Pick<UserPrefs, 'hasCompletedOnboarding' | 'hasCompletedTour' | 'tourVersion' | 'preferredThemeMode' | 'autoLockMinutes' | 'biometricEnabled'>>): Promise<UserPrefs> {
+export async function updateUserPrefs(
+  next: Partial<
+    Pick<
+      UserPrefs,
+      | 'hasCompletedOnboarding'
+      | 'hasCompletedTour'
+      | 'tourVersion'
+      | 'preferredThemeMode'
+      | 'autoLockMinutes'
+      | 'biometricEnabled'
+      | 'showHomeTutorialCta'
+      | 'homeCategoryFilter'
+      | 'homeCategorySort'
+    >
+  >,
+): Promise<UserPrefs> {
   const current = await getOrCreateUserPrefs();
   const merged: UserPrefs = {
     ...current,
@@ -117,6 +153,9 @@ export async function updateUserPrefs(next: Partial<Pick<UserPrefs, 'hasComplete
          preferred_theme_mode = ?,
          auto_lock_minutes = ?,
          biometric_enabled = ?,
+         show_home_tutorial_cta = ?,
+         home_category_filter = ?,
+         home_category_sort = ?,
          updated_at = ?
      WHERE profile_id = ?`,
     [
@@ -126,6 +165,9 @@ export async function updateUserPrefs(next: Partial<Pick<UserPrefs, 'hasComplete
       merged.preferredThemeMode,
       merged.autoLockMinutes,
       merged.biometricEnabled ? 1 : 0,
+      merged.showHomeTutorialCta ? 1 : 0,
+      merged.homeCategoryFilter,
+      merged.homeCategorySort,
       merged.updatedAt,
       merged.profileId,
     ],

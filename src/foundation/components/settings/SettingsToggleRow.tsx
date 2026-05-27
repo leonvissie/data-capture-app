@@ -25,7 +25,12 @@ export function SettingsToggleRow({
   const grey = tones.grey;
 
   return (
-    <View style={[styles.row, !hideDivider && { borderBottomColor: grey.border }]}>
+    <View
+      style={[
+        styles.row,
+        !hideDivider ? { borderBottomColor: grey.border, borderBottomWidth: 1 } : { borderBottomWidth: 0 },
+      ]}
+    >
       <View style={styles.copy}>
         <AppText variant="bodyStrong">{label}</AppText>
         <AppText variant="bodySmall" style={{ color: grey.base }}>
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0,
   },
   copy: {
     flex: 1,

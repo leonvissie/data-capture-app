@@ -771,10 +771,10 @@ Do not introduce legacy parallel naming models (for example theme/item) in found
 
 ```txt
 features/
-  themes/
-  items/
+  categories/
   entries/
   analytics/
+  capture/
   settings/
 ```
 
@@ -800,8 +800,8 @@ No feature work before this is stable.
 ## Phase 2 — Vertical Slice
 Implement one complete flow:
 
-- create theme,
-- create item,
+- create category,
+- create section/option,
 - capture entry,
 - edit timestamp,
 - add notes,
@@ -867,3 +867,27 @@ The long-term objective is to create a reusable mobile application foundation th
 Standards prose uses British English (`colour`, `theming`, etc.) for documentation consistency.
 
 Code/API naming follows implementation and ecosystem conventions (for example `backgroundColor`, `colorKey`, `borderColor`) and must not be renamed for prose consistency.
+
+---
+
+# Home/Capture Contract (3-Tab IA)
+
+When the app uses the 3-tab layout (`Insights`, `Capture`, `Settings`), Capture/Home must follow this contract:
+
+- optional tutorial CTA at top, controlled by persisted preference,
+- primary category creation CTA,
+- category list/cards for launching capture flows,
+- optional filter/sort/search controls via shared overlay shell.
+
+The tutorial CTA must not be forced:
+- users can hide it from Home,
+- users can re-enable it from Settings.
+
+## Home Preferences (Mandatory)
+
+Persist Home display controls in `user_prefs`:
+- `show_home_tutorial_cta` (boolean),
+- `home_category_filter` (`all` | `quickCount` | `timedActivity` | `journal`),
+- `home_category_sort` (`recent` | `name`).
+
+These fields must be migration-safe and defaulted for backward compatibility.

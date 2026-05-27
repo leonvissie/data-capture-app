@@ -19,6 +19,16 @@ export const componentMetrics = {
     shadowOffsetHeight: 2,
     elevation: 6,
   },
+  actionCard: {
+    minHeight: 80,
+    borderWidth: 1,
+    borderRadius: 20,
+    horizontalPadding: spacing.lg,
+    verticalPadding: spacing.sm,
+    contentGap: spacing.sm,
+    actionsTopPadding: spacing.none,
+    actionsGap: spacing.sm,
+  },
   button: {
     size: {
       sm: 32,

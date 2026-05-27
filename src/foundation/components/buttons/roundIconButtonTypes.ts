@@ -10,6 +10,7 @@ export const ROUND_ICON_BUTTON_TYPES = [
   'delete',
   'edit',
   'ellipse-outline',
+  'filter',
   'help',
   'home',
   'library',

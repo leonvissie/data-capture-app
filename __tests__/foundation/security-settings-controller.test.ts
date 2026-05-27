@@ -1,32 +1,33 @@
 import { createSecuritySettingsController } from '../../src/features/settings/hooks/useSecuritySettings';
+import type { UserPrefs } from '../../src/foundation/services/storage/userPrefsRepository';
+
+function makePrefs(overrides: Partial<UserPrefs> = {}): UserPrefs {
+  return {
+    profileId: 'p1',
+    hasCompletedOnboarding: false,
+    hasCompletedTour: false,
+    tourVersion: 1,
+    preferredThemeMode: 'system',
+    autoLockMinutes: 1,
+    biometricEnabled: false,
+    showHomeTutorialCta: true,
+    homeCategoryFilter: 'all',
+    homeCategorySort: 'recent',
+    createdAt: '',
+    updatedAt: '',
+    ...overrides,
+  };
+}
 
 describe('security settings controller', () => {
   test('auto-lock update path persists and updates local prefs', async () => {
-    const updatePrefs = jest.fn(async (next: { autoLockMinutes?: number; biometricEnabled?: boolean }) => ({
-      profileId: 'p1',
-      hasCompletedOnboarding: false,
-      hasCompletedTour: false,
-      tourVersion: 1,
-      preferredThemeMode: 'system' as const,
-      autoLockMinutes: next.autoLockMinutes ?? 1,
-      biometricEnabled: false,
-      createdAt: '',
-      updatedAt: '',
-    }));
+    const updatePrefs = jest.fn(async (next: { autoLockMinutes?: number; biometricEnabled?: boolean }) =>
+      makePrefs({ autoLockMinutes: next.autoLockMinutes ?? 1 }),
+    );
     const setPrefs = jest.fn();
 
     const controller = createSecuritySettingsController({
-      getPrefs: () => ({
-        profileId: 'p1',
-        hasCompletedOnboarding: false,
-        hasCompletedTour: false,
-        tourVersion: 1,
-        preferredThemeMode: 'system',
-        autoLockMinutes: 1,
-        biometricEnabled: false,
-        createdAt: '',
-        updatedAt: '',
-      }),
+      getPrefs: () => makePrefs(),
       setPrefs,
       biometricSupported: true,
       platformOS: 'ios',
@@ -47,17 +48,7 @@ describe('security settings controller', () => {
     const alert = jest.fn();
 
     const controller = createSecuritySettingsController({
-      getPrefs: () => ({
-        profileId: 'p1',
-        hasCompletedOnboarding: false,
-        hasCompletedTour: false,
-        tourVersion: 1,
-        preferredThemeMode: 'system',
-        autoLockMinutes: 1,
-        biometricEnabled: false,
-        createdAt: '',
-        updatedAt: '',
-      }),
+      getPrefs: () => makePrefs(),
       setPrefs: jest.fn(),
       biometricSupported: false,
       platformOS: 'ios',

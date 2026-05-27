@@ -24,6 +24,7 @@ export function SettingsScreen() {
     autoLockOptions,
     setBiometricEnabled,
     setAutoLockMinutes,
+    setShowHomeTutorialCta,
     lockNow,
     resetNow,
   } = useSecuritySettings();
@@ -33,6 +34,12 @@ export function SettingsScreen() {
       <PageHeader title="Settings" subtitle="Configure security and lock behavior." />
 
       <SettingsSection title="Preferences" open={preferencesOpen} onToggle={setPreferencesOpen}>
+        <SettingsToggleRow
+          label="Show tutorials on Home"
+          help="Display the tutorial shortcut at the top of Home/Capture."
+          value={prefs?.showHomeTutorialCta ?? true}
+          onValueChange={(value) => void setShowHomeTutorialCta(value)}
+        />
         <SettingsToggleRow
           label="Biometric unlock"
           help={Platform.OS === 'web' ? 'Not available on web.' : 'Use Face ID / Touch ID after PIN setup.'}

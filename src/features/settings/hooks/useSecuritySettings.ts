@@ -42,6 +42,10 @@ export function createSecuritySettingsController(deps: SecuritySettingsControlle
       const updated = await deps.updatePrefs({ autoLockMinutes: value });
       deps.setPrefs(updated);
     },
+    async setShowHomeTutorialCta(value: boolean) {
+      const updated = await deps.updatePrefs({ showHomeTutorialCta: value });
+      deps.setPrefs(updated);
+    },
     lockNow() {
       deps.lock();
     },
@@ -101,6 +105,7 @@ export function useSecuritySettings() {
     biometricSupported,
     setBiometricEnabled: controller.setBiometricEnabled,
     setAutoLockMinutes: controller.setAutoLockMinutes,
+    setShowHomeTutorialCta: controller.setShowHomeTutorialCta,
     lockNow: controller.lockNow,
     resetNow: controller.resetNow,
   };
