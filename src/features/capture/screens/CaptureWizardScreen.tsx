@@ -125,6 +125,18 @@ export function CaptureWizardScreen() {
       return next;
     }
 
+    const locationValidationError = locationController.validateDraftLocationName();
+    if (locationValidationError) {
+      next.push({
+        key: 'location_invalid',
+        severity: 'blocking',
+        message: locationValidationError,
+        fieldId: 'location',
+        anchor: 'location',
+      });
+      return next;
+    }
+
     if (!trimmed) {
       next.push({
         key: 'count_required',
@@ -178,10 +190,12 @@ export function CaptureWizardScreen() {
       let locationIdForSave = selectedLocationId;
       if (locationController.draftLocationName.trim()) {
         const createdOrReused = await locationController.addOrReuseLocation();
-        if (createdOrReused) {
-          locationIdForSave = createdOrReused.id;
-          setSelectedLocationId(createdOrReused.id);
+        if (!createdOrReused) {
+          setSaveError(locationController.error ?? 'Location is invalid.');
+          return;
         }
+        locationIdForSave = createdOrReused.id;
+        setSelectedLocationId(createdOrReused.id);
       }
       await createQuickCountEntry({
         categoryId: category.id,

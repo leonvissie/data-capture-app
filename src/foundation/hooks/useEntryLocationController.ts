@@ -10,7 +10,7 @@ import {
 import { getOrCreateUserPrefs, updateUserPrefs } from '@/foundation/services/storage/userPrefsRepository';
 
 const INLINE_LIMIT = 5;
-const LOCATION_MAX_LENGTH = 60;
+export const LOCATION_MAX_LENGTH = 60;
 
 export function useEntryLocationController() {
   const [allLocations, setAllLocations] = useState<LocationRecord[]>([]);
@@ -65,6 +65,18 @@ export function useEntryLocationController() {
     return location;
   }, [draftLocationName, refresh]);
 
+  const validateDraftLocationName = useCallback((): string | null => {
+    const normalized = normalizeLocationName(draftLocationName);
+    if (!normalized) return null;
+    if (normalized.length > LOCATION_MAX_LENGTH) {
+      const message = `Location must be ${LOCATION_MAX_LENGTH} characters or fewer.`;
+      setError(message);
+      return message;
+    }
+    setError(null);
+    return null;
+  }, [draftLocationName]);
+
   return {
     allLocations,
     inlineLocations,
@@ -79,6 +91,7 @@ export function useEntryLocationController() {
     closePicker: () => setIsPickerVisible(false),
     draftLocationName,
     setDraftLocationName,
+    validateDraftLocationName,
     addOrReuseLocation,
     error,
     refresh,
