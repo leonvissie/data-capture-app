@@ -46,6 +46,9 @@ function AppNavigator() {
         <Stack.Screen name="unlock" />
         <Stack.Screen name="pin-setup" />
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="categories/create" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="capture/[categoryId]" />
+        <Stack.Screen name="tutorials/capture" />
         {appConfig.features.showDevTools ? <Stack.Screen name="dev/button-lab" /> : null}
         {appConfig.features.showDevTools ? <Stack.Screen name="dev/round-icon-lab" /> : null}
         <Stack.Screen name="modals" options={{ presentation: 'modal' }} />

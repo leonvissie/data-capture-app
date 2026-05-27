@@ -1,5 +1,6 @@
 import { Alert, StyleSheet, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
+import { useCallback } from 'react';
 
 import {
   ActionCard,
@@ -31,6 +32,7 @@ export function TodayScreen() {
     closeFilter,
     hasAnyCategories,
     visibleCategories,
+    refresh,
   } = useHomeCaptureController();
 
   const addCategoryLabel = hasAnyCategories ? 'Add category' : 'Create first category';
@@ -46,6 +48,12 @@ export function TodayScreen() {
     );
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      void refresh();
+    }, [refresh]),
+  );
+
   return (
     <AppScrollScreen>
       <PageHeader
@@ -60,7 +68,7 @@ export function TodayScreen() {
           subtitle="Learn count, time, and journal capture flows."
           tone="grey"
           variant="solid"
-          onPress={() => router.push('/onboarding')}
+          onPress={() => router.push('/tutorials/capture')}
           accessibilityLabel="Open capture tutorials"
           actions={[
             {
@@ -90,7 +98,7 @@ export function TodayScreen() {
           subtitle={`${category.typeLabel} · Open capture wizard`}
           tone="teal"
           variant="soft"
-          onPress={() => router.push('/modals')}
+          onPress={() => router.push(`/capture/${category.id}`)}
         />
       ))}
       <ActionCard
@@ -98,7 +106,7 @@ export function TodayScreen() {
         subtitle="Create and configure a capture category."
         tone="green"
         variant="solid"
-        onPress={() => router.push('/modals')}
+        onPress={() => router.push('/categories/create')}
       />
 
       <BottomSheet visible={isFilterOpen} title="Filter categories" onRequestClose={closeFilter}>

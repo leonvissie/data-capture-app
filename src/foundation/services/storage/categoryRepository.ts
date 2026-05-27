@@ -46,3 +46,28 @@ export async function listCategories(): Promise<CategoryRecord[]> {
     updatedAt: row.updated_at,
   }));
 }
+
+export async function getCategoryById(id: string): Promise<CategoryRecord | null> {
+  const db = await getDatabase();
+  const row = await db.getFirstAsync<{
+    id: string;
+    name: string;
+    category_type: string;
+    created_at: string;
+    updated_at: string;
+  }>(
+    `SELECT id, name, category_type, created_at, updated_at
+     FROM categories
+     WHERE id = ?`,
+    [id],
+  );
+
+  if (!row) return null;
+  return {
+    id: row.id,
+    name: row.name,
+    categoryType: row.category_type === 'timedActivity' || row.category_type === 'journal' ? row.category_type : 'quickCount',
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
