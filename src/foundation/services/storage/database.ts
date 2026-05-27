@@ -121,6 +121,29 @@ const migrations: Migration[] = [
       `);
     },
   },
+  {
+    version: 5,
+    apply: async (db) => {
+      await db.execAsync(`
+        CREATE TABLE IF NOT EXISTS locations (
+          id TEXT PRIMARY KEY,
+          name TEXT NOT NULL,
+          normalized_name TEXT NOT NULL UNIQUE,
+          entry_count INTEGER NOT NULL DEFAULT 0,
+          last_used_at TEXT,
+          created_at TEXT NOT NULL,
+          updated_at TEXT NOT NULL
+        );
+
+        ALTER TABLE entries ADD COLUMN location_id TEXT;
+        ALTER TABLE user_prefs ADD COLUMN location_sort_preference TEXT NOT NULL DEFAULT 'recency';
+
+        CREATE INDEX IF NOT EXISTS idx_locations_last_used_at ON locations(last_used_at DESC);
+        CREATE INDEX IF NOT EXISTS idx_locations_entry_count ON locations(entry_count DESC);
+        CREATE INDEX IF NOT EXISTS idx_entries_location_id ON entries(location_id);
+      `);
+    },
+  },
 ];
 
 let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;

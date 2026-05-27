@@ -13,6 +13,7 @@ function makePrefs(overrides: Partial<UserPrefs> = {}): UserPrefs {
     showHomeTutorialCta: true,
     homeCategoryFilter: 'all',
     homeCategorySort: 'recent',
+    locationSortPreference: 'recency',
     createdAt: '',
     updatedAt: '',
     ...overrides,

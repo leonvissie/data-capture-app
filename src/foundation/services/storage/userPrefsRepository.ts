@@ -6,6 +6,7 @@ import { getDatabase } from './database';
 export type ThemeModePref = 'system' | 'light' | 'dark';
 export type HomeCategoryFilter = 'all' | 'quickCount' | 'timedActivity' | 'journal';
 export type HomeCategorySort = 'recent' | 'name';
+export type LocationSortPref = 'recency' | 'usage' | 'az' | 'za';
 
 export type UserPrefs = {
   profileId: string;
@@ -18,6 +19,7 @@ export type UserPrefs = {
   showHomeTutorialCta: boolean;
   homeCategoryFilter: HomeCategoryFilter;
   homeCategorySort: HomeCategorySort;
+  locationSortPreference: LocationSortPref;
   createdAt: string;
   updatedAt: string;
 };
@@ -43,6 +45,7 @@ function toUserPrefs(row: {
   show_home_tutorial_cta: number;
   home_category_filter: string;
   home_category_sort: string;
+  location_sort_preference: string;
   created_at: string;
   updated_at: string;
 }): UserPrefs {
@@ -53,6 +56,9 @@ function toUserPrefs(row: {
   const homeCategoryFilter: HomeCategoryFilter =
     filter === 'quickCount' || filter === 'timedActivity' || filter === 'journal' ? filter : 'all';
   const homeCategorySort: HomeCategorySort = sort === 'name' ? 'name' : 'recent';
+  const locationSort = row.location_sort_preference;
+  const locationSortPreference: LocationSortPref =
+    locationSort === 'usage' || locationSort === 'az' || locationSort === 'za' ? locationSort : 'recency';
 
   return {
     profileId: row.profile_id,
@@ -65,6 +71,7 @@ function toUserPrefs(row: {
     showHomeTutorialCta: row.show_home_tutorial_cta === 1,
     homeCategoryFilter,
     homeCategorySort,
+    locationSortPreference,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -83,12 +90,13 @@ async function getByProfileId(profileId: string): Promise<UserPrefs | null> {
     show_home_tutorial_cta: number;
     home_category_filter: string;
     home_category_sort: string;
+    location_sort_preference: string;
     created_at: string;
     updated_at: string;
   }>(
     `SELECT profile_id, has_completed_onboarding, has_completed_tour, tour_version,
             preferred_theme_mode, auto_lock_minutes, biometric_enabled, show_home_tutorial_cta,
-            home_category_filter, home_category_sort, created_at, updated_at
+            home_category_filter, home_category_sort, location_sort_preference, created_at, updated_at
      FROM user_prefs
      WHERE profile_id = ?`,
     [profileId],
@@ -108,8 +116,8 @@ export async function getOrCreateUserPrefs(): Promise<UserPrefs> {
     `INSERT INTO user_prefs (
       profile_id, has_completed_onboarding, has_completed_tour, tour_version,
       preferred_theme_mode, auto_lock_minutes, biometric_enabled, show_home_tutorial_cta,
-      home_category_filter, home_category_sort, created_at, updated_at
-    ) VALUES (?, 0, 0, ?, 'system', 1, 0, 1, 'all', 'recent', ?, ?)`,
+      home_category_filter, home_category_sort, location_sort_preference, created_at, updated_at
+    ) VALUES (?, 0, 0, ?, 'system', 1, 0, 1, 'all', 'recent', 'recency', ?, ?)`,
     [profile.id, CURRENT_TOUR_VERSION, now, now],
   );
 
@@ -134,6 +142,7 @@ export async function updateUserPrefs(
       | 'showHomeTutorialCta'
       | 'homeCategoryFilter'
       | 'homeCategorySort'
+      | 'locationSortPreference'
     >
   >,
 ): Promise<UserPrefs> {
@@ -156,6 +165,7 @@ export async function updateUserPrefs(
          show_home_tutorial_cta = ?,
          home_category_filter = ?,
          home_category_sort = ?,
+         location_sort_preference = ?,
          updated_at = ?
      WHERE profile_id = ?`,
     [
@@ -168,6 +178,7 @@ export async function updateUserPrefs(
       merged.showHomeTutorialCta ? 1 : 0,
       merged.homeCategoryFilter,
       merged.homeCategorySort,
+      merged.locationSortPreference,
       merged.updatedAt,
       merged.profileId,
     ],

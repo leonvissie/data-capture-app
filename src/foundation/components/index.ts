@@ -28,6 +28,7 @@ export * from './forms/TextArea';
 export * from './forms/DateTimeField';
 export * from './forms/SelectionField';
 export * from './forms/PasscodePad';
+export * from './forms/EntryLocationField';
 export * from './validation/ValidationSummaryCard';
 
 export * from './modals/AppModal';

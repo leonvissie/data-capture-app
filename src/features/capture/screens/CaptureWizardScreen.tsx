@@ -2,8 +2,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
-import { AppScrollScreen, AppText, Button, InlineNotice, PageHeader, TextField, ValidationSummaryCard } from '@/foundation/components';
+import { AppScrollScreen, AppText, Button, EntryLocationField, InlineNotice, PageHeader, TextField, ValidationSummaryCard } from '@/foundation/components';
 import { applyDateMask, applyTimeMask, buildOccurredAtIso, formatDateForEntryInput, formatTimeForEntryInput } from '@/foundation/lib/dateTime';
+import { useEntryLocationController } from '@/foundation/hooks/useEntryLocationController';
 import { getCategoryById, type CategoryRecord } from '@/foundation/services/storage/categoryRepository';
 import { createQuickCountEntry } from '@/foundation/services/storage/entryRepository';
 import { useValidationAnchors } from '@/foundation/validation/useValidationAnchors';
@@ -38,6 +39,7 @@ export function CaptureWizardScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState<CategoryRecord | null>(null);
   const [countValue, setCountValue] = useState('');
+  const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
   const [entryDate, setEntryDate] = useState(() => formatDateForEntryInput(new Date()));
   const [entryTime, setEntryTime] = useState(() => formatTimeForEntryInput(new Date()));
   const [didClearDateDefault, setDidClearDateDefault] = useState(false);
@@ -49,6 +51,7 @@ export function CaptureWizardScreen() {
   const dateRef = useRef<TextInput>(null);
   const timeRef = useRef<TextInput>(null);
   const { registerAnchor, focusAnchor } = useValidationAnchors();
+  const locationController = useEntryLocationController();
 
   useEffect(() => registerAnchor('countValue', () => countRef.current?.focus()), [registerAnchor]);
   useEffect(() => registerAnchor('entryDate', () => dateRef.current?.focus()), [registerAnchor]);
@@ -172,9 +175,18 @@ export function CaptureWizardScreen() {
         setSaveError(occurredAtResult.error ?? 'Date and time are invalid.');
         return;
       }
+      let locationIdForSave = selectedLocationId;
+      if (locationController.draftLocationName.trim()) {
+        const createdOrReused = await locationController.addOrReuseLocation();
+        if (createdOrReused) {
+          locationIdForSave = createdOrReused.id;
+          setSelectedLocationId(createdOrReused.id);
+        }
+      }
       await createQuickCountEntry({
         categoryId: category.id,
         value: Number(countValue.trim()),
+        locationId: locationIdForSave,
         occurredAt: occurredAtResult.iso,
       });
       router.replace('/(tabs)/home');
@@ -241,6 +253,11 @@ export function CaptureWizardScreen() {
                 placeholder={category.measurementUnit ? `Value (${category.measurementUnit})` : 'Value'}
                 accessibilityLabel={category.measurementUnit ? `Measurement value in ${category.measurementUnit}` : 'Measurement value'}
                 keyboardType="decimal-pad"
+              />
+              <EntryLocationField
+                selectedLocationId={selectedLocationId}
+                onSelectedLocationChange={setSelectedLocationId}
+                controller={locationController}
               />
               {saveError ? <InlineNotice message={saveError} /> : null}
               {blockingIssues.length > 0 ? (

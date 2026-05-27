@@ -5,6 +5,7 @@ import { getDatabase } from './database';
 export type CreateQuickCountEntryInput = {
   categoryId: string;
   value: number;
+  locationId?: string | null;
   occurredAt?: string;
   notes?: string;
 };
@@ -29,9 +30,9 @@ export async function createQuickCountEntry(input: CreateQuickCountEntryInput): 
   );
 
   await db.runAsync(
-    `INSERT INTO entries (id, category_id, occurred_at, notes, created_at, updated_at)
-     VALUES (?, ?, ?, ?, ?, ?)`,
-    [entryId, input.categoryId, occurredAt, input.notes ?? null, now, now],
+    `INSERT INTO entries (id, category_id, occurred_at, notes, location_id, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [entryId, input.categoryId, occurredAt, input.notes ?? null, input.locationId ?? null, now, now],
   );
 
   await db.runAsync(
@@ -39,4 +40,15 @@ export async function createQuickCountEntry(input: CreateQuickCountEntryInput): 
      VALUES (?, ?, ?, NULL, NULL, ?, NULL, 'quickCount', ?, ?)`,
     [entryValueId, entryId, sectionId, input.value, now, now],
   );
+
+  if (input.locationId) {
+    await db.runAsync(
+      `UPDATE locations
+       SET entry_count = entry_count + 1,
+           last_used_at = ?,
+           updated_at = ?
+       WHERE id = ?`,
+      [occurredAt, now, input.locationId],
+    );
+  }
 }

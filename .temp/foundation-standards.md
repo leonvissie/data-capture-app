@@ -961,6 +961,26 @@ For `quickCount` categories:
 - capture flow must ask for value only and use the predefined category unit,
 - and unit/type must be locked once entries exist (name remains editable).
 
+## Entry Location Contract (Mandatory)
+
+Location must be implemented as a shared global foundation capability (not per-screen logic):
+- one entry maps to zero-or-one location (`entries.location_id` nullable),
+- locations are reusable global records,
+- location creation is deduplicated by normalized value (case-insensitive),
+- and selection UI defaults to `None`.
+
+Shared UI requirements:
+- use shared `EntryLocationField` and shared picker modal flow,
+- show up to 5 inline location pills plus `+` when more exist,
+- include `None` inline option and second-tap deselect behavior,
+- include add-location text input under pills (create-or-reuse without duplicate prompt),
+- include sort action in header row (same modal entry point as `+`).
+
+Sort requirements:
+- default sort: `recency`,
+- supported sorts: `recency`, `usage` (entry count), `A-Z`, `Z-A`,
+- persist location sort preference in `user_prefs`.
+
 Rules:
 - do not rename stored enum values without a migration plan,
 - keep UX copy aligned across create-category, filters, tutorials, cards, and capture flows,
