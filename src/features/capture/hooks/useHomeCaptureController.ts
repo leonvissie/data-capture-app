@@ -82,6 +82,13 @@ export function useHomeCaptureController() {
     setSort(prefs.homeCategorySort);
   }, []);
 
+  const clearFilters = useCallback(async () => {
+    const prefs = await updateUserPrefs({ homeCategoryFilter: 'all', homeCategorySort: 'recent' });
+    setFilter(prefs.homeCategoryFilter);
+    setSort(prefs.homeCategorySort);
+    setSearchQuery('');
+  }, []);
+
   const visibleCategories = useMemo(() => {
     const filtered = categories.filter((category) => matchesFilter(category, filter) && matchesSearch(category, searchQuery));
     return sortCategories(filtered, sort).map((category) => ({
@@ -98,6 +105,7 @@ export function useHomeCaptureController() {
     applyFilter,
     sort,
     applySort,
+    clearFilters,
     searchQuery,
     setSearchQuery,
     isFilterOpen,

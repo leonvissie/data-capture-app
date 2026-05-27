@@ -21,6 +21,12 @@ const LABEL_BY_ROUTE: Record<string, string> = {
   settings: 'Settings',
 };
 
+const ACTIVE_TONE_BY_ROUTE: Record<string, 'blue' | 'green'> = {
+  insights: 'blue',
+  home: 'green',
+  settings: 'blue',
+};
+
 type ExpoTabBarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0];
 
 export function AppTabBar({ state, descriptors, navigation }: ExpoTabBarProps) {
@@ -30,6 +36,7 @@ export function AppTabBar({ state, descriptors, navigation }: ExpoTabBarProps) {
   const tones = useTones();
   const m = componentMetrics.tabBar;
   const centerRouteName = 'home';
+  const inactiveColor = tones.grey.base;
 
   return (
     <View
@@ -75,6 +82,7 @@ export function AppTabBar({ state, descriptors, navigation }: ExpoTabBarProps) {
               : LABEL_BY_ROUTE[route.name] ?? route.name;
 
           const iconName = ICON_BY_ROUTE[route.name] ?? 'ellipse-outline';
+          const activeTone = tones[ACTIVE_TONE_BY_ROUTE[route.name] ?? 'grey'];
 
           const onPress = () => {
             const event = navigation.emit({
@@ -100,6 +108,8 @@ export function AppTabBar({ state, descriptors, navigation }: ExpoTabBarProps) {
           };
 
           if (isCenter) {
+            const centerTone = tones.green;
+            const centerInactiveTone = tones.grey;
             return (
               <View key={route.key} style={styles.centerWrap}>
                 <Pressable
@@ -115,15 +125,19 @@ export function AppTabBar({ state, descriptors, navigation }: ExpoTabBarProps) {
                       height: m.centerButtonSize,
                       borderRadius: m.centerButtonSize / 2,
                       marginTop: -m.centerButtonLift,
-                      backgroundColor: isFocused ? tones.teal.emphasis : tones.teal.base,
-                      borderColor: tones.teal.base,
+                      backgroundColor: isFocused ? centerTone.base : centerInactiveTone.base,
+                      borderColor: isFocused ? centerTone.base : centerInactiveTone.base,
                       opacity: pressed ? 0.85 : 1,
                     },
                   ]}
                 >
-                  <Ionicons name={iconName} size={m.centerIconSize} color={tones.teal.onBase} />
+                  <Ionicons
+                    name={iconName}
+                    size={m.centerIconSize}
+                    color={isFocused ? centerTone.onBase : centerInactiveTone.onBase}
+                  />
                 </Pressable>
-                <Text style={[styles.centerLabel, { color: isFocused ? tones.teal.base : palette.textMuted }]}>{label}</Text>
+                <Text style={[styles.centerLabel, { color: isFocused ? centerTone.base : inactiveColor }]}>{label}</Text>
               </View>
             );
           }
@@ -147,9 +161,9 @@ export function AppTabBar({ state, descriptors, navigation }: ExpoTabBarProps) {
               <Ionicons
                 name={iconName}
                 size={m.sideIconSize}
-                color={isFocused ? tones.teal.base : palette.textMuted}
+                color={isFocused ? activeTone.base : inactiveColor}
               />
-              <Text style={[styles.sideLabel, { color: isFocused ? tones.teal.base : palette.textMuted }]}>{label}</Text>
+              <Text style={[styles.sideLabel, { color: isFocused ? activeTone.base : inactiveColor }]}>{label}</Text>
             </Pressable>
           );
         })}

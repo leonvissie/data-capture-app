@@ -10,6 +10,7 @@ import {
   Button,
   DestructiveButton,
   PageHeader,
+  RoundIconButton,
   TextField,
 } from '@/foundation/components';
 import { spacing } from '@/foundation/theme';
@@ -30,6 +31,7 @@ export function TodayScreen() {
     applyFilter,
     sort,
     applySort,
+    clearFilters,
     searchQuery,
     setSearchQuery,
     isFilterOpen,
@@ -93,7 +95,7 @@ export function TodayScreen() {
       {!isLoading && hasAnyCategories && visibleCategories.length === 0 ? (
         <View style={styles.emptyFiltered}>
           <AppText>No categories match current filters.</AppText>
-          <Button label="Clear filters" onPress={() => { void applyFilter('all'); void applySort('recent'); setSearchQuery(''); }} variant="outline" tone="grey" size="sm" />
+          <Button label="Clear filters" onPress={() => void clearFilters()} variant="outline" tone="grey" size="sm" />
         </View>
       ) : null}
       {visibleCategories.map((category) => (
@@ -114,7 +116,12 @@ export function TodayScreen() {
         onPress={() => router.push('/categories/create')}
       />
 
-      <BottomSheet visible={isFilterOpen} title="Filter categories" onRequestClose={closeFilter}>
+      <BottomSheet
+        visible={isFilterOpen}
+        title="Filter categories"
+        onRequestClose={closeFilter}
+        headerRight={<RoundIconButton buttonType="close" accessibilityLabel="Close filters" onPress={closeFilter} />}
+      >
         <View style={styles.filterBody}>
           <TextField
             value={searchQuery}
@@ -137,7 +144,7 @@ export function TodayScreen() {
             <Button label="Name" onPress={() => void applySort('name')} variant={sort === 'name' ? 'solid' : 'outline'} tone="blue" size="sm" />
           </View>
 
-          <DestructiveButton label="Clear filters" onPress={() => { void applyFilter('all'); void applySort('recent'); setSearchQuery(''); }} size="sm" tone="warning" />
+          <DestructiveButton label="Clear filters" onPress={() => void clearFilters()} size="sm" tone="warning" />
         </View>
       </BottomSheet>
     </AppScrollScreen>
