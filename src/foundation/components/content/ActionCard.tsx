@@ -6,6 +6,8 @@ import { componentMetrics, type ToneKey } from '@/foundation/theme';
 
 import { AppText } from '../layout/AppText';
 import { Button } from '../buttons/Button';
+import { RoundIconButton } from '../buttons/RoundIconButton';
+import type { RoundIconButtonType } from '../buttons/roundIconButtonTypes';
 
 type ActionCardVariant = 'solid' | 'soft' | 'neutral';
 
@@ -25,6 +27,21 @@ type ActionCardProps = {
     variant?: 'solid' | 'outline' | 'ghost' | 'soft';
     size?: 'sm' | 'md' | 'lg';
   }>;
+  iconActions?: Array<{
+    id: string;
+    buttonType: RoundIconButtonType;
+    accessibilityLabel: string;
+    onPress: () => void;
+    size?: 'sm' | 'md' | 'lg';
+    tone?: ToneKey;
+    tokens?: {
+      background?: 'base' | 'emphasis' | 'onBase' | 'surface' | 'onSurface' | 'border';
+      pressedBackground?: 'base' | 'emphasis' | 'onBase' | 'surface' | 'onSurface' | 'border';
+      icon?: 'base' | 'emphasis' | 'onBase' | 'surface' | 'onSurface' | 'border';
+      border?: 'base' | 'emphasis' | 'onBase' | 'surface' | 'onSurface' | 'border';
+    };
+  }>;
+  actionHint?: string;
 };
 
 export function resolveActionCardColors(
@@ -70,6 +87,8 @@ export function ActionCard({
   accessibilityLabel,
   onPress,
   actions = [],
+  iconActions = [],
+  actionHint,
 }: ActionCardProps) {
   const palette = useSurfacePalette();
   const tones = useTones();
@@ -108,18 +127,36 @@ export function ActionCard({
           </AppText>
         ) : null}
       </View>
-      {actions.length > 0 ? (
+      {actions.length > 0 || iconActions.length > 0 || actionHint ? (
         <View style={[styles.actionsRow, { paddingTop: m.actionsTopPadding, gap: m.actionsGap }]}>
-          {actions.map((action) => (
-            <Button
-              key={action.id}
-              label={action.label}
-              onPress={action.onPress}
-              tone={action.tone ?? (variant === 'solid' ? 'grey' : 'blue')}
-              variant={action.variant ?? 'soft'}
-              size={action.size ?? 'sm'}
-            />
-          ))}
+          {actionHint ? (
+            <AppText variant="bodySmall" style={{ color: colors.subtitleColor }}>
+              {actionHint}
+            </AppText>
+          ) : null}
+          <View style={[styles.actionsGroup, { gap: m.actionsGap }]}>
+            {iconActions.map((action) => (
+              <RoundIconButton
+                key={action.id}
+                buttonType={action.buttonType}
+                accessibilityLabel={action.accessibilityLabel}
+                onPress={action.onPress}
+                size={action.size ?? 'sm'}
+                tone={action.tone}
+                tokens={action.tokens}
+              />
+            ))}
+            {actions.map((action) => (
+              <Button
+                key={action.id}
+                label={action.label}
+                onPress={action.onPress}
+                tone={action.tone ?? (variant === 'solid' ? 'grey' : 'blue')}
+                variant={action.variant ?? 'soft'}
+                size={action.size ?? 'sm'}
+              />
+            ))}
+          </View>
         </View>
       ) : null}
     </Pressable>
@@ -131,6 +168,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   actionsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  actionsGroup: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     flexWrap: 'wrap',

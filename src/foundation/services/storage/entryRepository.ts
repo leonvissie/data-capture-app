@@ -24,7 +24,7 @@ export async function createQuickCountEntry(input: CreateQuickCountEntryInput): 
 
   await db.runAsync(
     `INSERT OR IGNORE INTO sections (id, category_id, title, section_type, sort_order, created_at, updated_at)
-     VALUES (?, ?, 'Count', 'count', 0, ?, ?)`,
+     VALUES (?, ?, 'Measurement', 'count', 0, ?, ?)`,
     [sectionId, input.categoryId, now, now],
   );
 

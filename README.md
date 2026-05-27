@@ -16,3 +16,15 @@ Foundation-first Expo app for structured local-first tracking.
 - `npm run format`
 - `npm run typecheck`
 - `npm run test`
+
+## FSC Pre-Commit Checklist
+
+Before creating a commit/PR, confirm:
+
+- Shared components reused; no duplicated UI primitives
+- No local colour/spacing/font literals
+- Accessibility + dark mode verified
+- No direct DB/storage calls in screens
+- No unsafe debug logging (dev-only logging gated by `appConfig.features.showDevTools`)
+- Screen/header/modal scaffolding uses shared foundation patterns
+- `npm run lint`, `npm run typecheck`, and `npm run test` pass

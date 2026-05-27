@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   listCategories,
+  listCategoryEntryCounts,
   type CategoryRecord,
 } from '@/foundation/services/storage/categoryRepository';
 import {
@@ -11,12 +12,7 @@ import {
   type HomeCategoryFilter,
   type HomeCategorySort,
 } from '@/foundation/services/storage/userPrefsRepository';
-
-const typeLabelMap: Record<CategoryRecord['categoryType'], string> = {
-  quickCount: 'Count',
-  timedActivity: 'Time',
-  journal: 'Journal',
-};
+import { categoryTypeUiLabelByType } from '@/foundation/presentation/categoryTypeLabels';
 
 function matchesFilter(category: CategoryRecord, filter: HomeCategoryFilter) {
   if (filter === 'all') return true;
@@ -43,14 +39,16 @@ export function useHomeCaptureController() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [categories, setCategories] = useState<CategoryRecord[]>([]);
+  const [entryCountsByCategoryId, setEntryCountsByCategoryId] = useState<Record<string, number>>({});
 
   const refresh = useCallback(async () => {
     setIsLoading(true);
-    const [prefs, allCategories] = await Promise.all([getOrCreateUserPrefs(), listCategories()]);
+    const [prefs, allCategories, entryCounts] = await Promise.all([getOrCreateUserPrefs(), listCategories(), listCategoryEntryCounts()]);
     setShowTutorialCta(prefs.showHomeTutorialCta);
     setFilter(prefs.homeCategoryFilter);
     setSort(prefs.homeCategorySort);
     setCategories(allCategories);
+    setEntryCountsByCategoryId(entryCounts);
     setIsLoading(false);
   }, []);
 
@@ -93,9 +91,10 @@ export function useHomeCaptureController() {
     const filtered = categories.filter((category) => matchesFilter(category, filter) && matchesSearch(category, searchQuery));
     return sortCategories(filtered, sort).map((category) => ({
       ...category,
-      typeLabel: typeLabelMap[category.categoryType],
+      typeLabel: categoryTypeUiLabelByType[category.categoryType],
+      entryCount: entryCountsByCategoryId[category.id] ?? 0,
     }));
-  }, [categories, filter, searchQuery, sort]);
+  }, [categories, entryCountsByCategoryId, filter, searchQuery, sort]);
 
   return {
     isLoading,

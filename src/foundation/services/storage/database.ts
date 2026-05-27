@@ -113,6 +113,14 @@ const migrations: Migration[] = [
       `);
     },
   },
+  {
+    version: 4,
+    apply: async (db) => {
+      await db.execAsync(`
+        ALTER TABLE categories ADD COLUMN measurement_unit TEXT NOT NULL DEFAULT '';
+      `);
+    },
+  },
 ];
 
 let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;

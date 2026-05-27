@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSurfacePalette } from '@/foundation/hooks/useThemeMode';
 import { useTones } from '@/foundation/hooks/useTones';
 import { componentMetrics } from '@/foundation/theme/components';
+import { spacing } from '@/foundation/theme/spacing';
 import { typography } from '@/foundation/theme/typography';
 
 const ICON_BY_ROUTE: Record<string, keyof typeof Ionicons.glyphMap> = {
@@ -60,7 +61,7 @@ export function AppTabBar({ state, descriptors, navigation }: ExpoTabBarProps) {
             paddingVertical: m.verticalPadding,
             backgroundColor: palette.card,
             borderColor: palette.border,
-            shadowColor: '#000000',
+            shadowColor: palette.text,
             shadowOpacity: m.shadowOpacity,
             shadowRadius: m.shadowRadius,
             shadowOffset: { width: m.shadowOffsetWidth, height: m.shadowOffsetHeight },
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
   sideItem: {
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 4,
+    gap: spacing.xs,
   },
   sideLabel: {
     ...typography.bodySmall,
@@ -205,6 +206,6 @@ const styles = StyleSheet.create({
   centerLabel: {
     ...typography.bodySmall,
     fontWeight: '700',
-    marginTop: 4,
+    marginTop: spacing.xs,
   },
 });

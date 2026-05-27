@@ -2,11 +2,14 @@ import type { ValidationIssue } from '@/foundation/validation/types';
 
 export type CreateCategoryValidationInput = {
   name: string;
+  categoryType: 'quickCount' | 'timedActivity' | 'journal';
+  measurementUnit: string;
 };
 
 // Same field can emit warning or blocking depending on threshold.
 export function validateCreateCategory(input: CreateCategoryValidationInput): ValidationIssue[] {
   const name = input.name.trim();
+  const measurementUnit = input.measurementUnit.trim();
   const issues: ValidationIssue[] = [];
 
   if (!name) {
@@ -47,6 +50,16 @@ export function validateCreateCategory(input: CreateCategoryValidationInput): Va
       anchor: 'categoryName',
       severity: 'blocking',
       message: 'Category name must be 80 characters or fewer.',
+    });
+  }
+
+  if (input.categoryType === 'quickCount' && !measurementUnit) {
+    issues.push({
+      key: 'measurement_unit_required',
+      fieldId: 'measurementUnit',
+      anchor: 'measurementUnit',
+      severity: 'blocking',
+      message: 'Unit is required for Measure categories.',
     });
   }
 

@@ -14,8 +14,8 @@ export function CaptureTutorialScreen() {
       />
 
       <ActionCard
-        title="Count capture"
-        subtitle="Track simple counts with quick taps and daily totals."
+        title="Measurement capture"
+        subtitle="Track single-value entries like counts and numeric readings."
         tone="teal"
         variant="soft"
         onPress={() => router.back()}

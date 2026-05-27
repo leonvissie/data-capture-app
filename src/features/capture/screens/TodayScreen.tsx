@@ -13,6 +13,8 @@ import {
   RoundIconButton,
   TextField,
 } from '@/foundation/components';
+import { confirmDialog } from '@/foundation/services/dialogs/dialogService';
+import { deleteCategoryById } from '@/foundation/services/storage/categoryRepository';
 import { spacing } from '@/foundation/theme';
 import { useHomeCaptureController } from '@/features/capture/hooks/useHomeCaptureController';
 import {
@@ -55,6 +57,22 @@ export function TodayScreen() {
     );
   };
 
+  const editCategory = (categoryId: string) => {
+    router.push({ pathname: '/categories/create', params: { categoryId } });
+  };
+
+  const deleteCategory = async (categoryId: string) => {
+    const confirmed = await confirmDialog({
+      title: 'Delete category?',
+      message: 'This will delete the category and all captured entries linked to it.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+    });
+    if (!confirmed) return;
+    await deleteCategoryById(categoryId);
+    await refresh();
+  };
+
   useFocusEffect(
     useCallback(() => {
       void refresh();
@@ -72,7 +90,7 @@ export function TodayScreen() {
       {showTutorialCta ? (
         <ActionCard
           title="Tutorials"
-          subtitle="Learn count, time, and journal capture flows."
+          subtitle="Learn measurement, time, and journal capture flows."
           tone="grey"
           variant="solid"
           onPress={() => router.push('/tutorials/capture')}
@@ -102,10 +120,43 @@ export function TodayScreen() {
         <ActionCard
           key={category.id}
           title={category.name}
-          subtitle={`${category.typeLabel} · Open capture wizard`}
+          subtitle={`${category.typeLabel} · ${category.entryCount} ${category.entryCount === 1 ? 'entry' : 'entries'}`}
+          actionHint="Tap to add entry"
           tone={resolveCaptureCategoryCardTone(category.categoryType)}
           variant={resolveCaptureCategoryCardVariant(hasAnyCategories)}
           onPress={() => router.push(`/capture/${category.id}`)}
+          iconActions={[
+            {
+              id: `${category.id}-edit`,
+              buttonType: 'edit',
+              accessibilityLabel: `Edit category ${category.name}`,
+              onPress: () => editCategory(category.id),
+              size: 'md',
+              tone: resolveCaptureCategoryCardTone(category.categoryType),
+              tokens: {
+                background: 'surface',
+                pressedBackground: 'border',
+                border: 'base',
+                icon: 'base',
+              },
+            },
+            {
+              id: `${category.id}-delete`,
+              buttonType: 'delete',
+              accessibilityLabel: `Delete category ${category.name}`,
+              onPress: () => {
+                void deleteCategory(category.id);
+              },
+              size: 'md',
+              tone: resolveCaptureCategoryCardTone(category.categoryType),
+              tokens: {
+                background: 'surface',
+                pressedBackground: 'border',
+                border: 'base',
+                icon: 'base',
+              },
+            },
+          ]}
         />
       ))}
       <ActionCard
@@ -133,7 +184,7 @@ export function TodayScreen() {
           <AppText variant="bodyStrong">Filter by type</AppText>
           <View style={styles.row}>
             <Button label="All" onPress={() => void applyFilter('all')} variant={filter === 'all' ? 'solid' : 'outline'} tone="teal" size="sm" />
-            <Button label="Count" onPress={() => void applyFilter('quickCount')} variant={filter === 'quickCount' ? 'solid' : 'outline'} tone="teal" size="sm" />
+            <Button label="Measure" onPress={() => void applyFilter('quickCount')} variant={filter === 'quickCount' ? 'solid' : 'outline'} tone="teal" size="sm" />
             <Button label="Time" onPress={() => void applyFilter('timedActivity')} variant={filter === 'timedActivity' ? 'solid' : 'outline'} tone="teal" size="sm" />
             <Button label="Journal" onPress={() => void applyFilter('journal')} variant={filter === 'journal' ? 'solid' : 'outline'} tone="teal" size="sm" />
           </View>

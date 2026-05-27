@@ -944,6 +944,28 @@ Persist Home display controls in `user_prefs`:
 
 These fields must be migration-safe and defaulted for backward compatibility.
 
+## Category Type Semantics (Mandatory)
+
+Category type enums are storage contracts and must remain stable in v1:
+- `quickCount`
+- `timedActivity`
+- `journal`
+
+User-facing labels may evolve, but meaning must be explicit and consistent:
+- `quickCount` = single-value measurement capture (for example counts or numeric readings),
+- `timedActivity` = duration/time capture,
+- `journal` = multi-field or narrative capture.
+
+For `quickCount` categories:
+- unit must be defined at category setup (for example `mm`, `inch`, `mmHg`, `C`, `F`),
+- capture flow must ask for value only and use the predefined category unit,
+- and unit/type must be locked once entries exist (name remains editable).
+
+Rules:
+- do not rename stored enum values without a migration plan,
+- keep UX copy aligned across create-category, filters, tutorials, cards, and capture flows,
+- and document enum-to-label mapping in one shared foundation resolver/map.
+
 ## Category Tone Mapping (Mandatory)
 
 Category types must use shared, stable tone mapping so colour intent remains consistent across:

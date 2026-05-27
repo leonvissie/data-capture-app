@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
-import { AppScrollScreen, AppText, Button, InlineNotice, PageHeader, PrimaryButton, TextField, ValidationSummaryCard } from '@/foundation/components';
+import { AppScrollScreen, AppText, Button, InlineNotice, PageHeader, TextField, ValidationSummaryCard } from '@/foundation/components';
 import { getCategoryById, type CategoryRecord } from '@/foundation/services/storage/categoryRepository';
 import { createQuickCountEntry } from '@/foundation/services/storage/entryRepository';
 import { useValidationAnchors } from '@/foundation/validation/useValidationAnchors';
@@ -13,8 +13,8 @@ import { spacing } from '@/foundation/theme';
 function getWizardCopy(category: CategoryRecord) {
   if (category.categoryType === 'quickCount') {
     return {
-      title: 'Count capture',
-      detail: 'Count capture flow will be implemented next for this category.',
+      title: 'Measurement capture',
+      detail: 'Single-value measurement capture flow will be implemented next for this category.',
     };
   }
   if (category.categoryType === 'timedActivity') {
@@ -75,7 +75,7 @@ export function CaptureWizardScreen() {
       next.push({
         key: 'count_required',
         severity: 'blocking',
-        message: 'Count is required.',
+        message: 'Value is required.',
         fieldId: 'countValue',
         anchor: 'countValue',
       });
@@ -86,7 +86,7 @@ export function CaptureWizardScreen() {
       next.push({
         key: 'count_invalid',
         severity: 'blocking',
-        message: 'Count must be greater than zero.',
+        message: 'Value must be greater than zero.',
         fieldId: 'countValue',
         anchor: 'countValue',
       });
@@ -122,7 +122,7 @@ export function CaptureWizardScreen() {
       });
       router.replace('/(tabs)/home');
     } catch {
-      setSaveError('Unable to save count entry. Please try again.');
+      setSaveError('Unable to save measurement entry. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -131,8 +131,7 @@ export function CaptureWizardScreen() {
   return (
     <AppScrollScreen>
       <PageHeader
-        title="Capture wizard"
-        subtitle={category ? category.name : 'Category'}
+        title={category ? category.name : 'Capture'}
         leftAction={{ buttonType: 'back', accessibilityLabel: 'Go back', onPress: () => router.back() }}
       />
 
@@ -143,14 +142,14 @@ export function CaptureWizardScreen() {
           <AppText variant="sectionTitle">{copy.title}</AppText>
           <AppText>{copy.detail}</AppText>
           {category.categoryType === 'quickCount' ? (
-            <View style={{ gap: spacing.md }}>
+            <View style={styles.form}>
               <TextField
                 ref={countRef}
                 value={countValue}
-                onChangeText={(value) => setCountValue(value.replace(/[^\d]/g, ''))}
-                placeholder="Count value"
-                accessibilityLabel="Count value"
-                keyboardType="number-pad"
+                onChangeText={(value) => setCountValue(value.replace(/[^\d.]/g, ''))}
+                placeholder={category.measurementUnit ? `Value (${category.measurementUnit})` : 'Value'}
+                accessibilityLabel={category.measurementUnit ? `Measurement value in ${category.measurementUnit}` : 'Measurement value'}
+                keyboardType="decimal-pad"
               />
               {saveError ? <InlineNotice message={saveError} /> : null}
               {blockingIssues.length > 0 ? (
@@ -171,7 +170,14 @@ export function CaptureWizardScreen() {
                   secondaryActionLabel="Continue anyway"
                 />
               ) : null}
-              <PrimaryButton label={isSaving ? 'Saving...' : 'Save count entry'} onPress={() => void saveQuickCount(false)} disabled={isSaving} />
+              <Button
+                label={isSaving ? 'Saving...' : 'Save measurement entry'}
+                onPress={() => void saveQuickCount(false)}
+                disabled={isSaving}
+                variant="solid"
+                tone="green"
+                size="lg"
+              />
             </View>
           ) : (
             <Button label="Back to Capture" onPress={() => router.back()} variant="outline" tone="grey" />
@@ -181,3 +187,9 @@ export function CaptureWizardScreen() {
     </AppScrollScreen>
   );
 }
+
+const styles = StyleSheet.create({
+  form: {
+    gap: spacing.md,
+  },
+});
