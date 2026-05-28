@@ -22,7 +22,7 @@ export function createValidationGate(issues: ValidationIssue[], policy: Validati
     };
   }
 
-  if (warnings.length > 0 && policy.allowContinueOnWarnings) {
+  if (warnings.length > 0 && !policy.allowContinueOnWarnings) {
     return {
       kind: 'continue_with_warnings',
       issues,
