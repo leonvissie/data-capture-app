@@ -11,6 +11,7 @@ import type { ValidationIssue } from '@/foundation/validation/types';
 
 import { CaptureDateTimeRow } from './CaptureDateTimeRow';
 import { CaptureValidationFeedback } from './CaptureValidationFeedback';
+import { DurationTimerDisplay } from './DurationTimerDisplay';
 
 type FieldValidationState = 'default' | 'warning' | 'blocking';
 
@@ -25,6 +26,8 @@ type TimeCaptureFlowProps = {
   dateRef: RefObject<TextInput | null>;
   timeRef: RefObject<TextInput | null>;
   selectedLocationId: string | null;
+  isNoneLocationSelected: boolean;
+  onNoneLocationSelectedChange: (value: boolean) => void;
   onSelectedLocationChange: (value: string | null) => void;
   locationController: EntryLocationController;
   locationRef: RefObject<TextInput | null>;
@@ -51,6 +54,8 @@ export function TimeCaptureFlow({
   dateRef,
   timeRef,
   selectedLocationId,
+  isNoneLocationSelected,
+  onNoneLocationSelectedChange,
   onSelectedLocationChange,
   locationController,
   locationRef,
@@ -97,6 +102,8 @@ export function TimeCaptureFlow({
 
       <EntryLocationField
         selectedLocationId={selectedLocationId}
+        isNoneSelected={isNoneLocationSelected}
+        onNoneSelectedChange={onNoneLocationSelectedChange}
         onSelectedLocationChange={onSelectedLocationChange}
         controller={locationController}
         locationInputRef={locationRef}
@@ -106,6 +113,10 @@ export function TimeCaptureFlow({
         dividerSpacing="none"
         dividerSpacingBottom="md"
       />
+
+      {isTimeEndMode && activeTimeEntry ? (
+        <DurationTimerDisplay startedAtIso={activeTimeEntry.startedAt} />
+      ) : null}
 
       {saveError ? <InlineNotice message={saveError} /> : null}
 

@@ -1,4 +1,4 @@
-import { applyDateMask, applyTimeMask, buildOccurredAtIso } from '../../src/foundation/lib/dateTime';
+import { applyDateMask, applyTimeMask, buildOccurredAtIso, validateEntryDateTimeNotFuture } from '../../src/foundation/lib/dateTime';
 
 describe('entry date/time helpers', () => {
   test('applies date mask dd/mm/yyyy', () => {
@@ -12,11 +12,17 @@ describe('entry date/time helpers', () => {
     expect(applyTimeMask('1234')).toBe('12:34');
   });
 
-  test('rejects future datetime', () => {
+  test('buildOccurredAtIso parses a future datetime', () => {
     const nextYear = new Date().getFullYear() + 1;
     const result = buildOccurredAtIso(`01/01/${nextYear}`, '00:00');
-    expect(result.iso).toBeNull();
-    expect(result.error).toBe('Date and time must be now or earlier.');
+    expect(result.iso).not.toBeNull();
+    expect(result.error).toBeNull();
+  });
+
+  test('validateEntryDateTimeNotFuture rejects future datetime', () => {
+    const nextYear = new Date().getFullYear() + 1;
+    const result = validateEntryDateTimeNotFuture(`01/01/${nextYear}`, '00:00');
+    expect(result.error).toBe('Date must be today or earlier.');
+    expect(result.fieldId).toBe('entryDate');
   });
 });
-

@@ -5,8 +5,6 @@ import { formatDateForEntryInput, formatTimeForEntryInput } from '@/foundation/l
 export function useEntryDateTimeDefaults() {
   const [entryDate, setEntryDate] = useState('');
   const [entryTime, setEntryTime] = useState('');
-  const [didClearDateDefault, setDidClearDateDefault] = useState(false);
-  const [didClearTimeDefault, setDidClearTimeDefault] = useState(false);
 
   useEffect(() => {
     const now = new Date();
@@ -14,26 +12,20 @@ export function useEntryDateTimeDefaults() {
     setEntryTime(formatTimeForEntryInput(now));
   }, []);
 
-  const clearDateDefaultOnFirstFocus = useCallback(() => {
-    if (!didClearDateDefault) {
-      setEntryDate('');
-      setDidClearDateDefault(true);
-    }
-  }, [didClearDateDefault]);
+  const clearDateOnFocus = useCallback(() => {
+    setEntryDate('');
+  }, []);
 
-  const clearTimeDefaultOnFirstFocus = useCallback(() => {
-    if (!didClearTimeDefault) {
-      setEntryTime('');
-      setDidClearTimeDefault(true);
-    }
-  }, [didClearTimeDefault]);
+  const clearTimeOnFocus = useCallback(() => {
+    setEntryTime('');
+  }, []);
 
   return {
     entryDate,
     setEntryDate,
     entryTime,
     setEntryTime,
-    clearDateDefaultOnFirstFocus,
-    clearTimeDefaultOnFirstFocus,
+    clearDateOnFocus,
+    clearTimeOnFocus,
   };
 }

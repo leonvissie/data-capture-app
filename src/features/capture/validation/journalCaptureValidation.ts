@@ -1,4 +1,4 @@
-import { buildOccurredAtIso } from '@/foundation/lib/dateTime';
+import { buildOccurredAtIso, validateEntryDateTimeNotFuture } from '@/foundation/lib/dateTime';
 import type { ValidationIssue } from '@/foundation/validation/types';
 import type { JournalSectionDraft } from '@/features/categories/types/journal';
 
@@ -30,6 +30,17 @@ export function validateJournalCapture(input: ValidateJournalCaptureInput): Vali
       message: occurredAt.error ?? 'Date and time are invalid.',
       fieldId: 'entryDate',
       anchor: 'entryDate',
+    });
+    return issues;
+  }
+  const futureValidation = validateEntryDateTimeNotFuture(input.entryDate, input.entryTime);
+  if (futureValidation.error) {
+    issues.push({
+      key: 'entry_datetime_future',
+      severity: 'blocking',
+      message: futureValidation.error,
+      fieldId: futureValidation.fieldId ?? 'entryDate',
+      anchor: futureValidation.fieldId ?? 'entryDate',
     });
     return issues;
   }

@@ -26,6 +26,8 @@ type MeasureCaptureFlowProps = {
   dateRef: RefObject<TextInput | null>;
   timeRef: RefObject<TextInput | null>;
   selectedLocationId: string | null;
+  isNoneLocationSelected: boolean;
+  onNoneLocationSelectedChange: (value: boolean) => void;
   onSelectedLocationChange: (value: string | null) => void;
   locationController: EntryLocationController;
   locationRef: RefObject<TextInput | null>;
@@ -55,6 +57,8 @@ export function MeasureCaptureFlow({
   dateRef,
   timeRef,
   selectedLocationId,
+  isNoneLocationSelected,
+  onNoneLocationSelectedChange,
   onSelectedLocationChange,
   locationController,
   locationRef,
@@ -101,6 +105,8 @@ export function MeasureCaptureFlow({
 
       <EntryLocationField
         selectedLocationId={selectedLocationId}
+        isNoneSelected={isNoneLocationSelected}
+        onNoneSelectedChange={onNoneLocationSelectedChange}
         onSelectedLocationChange={onSelectedLocationChange}
         controller={locationController}
         locationInputRef={locationRef}

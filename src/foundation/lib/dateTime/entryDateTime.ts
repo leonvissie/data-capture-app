@@ -55,8 +55,26 @@ export function buildOccurredAtIso(dateInput: string, timeInput: string): { iso:
     date.getMinutes() === minutes;
 
   if (!isValidDate) return { iso: null, error: 'Date is invalid.' };
-  if (date.getTime() > Date.now()) return { iso: null, error: 'Date and time must be now or earlier.' };
-
   return { iso: date.toISOString(), error: null };
 }
 
+export function validateEntryDateTimeNotFuture(dateInput: string, timeInput: string): { error: string | null; fieldId: 'entryDate' | 'entryTime' | null } {
+  const occurredAt = buildOccurredAtIso(dateInput, timeInput);
+  if (!occurredAt.iso) return { error: occurredAt.error ?? 'Date and time are invalid.', fieldId: 'entryDate' };
+
+  const now = new Date();
+  const entry = new Date(occurredAt.iso);
+
+  const entryDateOnly = new Date(entry.getFullYear(), entry.getMonth(), entry.getDate()).getTime();
+  const nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+  if (entryDateOnly > nowDateOnly) {
+    return { error: 'Date must be today or earlier.', fieldId: 'entryDate' };
+  }
+
+  if (entryDateOnly === nowDateOnly && entry.getTime() > now.getTime()) {
+    return { error: 'Time must be now or earlier.', fieldId: 'entryTime' };
+  }
+
+  return { error: null, fieldId: null };
+}

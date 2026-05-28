@@ -1,4 +1,4 @@
-import { buildOccurredAtIso } from '@/foundation/lib/dateTime';
+import { buildOccurredAtIso, validateEntryDateTimeNotFuture } from '@/foundation/lib/dateTime';
 import type { ValidationIssue } from '@/foundation/validation/types';
 
 type ValidateQuickCountCaptureInput = {
@@ -23,6 +23,17 @@ export function validateQuickCountCapture(input: ValidateQuickCountCaptureInput)
   }
   if (occurredAtResult.error) {
     next.push({ key: 'entry_datetime_invalid', severity: 'blocking', message: occurredAtResult.error, fieldId: 'entryDate', anchor: 'entryDate' });
+    return next;
+  }
+  const futureValidation = validateEntryDateTimeNotFuture(input.entryDate, input.entryTime);
+  if (futureValidation.error) {
+    next.push({
+      key: 'entry_datetime_future',
+      severity: 'blocking',
+      message: futureValidation.error,
+      fieldId: futureValidation.fieldId ?? 'entryDate',
+      anchor: futureValidation.fieldId ?? 'entryDate',
+    });
     return next;
   }
 

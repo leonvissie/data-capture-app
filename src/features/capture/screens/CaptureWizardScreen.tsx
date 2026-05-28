@@ -39,7 +39,8 @@ export function CaptureWizardScreen() {
   const [countValue, setCountValue] = useState('');
   const [journalValuesBySectionId, setJournalValuesBySectionId] = useState<Record<string, string | string[]>>({});
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
-  const { entryDate, setEntryDate, entryTime, setEntryTime, clearDateDefaultOnFirstFocus, clearTimeDefaultOnFirstFocus } =
+  const [isNoneLocationSelected, setIsNoneLocationSelected] = useState(false);
+  const { entryDate, setEntryDate, entryTime, setEntryTime, clearDateOnFocus, clearTimeOnFocus } =
     useEntryDateTimeDefaults();
 
   const scrollRef = useRef<ScrollView>(null);
@@ -70,6 +71,7 @@ export function CaptureWizardScreen() {
     entryDate,
     entryTime,
     selectedLocationId,
+    isNoneLocationSelected,
     journalValuesBySectionId,
     draftLocationName: locationController.draftLocationName,
     validateDraftLocationName: locationController.validateDraftLocationName,
@@ -136,15 +138,20 @@ export function CaptureWizardScreen() {
                 if (saveError) setSaveError(null);
               }}
               onDateFocus={() => {
-                clearDateDefaultOnFirstFocus();
+                clearDateOnFocus();
               }}
               onTimeFocus={() => {
-                clearTimeDefaultOnFirstFocus();
+                clearTimeOnFocus();
               }}
               dateRef={dateRef}
               timeRef={timeRef}
               selectedLocationId={selectedLocationId}
-              onSelectedLocationChange={setSelectedLocationId}
+              isNoneLocationSelected={isNoneLocationSelected}
+              onNoneLocationSelectedChange={setIsNoneLocationSelected}
+              onSelectedLocationChange={(value) => {
+                if (value !== null) setIsNoneLocationSelected(false);
+                setSelectedLocationId(value);
+              }}
               locationController={locationController}
               locationRef={locationRef}
               saveError={saveError}
@@ -172,15 +179,20 @@ export function CaptureWizardScreen() {
                 if (saveError) setSaveError(null);
               }}
               onDateFocus={() => {
-                clearDateDefaultOnFirstFocus();
+                clearDateOnFocus();
               }}
               onTimeFocus={() => {
-                clearTimeDefaultOnFirstFocus();
+                clearTimeOnFocus();
               }}
               dateRef={dateRef}
               timeRef={timeRef}
               selectedLocationId={selectedLocationId}
-              onSelectedLocationChange={setSelectedLocationId}
+              isNoneLocationSelected={isNoneLocationSelected}
+              onNoneLocationSelectedChange={setIsNoneLocationSelected}
+              onSelectedLocationChange={(value) => {
+                if (value !== null) setIsNoneLocationSelected(false);
+                setSelectedLocationId(value);
+              }}
               locationController={locationController}
               locationRef={locationRef}
               saveError={saveError}
@@ -213,15 +225,20 @@ export function CaptureWizardScreen() {
                 if (saveError) setSaveError(null);
               }}
               onDateFocus={() => {
-                clearDateDefaultOnFirstFocus();
+                clearDateOnFocus();
               }}
               onTimeFocus={() => {
-                clearTimeDefaultOnFirstFocus();
+                clearTimeOnFocus();
               }}
               dateRef={dateRef}
               timeRef={timeRef}
               selectedLocationId={selectedLocationId}
-              onSelectedLocationChange={setSelectedLocationId}
+              isNoneLocationSelected={isNoneLocationSelected}
+              onNoneLocationSelectedChange={setIsNoneLocationSelected}
+              onSelectedLocationChange={(value) => {
+                if (value !== null) setIsNoneLocationSelected(false);
+                setSelectedLocationId(value);
+              }}
               locationController={locationController}
               locationRef={locationRef}
               saveError={saveError}

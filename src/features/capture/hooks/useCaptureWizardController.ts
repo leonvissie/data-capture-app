@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-
 import { getDraftLocationValidationError } from '@/foundation/hooks/useEntryLocationController';
+import { buildOccurredAtIso } from '@/foundation/lib/dateTime';
 import { confirmDialog } from '@/foundation/services/dialogs/dialogService';
 import type { ActiveTimeEntry } from '@/foundation/services/storage/timeCaptureRepository';
 import { submitWithValidation } from '@/foundation/validation/submitWithValidation';
@@ -19,6 +19,7 @@ type UseCaptureWizardControllerInput = {
   entryDate: string;
   entryTime: string;
   selectedLocationId: string | null;
+  isNoneLocationSelected: boolean;
   draftLocationName: string;
   validateDraftLocationName: () => string | null;
   addOrReuseLocation: () => Promise<{ id: string } | null>;
@@ -30,6 +31,23 @@ type UseCaptureWizardControllerInput = {
 };
 
 export function useCaptureWizardController(input: UseCaptureWizardControllerInput) {
+  const {
+    categoryId,
+    countValue,
+    entryDate,
+    entryTime,
+    selectedLocationId,
+    isNoneLocationSelected,
+    draftLocationName,
+    validateDraftLocationName,
+    addOrReuseLocation,
+    locationError,
+    journalValuesBySectionId,
+    focusAnchor,
+    onSaved,
+    setSelectedLocationId,
+  } = input;
+
   const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState<{
     id: string;
@@ -43,10 +61,22 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
+  const getLocationValidationError = useCallback(
+    (mode: 'peek' | 'submit'): string | null => {
+      const hasSelectedLocation = Boolean(selectedLocationId) || isNoneLocationSelected;
+      const hasDraftLocation = draftLocationName.trim().length > 0;
+      if (!hasSelectedLocation && !hasDraftLocation) {
+        return 'Location is required. Select a location or add a new one.';
+      }
+      return mode === 'submit' ? validateDraftLocationName() : getDraftLocationValidationError(draftLocationName);
+    },
+    [selectedLocationId, isNoneLocationSelected, draftLocationName, validateDraftLocationName],
+  );
+
   useEffect(() => {
     let cancelled = false;
     void (async () => {
-      const loaded = await loadCaptureWizardCategory(input.categoryId);
+      const loaded = await loadCaptureWizardCategory(categoryId);
       if (cancelled) return;
       setCategory(loaded.category);
       setActiveTimeEntry(loaded.activeTimeEntry);
@@ -56,49 +86,46 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
     return () => {
       cancelled = true;
     };
-  }, [input.categoryId]);
+  }, [categoryId]);
 
   const validateQuickCount = useCallback(
     (mode: 'peek' | 'submit' = 'submit'): ValidationIssue[] => {
-      const locationValidationError =
-        mode === 'submit' ? input.validateDraftLocationName() : getDraftLocationValidationError(input.draftLocationName);
+      const locationValidationError = getLocationValidationError(mode);
       return validateQuickCountCapture({
-        countValue: input.countValue,
-        entryDate: input.entryDate,
-        entryTime: input.entryTime,
+        countValue,
+        entryDate,
+        entryTime,
         locationValidationError,
       });
     },
-    [input],
+    [countValue, entryDate, entryTime, getLocationValidationError],
   );
 
   const validateTimedActivity = useCallback(
     (mode: 'peek' | 'submit' = 'submit'): ValidationIssue[] => {
-      const locationValidationError =
-        mode === 'submit' ? input.validateDraftLocationName() : getDraftLocationValidationError(input.draftLocationName);
+      const locationValidationError = getLocationValidationError(mode);
       return validateTimedActivityCapture({
-        entryDate: input.entryDate,
-        entryTime: input.entryTime,
+        entryDate,
+        entryTime,
         activeStartIso: activeTimeEntry?.startedAt ?? null,
         locationValidationError,
       });
     },
-    [input, activeTimeEntry?.startedAt],
+    [entryDate, entryTime, getLocationValidationError, activeTimeEntry?.startedAt],
   );
 
   const validateJournal = useCallback(
     (mode: 'peek' | 'submit' = 'submit'): ValidationIssue[] => {
-      const locationValidationError =
-        mode === 'submit' ? input.validateDraftLocationName() : getDraftLocationValidationError(input.draftLocationName);
+      const locationValidationError = getLocationValidationError(mode);
       return validateJournalCapture({
-        entryDate: input.entryDate,
-        entryTime: input.entryTime,
+        entryDate,
+        entryTime,
         sections: journalSections,
-        valuesBySectionId: input.journalValuesBySectionId,
+        valuesBySectionId: journalValuesBySectionId,
         locationValidationError,
       });
     },
-    [input, journalSections],
+    [entryDate, entryTime, getLocationValidationError, journalSections, journalValuesBySectionId],
   );
 
   const validateForCategoryType = useCallback(
@@ -122,21 +149,21 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
 
   const prepareLocationForSave = useCallback(async () => {
     let locationIdForSave = input.selectedLocationId;
-    if (input.draftLocationName.trim()) {
-      const createdOrReused = await input.addOrReuseLocation();
-      if (!createdOrReused) throw new Error(input.locationError ?? 'Location is invalid.');
+    if (draftLocationName.trim()) {
+      const createdOrReused = await addOrReuseLocation();
+      if (!createdOrReused) throw new Error(locationError ?? 'Location is invalid.');
       locationIdForSave = createdOrReused.id;
-      input.setSelectedLocationId(createdOrReused.id);
+      setSelectedLocationId(createdOrReused.id);
     }
     return locationIdForSave;
-  }, [input]);
+  }, [selectedLocationId, draftLocationName, addOrReuseLocation, locationError, setSelectedLocationId]);
 
   const saveQuickCount = useCallback(async () => {
     if (!category || category.categoryType !== 'quickCount' || isSaving) return;
     await submitWithValidation({
       issues: validateQuickCount(),
       setIssues,
-      focusAnchor: input.focusAnchor,
+      focusAnchor,
       requestWarningConfirm,
       onProceed: async () => {
         setSaveError(null);
@@ -145,12 +172,12 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
           const locationId = await prepareLocationForSave();
           await saveQuickCountCapture({
             categoryId: category.id,
-            countValue: input.countValue,
-            entryDate: input.entryDate,
-            entryTime: input.entryTime,
+            countValue,
+            entryDate,
+            entryTime,
             locationId,
           });
-          input.onSaved();
+          onSaved();
         } catch (error) {
           if (error instanceof Error && error.message) {
             setSaveError(error.message);
@@ -162,28 +189,34 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
         }
       },
     });
-  }, [category, isSaving, validateQuickCount, input, requestWarningConfirm, prepareLocationForSave]);
+  }, [category, isSaving, validateQuickCount, focusAnchor, requestWarningConfirm, prepareLocationForSave, countValue, entryDate, entryTime, onSaved]);
 
   const saveTimedActivity = useCallback(async () => {
     if (!category || category.categoryType !== 'timedActivity' || isSaving) return;
     await submitWithValidation({
       issues: validateTimedActivity(),
       setIssues,
-      focusAnchor: input.focusAnchor,
+      focusAnchor,
       requestWarningConfirm,
       onProceed: async () => {
         setSaveError(null);
         setIsSaving(true);
         try {
           const locationId = await prepareLocationForSave();
+          const occurredAt = buildOccurredAtIso(entryDate, entryTime);
+          if (!occurredAt.iso) {
+            setSaveError(occurredAt.error ?? 'Date and time are invalid.');
+            return;
+          }
+
           await saveTimedActivityCapture({
             categoryId: category.id,
-            entryDate: input.entryDate,
-            entryTime: input.entryTime,
+            entryDate,
+            entryTime,
             locationId,
             activeTimeEntry,
           });
-          input.onSaved();
+          onSaved();
         } catch (error) {
           if (error instanceof Error && error.message) {
             setSaveError(error.message);
@@ -195,14 +228,14 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
         }
       },
     });
-  }, [category, isSaving, validateTimedActivity, input, requestWarningConfirm, prepareLocationForSave, activeTimeEntry]);
+  }, [category, isSaving, validateTimedActivity, focusAnchor, requestWarningConfirm, prepareLocationForSave, activeTimeEntry, entryDate, entryTime, onSaved]);
 
   const saveJournal = useCallback(async () => {
     if (!category || category.categoryType !== 'journal' || isSaving) return;
     await submitWithValidation({
       issues: validateJournal(),
       setIssues,
-      focusAnchor: input.focusAnchor,
+      focusAnchor,
       requestWarningConfirm,
       onProceed: async () => {
         setSaveError(null);
@@ -211,13 +244,13 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
           const locationId = await prepareLocationForSave();
           await saveJournalCapture({
             categoryId: category.id,
-            entryDate: input.entryDate,
-            entryTime: input.entryTime,
+            entryDate,
+            entryTime,
             locationId,
             sections: journalSections,
-            valuesBySectionId: input.journalValuesBySectionId,
+            valuesBySectionId: journalValuesBySectionId,
           });
-          input.onSaved();
+          onSaved();
         } catch (error) {
           if (error instanceof Error && error.message) {
             setSaveError(error.message);
@@ -229,7 +262,7 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
         }
       },
     });
-  }, [category, isSaving, validateJournal, input, requestWarningConfirm, prepareLocationForSave, journalSections]);
+  }, [category, isSaving, validateJournal, focusAnchor, requestWarningConfirm, prepareLocationForSave, journalSections, journalValuesBySectionId, entryDate, entryTime, onSaved]);
 
   const isReadyToSubmit = useMemo(() => {
     if (!category) return false;
@@ -238,8 +271,23 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
 
   useEffect(() => {
     if (!category || issues.length === 0) return;
-    setIssues(validateForCategoryType(category.categoryType, 'peek'));
-  }, [issues.length, category, validateForCategoryType]);
+    const next = validateForCategoryType(category.categoryType, 'peek');
+    const same =
+      next.length === issues.length &&
+      next.every((issue, index) => {
+        const current = issues[index];
+        return (
+          current?.key === issue.key &&
+          current?.severity === issue.severity &&
+          current?.message === issue.message &&
+          current?.fieldId === issue.fieldId &&
+          current?.anchor === issue.anchor
+        );
+      });
+    if (!same) {
+      setIssues(next);
+    }
+  }, [issues, category, validateForCategoryType]);
 
   return {
     isLoading,

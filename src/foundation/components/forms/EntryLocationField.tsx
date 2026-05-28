@@ -21,6 +21,8 @@ const SORT_LABELS: Record<LocationSort, string> = {
 
 type EntryLocationFieldProps = {
   selectedLocationId: string | null;
+  isNoneSelected: boolean;
+  onNoneSelectedChange: (next: boolean) => void;
   onSelectedLocationChange: (next: string | null) => void;
   controller: EntryLocationController;
   locationInputRef?: RefObject<TextInput | null>;
@@ -33,6 +35,8 @@ type EntryLocationFieldProps = {
 
 export function EntryLocationField({
   selectedLocationId,
+  isNoneSelected,
+  onNoneSelectedChange,
   onSelectedLocationChange,
   controller,
   locationInputRef,
@@ -60,15 +64,22 @@ export function EntryLocationField({
       <View style={styles.pillsRow}>
         <Button
           label="None"
-          onPress={() => onSelectedLocationChange(null)}
+          onPress={() => {
+            const next = !isNoneSelected;
+            onNoneSelectedChange(next);
+            if (next) onSelectedLocationChange(null);
+          }}
           size="sm"
-          variant={selectedLocationId === null ? 'solid' : 'outline'}
+          variant={isNoneSelected ? 'solid' : 'outline'}
           tone="teal"
         />
         {selectedLocation && !selectedInInline ? (
           <Button
             label={selectedLocation.name}
-            onPress={() => onSelectedLocationChange(selectedLocationId === selectedLocation.id ? null : selectedLocation.id)}
+            onPress={() => {
+              onNoneSelectedChange(false);
+              onSelectedLocationChange(selectedLocationId === selectedLocation.id ? null : selectedLocation.id);
+            }}
             size="sm"
             variant={selectedLocationId === selectedLocation.id ? 'solid' : 'outline'}
             tone="teal"
@@ -78,7 +89,10 @@ export function EntryLocationField({
           <Button
             key={location.id}
             label={location.name}
-            onPress={() => onSelectedLocationChange(selectedLocationId === location.id ? null : location.id)}
+            onPress={() => {
+              onNoneSelectedChange(false);
+              onSelectedLocationChange(selectedLocationId === location.id ? null : location.id);
+            }}
             size="sm"
             variant={selectedLocationId === location.id ? 'solid' : 'outline'}
             tone="teal"
@@ -124,21 +138,12 @@ export function EntryLocationField({
             accessibilityLabel="Search locations"
           />
           <ScrollView contentContainerStyle={styles.locationList}>
-            <Button
-              label="None"
-              onPress={() => {
-                onSelectedLocationChange(null);
-                controller.closePicker();
-              }}
-              size="sm"
-              variant={selectedLocationId === null ? 'solid' : 'outline'}
-              tone="teal"
-            />
             {controller.filteredLocations.map((location) => (
               <Button
                 key={location.id}
                 label={location.name}
                 onPress={() => {
+                  onNoneSelectedChange(false);
                   onSelectedLocationChange(selectedLocationId === location.id ? null : location.id);
                   controller.closePicker();
                 }}
