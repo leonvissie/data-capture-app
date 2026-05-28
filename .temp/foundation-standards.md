@@ -563,6 +563,11 @@ Shared anchor/focus helpers must be used to:
 - focus the first invalid field where possible,
 - otherwise scroll to the first actionable section anchor.
 
+Field reveal rules:
+- register field layout positions via shared validation reveal helpers,
+- scroll the first invalid field into view before focus,
+- and do not implement route-level custom scroll math for validation.
+
 ## Shared Validation UI
 
 Warning/blocker summaries must use shared foundation components (for example a shared validation summary/warning card), not ad hoc per-screen alert formatting.

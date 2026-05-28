@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from '@/foundation/components/buttons/Button';
 import { Card } from '@/foundation/components/content/Card';
 import { AppText } from '@/foundation/components/layout/AppText';
+import { useTones } from '@/foundation/hooks/useTones';
 import { spacing } from '@/foundation/theme';
 import type { ValidationIssue } from '@/foundation/validation/types';
 
@@ -24,9 +25,10 @@ export function ValidationSummaryCard({
   secondaryActionLabel = 'Continue',
 }: ValidationSummaryCardProps) {
   if (!issues.length) return null;
+  const orange = useTones().orange;
 
   return (
-    <Card>
+    <Card style={{ borderColor: orange.border }}>
       <AppText variant="cardTitle">{title}</AppText>
       <View style={styles.list}>
         {issues.map((issue) => (

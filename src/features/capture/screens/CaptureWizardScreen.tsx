@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import { AppScrollScreen, AppText, Button, EntryLocationField, InlineNotice, PageHeader, TextField, ValidationSummaryCard } from '@/foundation/components';
 import { applyDateMask, applyTimeMask, buildOccurredAtIso, formatDateForEntryInput, formatTimeForEntryInput } from '@/foundation/lib/dateTime';
-import { useEntryLocationController } from '@/foundation/hooks/useEntryLocationController';
+import { getDraftLocationValidationError, useEntryLocationController } from '@/foundation/hooks/useEntryLocationController';
+import { confirmDialog } from '@/foundation/services/dialogs/dialogService';
 import { getCategoryById, type CategoryRecord } from '@/foundation/services/storage/categoryRepository';
 import { createQuickCountEntry } from '@/foundation/services/storage/entryRepository';
-import { useValidationAnchors } from '@/foundation/validation/useValidationAnchors';
-import { createValidationGate } from '@/foundation/validation/createValidationGate';
+import { useValidationReveal } from '@/foundation/validation/useValidationReveal';
+import { submitWithValidation } from '@/foundation/validation/submitWithValidation';
 import type { ValidationIssue } from '@/foundation/validation/types';
 import { spacing } from '@/foundation/theme';
 
@@ -47,15 +48,18 @@ export function CaptureWizardScreen() {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [issues, setIssues] = useState<ValidationIssue[]>([]);
+  const scrollRef = useRef<ScrollView>(null);
   const countRef = useRef<TextInput>(null);
   const dateRef = useRef<TextInput>(null);
   const timeRef = useRef<TextInput>(null);
-  const { registerAnchor, focusAnchor } = useValidationAnchors();
+  const locationRef = useRef<TextInput>(null);
+  const { registerAnchor, registerFieldLayout, focusAnchor } = useValidationReveal(scrollRef);
   const locationController = useEntryLocationController();
 
   useEffect(() => registerAnchor('countValue', () => countRef.current?.focus()), [registerAnchor]);
   useEffect(() => registerAnchor('entryDate', () => dateRef.current?.focus()), [registerAnchor]);
   useEffect(() => registerAnchor('entryTime', () => timeRef.current?.focus()), [registerAnchor]);
+  useEffect(() => registerAnchor('location', () => locationRef.current?.focus()), [registerAnchor]);
 
   useEffect(() => {
     let cancelled = false;
@@ -86,8 +90,20 @@ export function CaptureWizardScreen() {
   }, [category]);
   const warningIssues = issues.filter((issue) => issue.severity === 'warning');
   const blockingIssues = issues.filter((issue) => issue.severity === 'blocking');
+  const fieldStateById = useMemo(() => {
+    const map: Record<string, 'default' | 'warning' | 'blocking'> = {};
+    for (const issue of issues) {
+      if (!issue.fieldId) continue;
+      if (issue.severity === 'blocking') {
+        map[issue.fieldId] = 'blocking';
+      } else if (map[issue.fieldId] !== 'blocking') {
+        map[issue.fieldId] = 'warning';
+      }
+    }
+    return map;
+  }, [issues]);
 
-  const validateQuickCount = (): ValidationIssue[] => {
+  const validateQuickCount = (mode: 'peek' | 'submit' = 'submit'): ValidationIssue[] => {
     const trimmed = countValue.trim();
     const next: ValidationIssue[] = [];
     const occurredAtResult = buildOccurredAtIso(entryDate, entryTime);
@@ -125,7 +141,10 @@ export function CaptureWizardScreen() {
       return next;
     }
 
-    const locationValidationError = locationController.validateDraftLocationName();
+    const locationValidationError =
+      mode === 'submit'
+        ? locationController.validateDraftLocationName()
+        : getDraftLocationValidationError(locationController.draftLocationName);
     if (locationValidationError) {
       next.push({
         key: 'location_invalid',
@@ -151,7 +170,7 @@ export function CaptureWizardScreen() {
     if (!Number.isFinite(value) || value <= 0) {
       next.push({
         key: 'count_invalid',
-        severity: 'blocking',
+        severity: 'warning',
         message: 'Value must be greater than zero.',
         fieldId: 'countValue',
         anchor: 'countValue',
@@ -170,49 +189,69 @@ export function CaptureWizardScreen() {
     return next;
   };
 
-  const saveQuickCount = async (allowWarningContinue: boolean) => {
+  const saveQuickCount = async () => {
     if (!category || category.categoryType !== 'quickCount' || isSaving) return;
     const nextIssues = validateQuickCount();
-    setIssues(nextIssues);
-    const gate = createValidationGate(nextIssues, { allowContinueOnWarnings: allowWarningContinue });
-    if (gate.kind !== 'proceed') {
-      focusAnchor(gate.firstAnchor ?? gate.firstFieldId);
-      return;
-    }
-    setSaveError(null);
-    setIsSaving(true);
-    try {
-      const occurredAtResult = buildOccurredAtIso(entryDate, entryTime);
-      if (!occurredAtResult.iso) {
-        setSaveError(occurredAtResult.error ?? 'Date and time are invalid.');
-        return;
-      }
-      let locationIdForSave = selectedLocationId;
-      if (locationController.draftLocationName.trim()) {
-        const createdOrReused = await locationController.addOrReuseLocation();
-        if (!createdOrReused) {
-          setSaveError(locationController.error ?? 'Location is invalid.');
-          return;
+    await submitWithValidation({
+      issues: nextIssues,
+      setIssues,
+      focusAnchor,
+      requestWarningConfirm: async (warningMessages) =>
+        confirmDialog({
+          title: 'Review warnings before saving',
+          message: 'Please review these warnings before continuing.',
+          warningItems: warningMessages,
+          confirmText: 'Continue anyway',
+          cancelText: 'Review fields',
+        }),
+      onProceed: async () => {
+        setSaveError(null);
+        setIsSaving(true);
+        try {
+          const occurredAtResult = buildOccurredAtIso(entryDate, entryTime);
+          if (!occurredAtResult.iso) {
+            setSaveError(occurredAtResult.error ?? 'Date and time are invalid.');
+            return;
+          }
+          let locationIdForSave = selectedLocationId;
+          if (locationController.draftLocationName.trim()) {
+            const createdOrReused = await locationController.addOrReuseLocation();
+            if (!createdOrReused) {
+              setSaveError(locationController.error ?? 'Location is invalid.');
+              return;
+            }
+            locationIdForSave = createdOrReused.id;
+            setSelectedLocationId(createdOrReused.id);
+          }
+          await createQuickCountEntry({
+            categoryId: category.id,
+            value: Number(countValue.trim()),
+            locationId: locationIdForSave,
+            occurredAt: occurredAtResult.iso,
+          });
+          router.replace('/(tabs)/home');
+        } catch {
+          setSaveError('Unable to save measurement entry. Please try again.');
+        } finally {
+          setIsSaving(false);
         }
-        locationIdForSave = createdOrReused.id;
-        setSelectedLocationId(createdOrReused.id);
-      }
-      await createQuickCountEntry({
-        categoryId: category.id,
-        value: Number(countValue.trim()),
-        locationId: locationIdForSave,
-        occurredAt: occurredAtResult.iso,
-      });
-      router.replace('/(tabs)/home');
-    } catch {
-      setSaveError('Unable to save measurement entry. Please try again.');
-    } finally {
-      setIsSaving(false);
-    }
+      },
+    });
   };
 
+  const isReadyToSubmit = useMemo(
+    () => validateQuickCount('peek').every((issue) => issue.severity !== 'blocking'),
+    [countValue, entryDate, entryTime, locationController.draftLocationName],
+  );
+
+  useEffect(() => {
+    if (issues.length === 0) return;
+    const nextIssues = validateQuickCount('peek');
+    setIssues(nextIssues);
+  }, [issues.length, countValue, entryDate, entryTime, locationController.draftLocationName]);
+
   return (
-    <AppScrollScreen>
+    <AppScrollScreen scrollRef={scrollRef}>
       <PageHeader
         title={headerTitle}
         leftAction={{ buttonType: 'back', accessibilityLabel: 'Go back', onPress: () => router.back() }}
@@ -230,6 +269,8 @@ export function CaptureWizardScreen() {
                 <View style={styles.halfField}>
                   <TextField
                     ref={dateRef}
+                    validationState={fieldStateById.entryDate ?? 'default'}
+                    onLayout={registerFieldLayout('entryDate')}
                     value={entryDate}
                     onFocus={() => {
                       if (!didClearDateDefault) {
@@ -246,6 +287,8 @@ export function CaptureWizardScreen() {
                 <View style={styles.halfField}>
                   <TextField
                     ref={timeRef}
+                    validationState={fieldStateById.entryTime ?? 'default'}
+                    onLayout={registerFieldLayout('entryTime')}
                     value={entryTime}
                     onFocus={() => {
                       if (!didClearTimeDefault) {
@@ -262,6 +305,8 @@ export function CaptureWizardScreen() {
               </View>
               <TextField
                 ref={countRef}
+                validationState={fieldStateById.countValue ?? 'default'}
+                onLayout={registerFieldLayout('countValue')}
                 value={countValue}
                 onChangeText={(value) => setCountValue(value.replace(/[^\d.]/g, ''))}
                 placeholder={category.measurementUnit ? `Value (${category.measurementUnit})` : 'Value'}
@@ -272,6 +317,9 @@ export function CaptureWizardScreen() {
                 selectedLocationId={selectedLocationId}
                 onSelectedLocationChange={setSelectedLocationId}
                 controller={locationController}
+                locationInputRef={locationRef}
+                validationState={fieldStateById.location ?? 'default'}
+                onLayout={registerFieldLayout('location')}
               />
               {saveError ? <InlineNotice message={saveError} /> : null}
               {blockingIssues.length > 0 ? (
@@ -288,16 +336,14 @@ export function CaptureWizardScreen() {
                   issues={warningIssues}
                   onPrimaryAction={() => focusAnchor(warningIssues[0]?.anchor ?? warningIssues[0]?.fieldId)}
                   primaryActionLabel="Review"
-                  onSecondaryAction={() => void saveQuickCount(true)}
-                  secondaryActionLabel="Continue anyway"
                 />
               ) : null}
               <Button
                 label={isSaving ? 'Saving...' : 'Save measurement entry'}
-                onPress={() => void saveQuickCount(false)}
-                disabled={isSaving}
+                onPress={() => void saveQuickCount()}
+                disabled={isSaving || isLoading}
                 variant="solid"
-                tone="green"
+                tone={isReadyToSubmit ? 'green' : 'grey'}
                 size="lg"
               />
             </View>

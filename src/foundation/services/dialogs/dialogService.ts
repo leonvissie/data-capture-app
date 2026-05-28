@@ -3,6 +3,7 @@ export type ConfirmDialogRequest = {
   message: string;
   confirmText?: string;
   cancelText?: string;
+  warningItems?: string[];
 };
 
 type ConfirmDialogHandler = (request: ConfirmDialogRequest) => Promise<boolean>;

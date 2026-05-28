@@ -12,6 +12,15 @@ import { getOrCreateUserPrefs, updateUserPrefs } from '@/foundation/services/sto
 const INLINE_LIMIT = 5;
 export const LOCATION_MAX_LENGTH = 60;
 
+export function getDraftLocationValidationError(draftLocationName: string): string | null {
+  const normalized = normalizeLocationName(draftLocationName);
+  if (!normalized) return null;
+  if (normalized.length > LOCATION_MAX_LENGTH) {
+    return `Location must be ${LOCATION_MAX_LENGTH} characters or fewer.`;
+  }
+  return null;
+}
+
 export function useEntryLocationController() {
   const [allLocations, setAllLocations] = useState<LocationRecord[]>([]);
   const [sort, setSort] = useState<LocationSort>('recency');
@@ -55,8 +64,9 @@ export function useEntryLocationController() {
     setError(null);
     const normalized = normalizeLocationName(draftLocationName);
     if (!normalized) return null;
-    if (normalized.length > LOCATION_MAX_LENGTH) {
-      setError(`Location must be ${LOCATION_MAX_LENGTH} characters or fewer.`);
+    const draftError = getDraftLocationValidationError(draftLocationName);
+    if (draftError) {
+      setError(draftError);
       return null;
     }
     const location = await createOrReuseLocation(draftLocationName);
@@ -66,10 +76,8 @@ export function useEntryLocationController() {
   }, [draftLocationName, refresh]);
 
   const validateDraftLocationName = useCallback((): string | null => {
-    const normalized = normalizeLocationName(draftLocationName);
-    if (!normalized) return null;
-    if (normalized.length > LOCATION_MAX_LENGTH) {
-      const message = `Location must be ${LOCATION_MAX_LENGTH} characters or fewer.`;
+    const message = getDraftLocationValidationError(draftLocationName);
+    if (message) {
       setError(message);
       return message;
     }

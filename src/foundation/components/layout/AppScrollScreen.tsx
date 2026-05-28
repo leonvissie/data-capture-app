@@ -1,13 +1,19 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, RefObject } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
 import { AppScreen } from './AppScreen';
 import { spacing } from '@/foundation/theme';
 
-export function AppScrollScreen({ children }: PropsWithChildren) {
+type AppScrollScreenProps = PropsWithChildren<{
+  scrollRef?: RefObject<ScrollView | null>;
+}>;
+
+export function AppScrollScreen({ children, scrollRef }: AppScrollScreenProps) {
   return (
     <AppScreen>
-      <ScrollView contentContainerStyle={styles.content}>{children}</ScrollView>
+      <ScrollView ref={scrollRef} contentContainerStyle={styles.content}>
+        {children}
+      </ScrollView>
     </AppScreen>
   );
 }

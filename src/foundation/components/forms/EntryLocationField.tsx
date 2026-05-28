@@ -1,4 +1,5 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { RefObject } from 'react';
+import { LayoutChangeEvent, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 
 import type { EntryLocationController } from '@/foundation/hooks/useEntryLocationController';
 import type { LocationSort } from '@/foundation/services/storage/locationRepository';
@@ -21,9 +22,19 @@ type EntryLocationFieldProps = {
   selectedLocationId: string | null;
   onSelectedLocationChange: (next: string | null) => void;
   controller: EntryLocationController;
+  locationInputRef?: RefObject<TextInput | null>;
+  validationState?: 'default' | 'warning' | 'blocking';
+  onLayout?: (event: LayoutChangeEvent) => void;
 };
 
-export function EntryLocationField({ selectedLocationId, onSelectedLocationChange, controller }: EntryLocationFieldProps) {
+export function EntryLocationField({
+  selectedLocationId,
+  onSelectedLocationChange,
+  controller,
+  locationInputRef,
+  validationState = 'default',
+  onLayout,
+}: EntryLocationFieldProps) {
   const selectedLocation = selectedLocationId
     ? controller.allLocations.find((location) => location.id === selectedLocationId) ?? null
     : null;
@@ -32,7 +43,7 @@ export function EntryLocationField({ selectedLocationId, onSelectedLocationChang
     : false;
 
   return (
-    <View style={styles.wrap}>
+    <View style={styles.wrap} onLayout={onLayout}>
       <View style={styles.headerRow}>
         <AppText variant="bodyStrong">Location</AppText>
         <Button label={`Sort: ${SORT_LABELS[controller.sort]}`} onPress={controller.openPicker} size="sm" variant="soft" tone="blue" />
@@ -72,11 +83,13 @@ export function EntryLocationField({ selectedLocationId, onSelectedLocationChang
 
       <View style={styles.addRow}>
         <TextField
+          ref={locationInputRef}
           value={controller.draftLocationName}
           onChangeText={controller.setDraftLocationName}
           placeholder="Add location (saved when entry is saved)"
           accessibilityLabel="Add location"
           autoCapitalize="words"
+          validationState={validationState}
         />
       </View>
 

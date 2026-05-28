@@ -39,6 +39,7 @@ export function DialogProvider({ children }: PropsWithChildren) {
           message={pendingConfirm.message}
           confirmText={pendingConfirm.confirmText}
           cancelText={pendingConfirm.cancelText}
+          warningItems={pendingConfirm.warningItems}
           onConfirm={() => {
             resolveCurrent(true);
           }}
