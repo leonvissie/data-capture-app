@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   createOrReuseLocation,
@@ -28,21 +28,25 @@ export function useEntryLocationController() {
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const [draftLocationName, setDraftLocationName] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const requestSequenceRef = useRef(0);
+  const hydratedRef = useRef(false);
 
   const refresh = useCallback(async (nextSort?: LocationSort) => {
     const activeSort = nextSort ?? sort;
-    const [prefs, locations] = await Promise.all([getOrCreateUserPrefs(), listLocations(activeSort)]);
-    const prefsSort = prefs.locationSortPreference;
-    if (!nextSort && prefsSort !== sort) {
-      setSort(prefsSort);
-      setAllLocations(await listLocations(prefsSort));
-      return;
-    }
+    const requestId = ++requestSequenceRef.current;
+    const locations = await listLocations(activeSort);
+    if (requestId !== requestSequenceRef.current) return;
     setAllLocations(locations);
   }, [sort]);
 
   useEffect(() => {
-    void refresh();
+    if (hydratedRef.current) return;
+    hydratedRef.current = true;
+    void (async () => {
+      const prefs = await getOrCreateUserPrefs();
+      setSort(prefs.locationSortPreference);
+      await refresh(prefs.locationSortPreference);
+    })();
   }, [refresh]);
 
   const hasMoreThanInlineLimit = allLocations.length > INLINE_LIMIT;
@@ -56,8 +60,8 @@ export function useEntryLocationController() {
 
   const setSortPreference = useCallback(async (nextSort: LocationSort) => {
     setSort(nextSort);
-    await updateUserPrefs({ locationSortPreference: nextSort });
     await refresh(nextSort);
+    void updateUserPrefs({ locationSortPreference: nextSort });
   }, [refresh]);
 
   const addOrReuseLocation = useCallback(async (): Promise<LocationRecord | null> => {

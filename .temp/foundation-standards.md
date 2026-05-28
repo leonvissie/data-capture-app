@@ -577,6 +577,28 @@ Rules:
 - provide clear actionable copy,
 - keep warning vs blocker treatments visually distinct.
 
+## Warning Confirmation Submit Flow (Mandatory)
+
+Warning-only validation states must not silently proceed to save.
+
+All form save/finalise actions must use shared submit orchestration that enforces:
+- `blocked`: do not save; reveal/focus first actionable blocking field,
+- `continue_with_warnings`: show shared warning confirmation dialog,
+- `proceed`: execute save.
+
+Warning confirmation dialog requirements:
+- include summary title/message,
+- include warning items list when warnings exist,
+- expose explicit actions equivalent to:
+  - `Continue anyway`
+  - `Review fields`
+
+If user selects review/cancel in warning confirmation:
+- do not save,
+- reveal/focus first warning anchor/field.
+
+Screens must not implement warning-confirm save logic ad hoc; use shared foundation helper/service contracts.
+
 ## Implementation Structure
 
 Validation logic must live in feature validation modules (`features/*/validation/*`) and return shared `ValidationIssue[]`.
@@ -985,6 +1007,12 @@ Sort requirements:
 - default sort: `recency`,
 - supported sorts: `recency`, `usage` (entry count), `A-Z`, `Z-A`,
 - persist location sort preference in `user_prefs`.
+
+Interactive sort stability requirements:
+- sorted interactive lists must use UI-first selection state (local state updates immediately on tap),
+- async list refreshes must be race-safe (request sequencing/token or equivalent),
+- stale async responses must be discarded and must not overwrite newer UI state,
+- and persisted preference hydration must not re-apply mid-interaction in a way that causes selection flicker.
 
 Rules:
 - do not rename stored enum values without a migration plan,
