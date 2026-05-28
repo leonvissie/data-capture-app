@@ -994,6 +994,14 @@ For `quickCount` categories:
 - capture flow must ask for value only and use the predefined category unit,
 - and unit/type must be locked once entries exist (name remains editable).
 
+For `timedActivity` categories:
+- capture must follow a single active interval model (`start` then `end`),
+- only one open interval per category is allowed at a time,
+- start/end points must be stored via `entry_values.action_type` using:
+  - `durationStart`
+  - `durationEnd`
+- end must be later than start and must pass shared date/time validation rules.
+
 ## Entry Location Contract (Mandatory)
 
 Location must be implemented as a shared global foundation capability (not per-screen logic):

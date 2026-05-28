@@ -3,14 +3,16 @@ import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import { AppScrollScreen, AppText, Button, EntryLocationField, InlineNotice, PageHeader, TextField, ValidationSummaryCard } from '@/foundation/components';
-import { applyDateMask, applyTimeMask, buildOccurredAtIso, formatDateForEntryInput, formatTimeForEntryInput } from '@/foundation/lib/dateTime';
+import { applyDateMask, applyTimeMask, buildOccurredAtIso, formatDateForEntryInput, formatIsoForDisplay, formatTimeForEntryInput } from '@/foundation/lib/dateTime';
 import { getDraftLocationValidationError, useEntryLocationController } from '@/foundation/hooks/useEntryLocationController';
 import { confirmDialog } from '@/foundation/services/dialogs/dialogService';
 import { getCategoryById, type CategoryRecord } from '@/foundation/services/storage/categoryRepository';
 import { createQuickCountEntry } from '@/foundation/services/storage/entryRepository';
+import { endTimeEntry, getActiveTimeEntry, type ActiveTimeEntry, startTimeEntry } from '@/foundation/services/storage/timeCaptureRepository';
 import { useValidationReveal } from '@/foundation/validation/useValidationReveal';
 import { submitWithValidation } from '@/foundation/validation/submitWithValidation';
 import type { ValidationIssue } from '@/foundation/validation/types';
+import { validateTimeCapture } from '@/features/capture/validation/timeCaptureValidation';
 import { spacing } from '@/foundation/theme';
 
 function getWizardCopy(category: CategoryRecord) {
@@ -23,7 +25,7 @@ function getWizardCopy(category: CategoryRecord) {
   if (category.categoryType === 'timedActivity') {
     return {
       title: 'Time capture',
-      detail: 'Time capture flow will be implemented next for this category.',
+      detail: 'Track start and end times as a single interval.',
     };
   }
   return {
@@ -48,6 +50,7 @@ export function CaptureWizardScreen() {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [issues, setIssues] = useState<ValidationIssue[]>([]);
+  const [activeTimeEntry, setActiveTimeEntry] = useState<ActiveTimeEntry | null>(null);
   const scrollRef = useRef<ScrollView>(null);
   const countRef = useRef<TextInput>(null);
   const dateRef = useRef<TextInput>(null);
@@ -72,6 +75,12 @@ export function CaptureWizardScreen() {
       const next = await getCategoryById(categoryId);
       if (!cancelled) {
         setCategory(next);
+        if (next?.categoryType === 'timedActivity') {
+          const active = await getActiveTimeEntry(next.id);
+          if (!cancelled) setActiveTimeEntry(active);
+        } else if (!cancelled) {
+          setActiveTimeEntry(null);
+        }
         setIsLoading(false);
       }
     })();
@@ -90,6 +99,7 @@ export function CaptureWizardScreen() {
   }, [category]);
   const warningIssues = issues.filter((issue) => issue.severity === 'warning');
   const blockingIssues = issues.filter((issue) => issue.severity === 'blocking');
+  const isTimeEndMode = Boolean(category?.categoryType === 'timedActivity' && activeTimeEntry);
   const fieldStateById = useMemo(() => {
     const map: Record<string, 'default' | 'warning' | 'blocking'> = {};
     for (const issue of issues) {
@@ -189,6 +199,52 @@ export function CaptureWizardScreen() {
     return next;
   };
 
+  const validateTimedActivity = (mode: 'peek' | 'submit' = 'submit'): ValidationIssue[] => {
+    const next = validateTimeCapture({
+      entryDate,
+      entryTime,
+      activeStartIso: activeTimeEntry?.startedAt ?? null,
+    });
+    const locationValidationError =
+      mode === 'submit'
+        ? locationController.validateDraftLocationName()
+        : getDraftLocationValidationError(locationController.draftLocationName);
+    if (locationValidationError) {
+      return [
+        {
+          key: 'location_invalid',
+          severity: 'blocking',
+          message: locationValidationError,
+          fieldId: 'location',
+          anchor: 'location',
+        },
+      ];
+    }
+    return next;
+  };
+
+  const requestWarningConfirm = async (warningMessages: string[]) =>
+    confirmDialog({
+      title: 'Review warnings before saving',
+      message: 'Please review these warnings before continuing.',
+      warningItems: warningMessages,
+      confirmText: 'Continue anyway',
+      cancelText: 'Review fields',
+    });
+
+  const prepareLocationForSave = async (fallbackLocationId: string | null): Promise<string | null> => {
+    let locationIdForSave = fallbackLocationId;
+    if (locationController.draftLocationName.trim()) {
+      const createdOrReused = await locationController.addOrReuseLocation();
+      if (!createdOrReused) {
+        throw new Error(locationController.error ?? 'Location is invalid.');
+      }
+      locationIdForSave = createdOrReused.id;
+      setSelectedLocationId(createdOrReused.id);
+    }
+    return locationIdForSave;
+  };
+
   const saveQuickCount = async () => {
     if (!category || category.categoryType !== 'quickCount' || isSaving) return;
     const nextIssues = validateQuickCount();
@@ -196,14 +252,7 @@ export function CaptureWizardScreen() {
       issues: nextIssues,
       setIssues,
       focusAnchor,
-      requestWarningConfirm: async (warningMessages) =>
-        confirmDialog({
-          title: 'Review warnings before saving',
-          message: 'Please review these warnings before continuing.',
-          warningItems: warningMessages,
-          confirmText: 'Continue anyway',
-          cancelText: 'Review fields',
-        }),
+      requestWarningConfirm,
       onProceed: async () => {
         setSaveError(null);
         setIsSaving(true);
@@ -213,16 +262,7 @@ export function CaptureWizardScreen() {
             setSaveError(occurredAtResult.error ?? 'Date and time are invalid.');
             return;
           }
-          let locationIdForSave = selectedLocationId;
-          if (locationController.draftLocationName.trim()) {
-            const createdOrReused = await locationController.addOrReuseLocation();
-            if (!createdOrReused) {
-              setSaveError(locationController.error ?? 'Location is invalid.');
-              return;
-            }
-            locationIdForSave = createdOrReused.id;
-            setSelectedLocationId(createdOrReused.id);
-          }
+          const locationIdForSave = await prepareLocationForSave(selectedLocationId);
           await createQuickCountEntry({
             categoryId: category.id,
             value: Number(countValue.trim()),
@@ -230,7 +270,11 @@ export function CaptureWizardScreen() {
             occurredAt: occurredAtResult.iso,
           });
           router.replace('/(tabs)/home');
-        } catch {
+        } catch (error) {
+          if (error instanceof Error && error.message) {
+            setSaveError(error.message);
+            return;
+          }
           setSaveError('Unable to save measurement entry. Please try again.');
         } finally {
           setIsSaving(false);
@@ -239,16 +283,65 @@ export function CaptureWizardScreen() {
     });
   };
 
-  const isReadyToSubmit = useMemo(
-    () => validateQuickCount('peek').every((issue) => issue.severity !== 'blocking'),
-    [countValue, entryDate, entryTime, locationController.draftLocationName],
-  );
+  const saveTimedActivity = async () => {
+    if (!category || category.categoryType !== 'timedActivity' || isSaving) return;
+    const nextIssues = validateTimedActivity();
+    await submitWithValidation({
+      issues: nextIssues,
+      setIssues,
+      focusAnchor,
+      requestWarningConfirm,
+      onProceed: async () => {
+        setSaveError(null);
+        setIsSaving(true);
+        try {
+          const occurredAtResult = buildOccurredAtIso(entryDate, entryTime);
+          if (!occurredAtResult.iso) {
+            setSaveError(occurredAtResult.error ?? 'Date and time are invalid.');
+            return;
+          }
+          const locationIdForSave = await prepareLocationForSave(selectedLocationId);
+
+          if (activeTimeEntry) {
+            await endTimeEntry({
+              entryId: activeTimeEntry.entryId,
+              endedAt: occurredAtResult.iso,
+              locationId: locationIdForSave,
+            });
+          } else {
+            await startTimeEntry({
+              categoryId: category.id,
+              startedAt: occurredAtResult.iso,
+              locationId: locationIdForSave,
+            });
+          }
+          router.replace('/(tabs)/home');
+        } catch (error) {
+          if (error instanceof Error && error.message) {
+            setSaveError(error.message);
+            return;
+          }
+          setSaveError('Unable to save time entry. Please try again.');
+        } finally {
+          setIsSaving(false);
+        }
+      },
+    });
+  };
+
+  const isReadyToSubmit = useMemo(() => {
+    if (category?.categoryType === 'timedActivity') {
+      return validateTimedActivity('peek').every((issue) => issue.severity !== 'blocking');
+    }
+    return validateQuickCount('peek').every((issue) => issue.severity !== 'blocking');
+  }, [category?.categoryType, countValue, entryDate, entryTime, locationController.draftLocationName, activeTimeEntry?.startedAt]);
 
   useEffect(() => {
     if (issues.length === 0) return;
-    const nextIssues = validateQuickCount('peek');
+    const nextIssues =
+      category?.categoryType === 'timedActivity' ? validateTimedActivity('peek') : validateQuickCount('peek');
     setIssues(nextIssues);
-  }, [issues.length, countValue, entryDate, entryTime, locationController.draftLocationName]);
+  }, [issues.length, category?.categoryType, countValue, entryDate, entryTime, locationController.draftLocationName, activeTimeEntry?.startedAt]);
 
   return (
     <AppScrollScreen scrollRef={scrollRef}>
@@ -344,6 +437,91 @@ export function CaptureWizardScreen() {
               <Button
                 label={isSaving ? 'Saving...' : 'Save measurement entry'}
                 onPress={() => void saveQuickCount()}
+                disabled={isSaving || isLoading}
+                variant="solid"
+                tone={isReadyToSubmit ? 'green' : 'grey'}
+                size="lg"
+              />
+            </View>
+          ) : category.categoryType === 'timedActivity' ? (
+            <View style={styles.form}>
+              <InlineNotice
+                tone="pink"
+                message={
+                  isTimeEndMode && activeTimeEntry
+                    ? `End time for interval started at ${formatIsoForDisplay(activeTimeEntry.startedAt)}.`
+                    : 'Start a new time interval for this category.'
+                }
+              />
+              <View style={styles.dateTimeRow}>
+                <View style={styles.halfField}>
+                  <TextField
+                    ref={dateRef}
+                    validationState={fieldStateById.entryDate ?? 'default'}
+                    onLayout={registerFieldLayout('entryDate')}
+                    value={entryDate}
+                    onFocus={() => {
+                      if (!didClearDateDefault) {
+                        setEntryDate('');
+                        setDidClearDateDefault(true);
+                      }
+                    }}
+                    onChangeText={(value) => setEntryDate(applyDateMask(value))}
+                    placeholder="dd/mm/yyyy"
+                    accessibilityLabel={isTimeEndMode ? 'End date' : 'Start date'}
+                    keyboardType="number-pad"
+                  />
+                </View>
+                <View style={styles.halfField}>
+                  <TextField
+                    ref={timeRef}
+                    validationState={fieldStateById.entryTime ?? 'default'}
+                    onLayout={registerFieldLayout('entryTime')}
+                    value={entryTime}
+                    onFocus={() => {
+                      if (!didClearTimeDefault) {
+                        setEntryTime('');
+                        setDidClearTimeDefault(true);
+                      }
+                    }}
+                    onChangeText={(value) => setEntryTime(applyTimeMask(value))}
+                    placeholder="HH:mm"
+                    accessibilityLabel={isTimeEndMode ? 'End time' : 'Start time'}
+                    keyboardType="number-pad"
+                  />
+                </View>
+              </View>
+              <EntryLocationField
+                selectedLocationId={selectedLocationId}
+                onSelectedLocationChange={setSelectedLocationId}
+                controller={locationController}
+                locationInputRef={locationRef}
+                validationState={fieldStateById.location ?? 'default'}
+                onLayout={registerFieldLayout('location')}
+                showDivider
+                dividerSpacing="sm"
+                dividerSpacingBottom="md"
+              />
+              {saveError ? <InlineNotice message={saveError} /> : null}
+              {blockingIssues.length > 0 ? (
+                <ValidationSummaryCard
+                  title="Fix before saving"
+                  issues={blockingIssues}
+                  onPrimaryAction={() => focusAnchor(blockingIssues[0]?.anchor ?? blockingIssues[0]?.fieldId)}
+                  primaryActionLabel="Review field"
+                />
+              ) : null}
+              {warningIssues.length > 0 ? (
+                <ValidationSummaryCard
+                  title="Warnings to review"
+                  issues={warningIssues}
+                  onPrimaryAction={() => focusAnchor(warningIssues[0]?.anchor ?? warningIssues[0]?.fieldId)}
+                  primaryActionLabel="Review"
+                />
+              ) : null}
+              <Button
+                label={isSaving ? 'Saving...' : isTimeEndMode ? 'Save end time' : 'Save start time'}
+                onPress={() => void saveTimedActivity()}
                 disabled={isSaving || isLoading}
                 variant="solid"
                 tone={isReadyToSubmit ? 'green' : 'grey'}
