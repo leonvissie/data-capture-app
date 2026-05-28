@@ -12,8 +12,8 @@ import { BottomSheet } from '../overlays/BottomSheet';
 import { TextField } from './TextField';
 
 const SORT_LABELS: Record<LocationSort, string> = {
-  recency: 'Recency',
-  usage: 'Entry count',
+  recency: 'Last used',
+  usage: 'Frequency',
   az: 'A-Z',
   za: 'Z-A',
 };
@@ -104,8 +104,8 @@ export function EntryLocationField({
         <View style={styles.modalBody}>
           <AppText variant="bodyStrong">Sort by</AppText>
           <View style={styles.sortRow}>
-            <Button label="Recency" onPress={() => void controller.setSortPreference('recency')} size="sm" variant={controller.sort === 'recency' ? 'solid' : 'outline'} tone="blue" />
-            <Button label="Entry count" onPress={() => void controller.setSortPreference('usage')} size="sm" variant={controller.sort === 'usage' ? 'solid' : 'outline'} tone="blue" />
+            <Button label="Last used" onPress={() => void controller.setSortPreference('recency')} size="sm" variant={controller.sort === 'recency' ? 'solid' : 'outline'} tone="blue" />
+            <Button label="Frequency" onPress={() => void controller.setSortPreference('usage')} size="sm" variant={controller.sort === 'usage' ? 'solid' : 'outline'} tone="blue" />
             <Button label="A-Z" onPress={() => void controller.setSortPreference('az')} size="sm" variant={controller.sort === 'az' ? 'solid' : 'outline'} tone="blue" />
             <Button label="Z-A" onPress={() => void controller.setSortPreference('za')} size="sm" variant={controller.sort === 'za' ? 'solid' : 'outline'} tone="blue" />
           </View>
