@@ -15,6 +15,7 @@ export const ROUND_ICON_BUTTON_TYPES = [
   'home',
   'library',
   'preview',
+  'remove',
   'rotate',
   'save',
   'share',

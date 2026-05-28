@@ -68,6 +68,8 @@ export function resolveRoundIconButtonPreset(type: RoundIconButtonType): Preset 
       return { iconName: 'home-outline', tone: 'grey', backgroundToken: 'base', pressedBackgroundToken: 'emphasis', iconToken: 'onBase', borderToken: 'base' };
     case 'add':
       return { iconName: 'add', tone: 'teal', backgroundToken: 'base', pressedBackgroundToken: 'emphasis', iconToken: 'onBase', borderToken: 'base' };
+    case 'remove':
+      return { iconName: 'remove', tone: 'grey', backgroundToken: 'base', pressedBackgroundToken: 'emphasis', iconToken: 'onBase', borderToken: 'base' };
     case 'save':
       return { iconName: 'save-outline', tone: 'teal', backgroundToken: 'base', pressedBackgroundToken: 'emphasis', iconToken: 'onBase', borderToken: 'base' };
     case 'delete':
