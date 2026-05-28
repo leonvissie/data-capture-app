@@ -5,6 +5,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { AppScrollScreen, AppText, Button, InlineNotice, PageHeader } from '@/foundation/components';
 import { useEntryLocationController } from '@/foundation/hooks/useEntryLocationController';
 import { useValidationReveal } from '@/foundation/validation/useValidationReveal';
+import { JournalCaptureFlow } from '@/features/capture/components/JournalCaptureFlow';
 import { MeasureCaptureFlow } from '@/features/capture/components/MeasureCaptureFlow';
 import { useEntryDateTimeDefaults } from '@/features/capture/hooks/useEntryDateTimeDefaults';
 import { TimeCaptureFlow } from '@/features/capture/components/TimeCaptureFlow';
@@ -26,7 +27,7 @@ function getWizardCopy(categoryType: 'quickCount' | 'timedActivity' | 'journal')
   }
   return {
     title: 'Journal capture',
-    detail: 'Journal capture flow will be implemented next for this category.',
+    detail: 'Capture structured journal details for this category.',
   };
 }
 
@@ -36,6 +37,7 @@ export function CaptureWizardScreen() {
   const categoryId = typeof params.categoryId === 'string' ? params.categoryId : '';
 
   const [countValue, setCountValue] = useState('');
+  const [journalValuesBySectionId, setJournalValuesBySectionId] = useState<Record<string, string | string[]>>({});
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
   const { entryDate, setEntryDate, entryTime, setEntryTime, clearDateDefaultOnFirstFocus, clearTimeDefaultOnFirstFocus } =
     useEntryDateTimeDefaults();
@@ -53,6 +55,7 @@ export function CaptureWizardScreen() {
     isLoading,
     category,
     activeTimeEntry,
+    journalSections,
     issues,
     isSaving,
     saveError,
@@ -60,12 +63,14 @@ export function CaptureWizardScreen() {
     setSaveError,
     saveQuickCount,
     saveTimedActivity,
+    saveJournal,
   } = useCaptureWizardController({
     categoryId,
     countValue,
     entryDate,
     entryTime,
     selectedLocationId,
+    journalValuesBySectionId,
     draftLocationName: locationController.draftLocationName,
     validateDraftLocationName: locationController.validateDraftLocationName,
     addOrReuseLocation: locationController.addOrReuseLocation,
@@ -81,6 +86,16 @@ export function CaptureWizardScreen() {
   useEffect(() => registerAnchor('entryDate', () => dateRef.current?.focus()), [registerAnchor]);
   useEffect(() => registerAnchor('entryTime', () => timeRef.current?.focus()), [registerAnchor]);
   useEffect(() => registerAnchor('location', () => locationRef.current?.focus()), [registerAnchor]);
+  useEffect(() => {
+    if (!journalSections.length) return;
+    setJournalValuesBySectionId((current) => {
+      const next: Record<string, string | string[]> = {};
+      for (const section of journalSections) {
+        next[section.id] = current[section.id] ?? (section.type === 'multiSelect' ? [] : '');
+      }
+      return next;
+    });
+  }, [journalSections]);
 
   const copy = useMemo(() => (category ? getWizardCopy(category.categoryType) : null), [category]);
   const headerTitle = useMemo(() => {
@@ -173,6 +188,47 @@ export function CaptureWizardScreen() {
               warningIssues={warningIssues}
               focusAnchor={focusAnchor}
               onSave={() => void saveTimedActivity()}
+              isSaving={isSaving}
+              isLoading={isLoading}
+              isReadyToSubmit={isReadyToSubmit}
+              fieldStateById={fieldStateById}
+              onFieldLayout={registerFieldLayout}
+            />
+          ) : category.categoryType === 'journal' ? (
+            <JournalCaptureFlow
+              sections={journalSections}
+              valuesBySectionId={journalValuesBySectionId}
+              onValueChange={(sectionId, value) => {
+                setJournalValuesBySectionId((current) => ({ ...current, [sectionId]: value }));
+                if (saveError) setSaveError(null);
+              }}
+              entryDate={entryDate}
+              entryTime={entryTime}
+              onEntryDateChange={(value) => {
+                setEntryDate(value);
+                if (saveError) setSaveError(null);
+              }}
+              onEntryTimeChange={(value) => {
+                setEntryTime(value);
+                if (saveError) setSaveError(null);
+              }}
+              onDateFocus={() => {
+                clearDateDefaultOnFirstFocus();
+              }}
+              onTimeFocus={() => {
+                clearTimeDefaultOnFirstFocus();
+              }}
+              dateRef={dateRef}
+              timeRef={timeRef}
+              selectedLocationId={selectedLocationId}
+              onSelectedLocationChange={setSelectedLocationId}
+              locationController={locationController}
+              locationRef={locationRef}
+              saveError={saveError}
+              blockingIssues={blockingIssues}
+              warningIssues={warningIssues}
+              focusAnchor={focusAnchor}
+              onSave={() => void saveJournal()}
               isSaving={isSaving}
               isLoading={isLoading}
               isReadyToSubmit={isReadyToSubmit}

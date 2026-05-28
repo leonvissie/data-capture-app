@@ -1,9 +1,11 @@
 import type { ValidationIssue } from '@/foundation/validation/types';
+import type { JournalSectionDraft } from '@/features/categories/types/journal';
 
 export type CreateCategoryValidationInput = {
   name: string;
   categoryType: 'quickCount' | 'timedActivity' | 'journal';
   measurementUnit: string;
+  journalSections?: JournalSectionDraft[];
 };
 
 // Same field can emit warning or blocking depending on threshold.
@@ -61,6 +63,53 @@ export function validateCreateCategory(input: CreateCategoryValidationInput): Va
       severity: 'blocking',
       message: 'Unit is required for Measure categories.',
     });
+  }
+
+  if (input.categoryType === 'journal') {
+    const sections = input.journalSections ?? [];
+    if (sections.length === 0) {
+      issues.push({
+        key: 'journal_sections_required',
+        fieldId: 'journalSections',
+        anchor: 'journalSections',
+        severity: 'blocking',
+        message: 'Add at least one journal section.',
+      });
+      return issues;
+    }
+
+    sections.forEach((section, index) => {
+      const label = section.label.trim();
+      if (!label) {
+        issues.push({
+          key: `journal_section_label_required_${index}`,
+          fieldId: 'journalSections',
+          anchor: 'journalSections',
+          severity: 'blocking',
+          message: `Section ${index + 1} label is required.`,
+        });
+      }
+
+      if ((section.type === 'singleSelect' || section.type === 'multiSelect') && section.options.length < 2) {
+        issues.push({
+          key: `journal_section_options_required_${index}`,
+          fieldId: 'journalSections',
+          anchor: 'journalSections',
+          severity: 'blocking',
+          message: `Section ${index + 1} needs at least 2 options.`,
+        });
+      }
+    });
+
+    if (sections.length === 1 && sections[0]?.type === 'number') {
+      issues.push({
+        key: 'journal_single_number_measure_candidate',
+        fieldId: 'journalSections',
+        anchor: 'journalSections',
+        severity: 'warning',
+        message: 'Single number section detected. Consider switching this category to Measure.',
+      });
+    }
   }
 
   return issues;

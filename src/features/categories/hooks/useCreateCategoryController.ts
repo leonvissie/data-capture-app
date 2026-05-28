@@ -2,8 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { confirmDialog } from '@/foundation/services/dialogs/dialogService';
 import { createCategory, deleteCategoryById, getCategoryById, getCategoryEntryCountById, updateCategory } from '@/foundation/services/storage/categoryRepository';
+import { listJournalSections, saveJournalSections } from '@/foundation/services/storage/journalSectionRepository';
 import { createValidationGate } from '@/foundation/validation/createValidationGate';
 import type { ValidationIssue } from '@/foundation/validation/types';
+import type { JournalSectionDraft } from '@/features/categories/types/journal';
 import { validateCreateCategory } from '@/features/categories/validation/createCategoryValidation';
 
 type CategoryType = 'quickCount' | 'timedActivity' | 'journal';
@@ -14,6 +16,7 @@ type UseCreateCategoryControllerInput = {
   name: string;
   categoryType: CategoryType;
   measurementUnit: string;
+  journalSections: JournalSectionDraft[];
   focusAnchor: (anchor?: string) => void;
   onSaved: () => void;
 };
@@ -32,6 +35,7 @@ export function useCreateCategoryController(input: UseCreateCategoryControllerIn
   const [loadedName, setLoadedName] = useState('');
   const [loadedCategoryType, setLoadedCategoryType] = useState<CategoryType>('quickCount');
   const [loadedMeasurementUnit, setLoadedMeasurementUnit] = useState('');
+  const [loadedJournalSections, setLoadedJournalSections] = useState<JournalSectionDraft[]>([]);
 
   useEffect(() => {
     if (!input.isEditing) return;
@@ -47,6 +51,10 @@ export function useCreateCategoryController(input: UseCreateCategoryControllerIn
         setLoadedCategoryType(existing.categoryType);
         setLoadedMeasurementUnit(existing.measurementUnit);
         setEntryCount(existingEntryCount);
+        if (existing.categoryType === 'journal') {
+          const journalSections = await listJournalSections(input.editingCategoryId);
+          if (!cancelled) setLoadedJournalSections(journalSections);
+        }
       }
       if (!cancelled) setIsLoading(false);
     })();
@@ -56,8 +64,14 @@ export function useCreateCategoryController(input: UseCreateCategoryControllerIn
   }, [input.editingCategoryId, input.isEditing]);
 
   const isValid = useMemo(
-    () => validateCreateCategory({ name: input.name, categoryType: input.categoryType, measurementUnit: input.measurementUnit }).every((issue) => issue.severity !== 'blocking'),
-    [input.name, input.categoryType, input.measurementUnit],
+    () =>
+      validateCreateCategory({
+        name: input.name,
+        categoryType: input.categoryType,
+        measurementUnit: input.measurementUnit,
+        journalSections: input.journalSections,
+      }).every((issue) => issue.severity !== 'blocking'),
+    [input.name, input.categoryType, input.measurementUnit, input.journalSections],
   );
 
   const saveCategory = useCallback(async () => {
@@ -67,6 +81,7 @@ export function useCreateCategoryController(input: UseCreateCategoryControllerIn
       name: input.name,
       categoryType: input.categoryType,
       measurementUnit: input.measurementUnit,
+      journalSections: input.journalSections,
     });
     setIssues(nextIssues);
     const gate = createValidationGate(nextIssues, { allowContinueOnWarnings: allowWarningContinue });
@@ -90,6 +105,9 @@ export function useCreateCategoryController(input: UseCreateCategoryControllerIn
         await updateCategory(payload);
       } else {
         await createCategory(payload);
+      }
+      if (input.categoryType === 'journal') {
+        await saveJournalSections(id, input.journalSections);
       }
       input.onSaved();
     } catch {
@@ -124,6 +142,7 @@ export function useCreateCategoryController(input: UseCreateCategoryControllerIn
     loadedName,
     loadedCategoryType,
     loadedMeasurementUnit,
+    loadedJournalSections,
     saveCategory,
     deleteCategory,
   };

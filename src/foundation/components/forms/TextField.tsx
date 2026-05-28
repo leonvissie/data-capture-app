@@ -36,6 +36,7 @@ export const TextField = forwardRef<TextInput, TextFieldProps>(function TextFiel
     <TextInput
       ref={ref}
       {...rest}
+      placeholderTextColor={neutral.border}
       style={[
         styles.base,
         {

@@ -5,8 +5,10 @@ import { confirmDialog } from '@/foundation/services/dialogs/dialogService';
 import type { ActiveTimeEntry } from '@/foundation/services/storage/timeCaptureRepository';
 import { submitWithValidation } from '@/foundation/validation/submitWithValidation';
 import type { ValidationIssue } from '@/foundation/validation/types';
-import { loadCaptureWizardCategory, saveQuickCountCapture, saveTimedActivityCapture } from '@/features/capture/services/captureWizardService';
+import { loadCaptureWizardCategory, saveJournalCapture, saveQuickCountCapture, saveTimedActivityCapture } from '@/features/capture/services/captureWizardService';
+import type { JournalSectionDraft } from '@/features/categories/types/journal';
 import { validateQuickCountCapture } from '@/features/capture/validation/quickCountCaptureValidation';
+import { validateJournalCapture } from '@/features/capture/validation/journalCaptureValidation';
 import { validateTimedActivityCapture } from '@/features/capture/validation/timedActivityCaptureValidation';
 
 type CategoryType = 'quickCount' | 'timedActivity' | 'journal';
@@ -21,6 +23,7 @@ type UseCaptureWizardControllerInput = {
   validateDraftLocationName: () => string | null;
   addOrReuseLocation: () => Promise<{ id: string } | null>;
   locationError: string | null;
+  journalValuesBySectionId: Record<string, string | string[]>;
   focusAnchor: (anchor?: string) => void;
   onSaved: () => void;
   setSelectedLocationId: (id: string | null) => void;
@@ -35,6 +38,7 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
     measurementUnit: string;
   } | null>(null);
   const [activeTimeEntry, setActiveTimeEntry] = useState<ActiveTimeEntry | null>(null);
+  const [journalSections, setJournalSections] = useState<JournalSectionDraft[]>([]);
   const [issues, setIssues] = useState<ValidationIssue[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -46,6 +50,7 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
       if (cancelled) return;
       setCategory(loaded.category);
       setActiveTimeEntry(loaded.activeTimeEntry);
+      setJournalSections(loaded.journalSections);
       setIsLoading(false);
     })();
     return () => {
@@ -81,13 +86,28 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
     [input, activeTimeEntry?.startedAt],
   );
 
+  const validateJournal = useCallback(
+    (mode: 'peek' | 'submit' = 'submit'): ValidationIssue[] => {
+      const locationValidationError =
+        mode === 'submit' ? input.validateDraftLocationName() : getDraftLocationValidationError(input.draftLocationName);
+      return validateJournalCapture({
+        entryDate: input.entryDate,
+        entryTime: input.entryTime,
+        sections: journalSections,
+        valuesBySectionId: input.journalValuesBySectionId,
+        locationValidationError,
+      });
+    },
+    [input, journalSections],
+  );
+
   const validateForCategoryType = useCallback(
     (type: CategoryType, mode: 'peek' | 'submit' = 'submit'): ValidationIssue[] => {
       if (type === 'quickCount') return validateQuickCount(mode);
       if (type === 'timedActivity') return validateTimedActivity(mode);
-      return [];
+      return validateJournal(mode);
     },
-    [validateQuickCount, validateTimedActivity],
+    [validateQuickCount, validateTimedActivity, validateJournal],
   );
 
   const requestWarningConfirm = useCallback(async (warningMessages: string[]) => {
@@ -177,6 +197,40 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
     });
   }, [category, isSaving, validateTimedActivity, input, requestWarningConfirm, prepareLocationForSave, activeTimeEntry]);
 
+  const saveJournal = useCallback(async () => {
+    if (!category || category.categoryType !== 'journal' || isSaving) return;
+    await submitWithValidation({
+      issues: validateJournal(),
+      setIssues,
+      focusAnchor: input.focusAnchor,
+      requestWarningConfirm,
+      onProceed: async () => {
+        setSaveError(null);
+        setIsSaving(true);
+        try {
+          const locationId = await prepareLocationForSave();
+          await saveJournalCapture({
+            categoryId: category.id,
+            entryDate: input.entryDate,
+            entryTime: input.entryTime,
+            locationId,
+            sections: journalSections,
+            valuesBySectionId: input.journalValuesBySectionId,
+          });
+          input.onSaved();
+        } catch (error) {
+          if (error instanceof Error && error.message) {
+            setSaveError(error.message);
+            return;
+          }
+          setSaveError('Unable to save journal entry. Please try again.');
+        } finally {
+          setIsSaving(false);
+        }
+      },
+    });
+  }, [category, isSaving, validateJournal, input, requestWarningConfirm, prepareLocationForSave, journalSections]);
+
   const isReadyToSubmit = useMemo(() => {
     if (!category) return false;
     return validateForCategoryType(category.categoryType, 'peek').every((issue) => issue.severity !== 'blocking');
@@ -191,6 +245,7 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
     isLoading,
     category,
     activeTimeEntry,
+    journalSections,
     issues,
     isSaving,
     saveError,
@@ -198,5 +253,6 @@ export function useCaptureWizardController(input: UseCaptureWizardControllerInpu
     setSaveError,
     saveQuickCount,
     saveTimedActivity,
+    saveJournal,
   };
 }

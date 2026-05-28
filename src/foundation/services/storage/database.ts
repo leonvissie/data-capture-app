@@ -144,6 +144,15 @@ const migrations: Migration[] = [
       `);
     },
   },
+  {
+    version: 6,
+    apply: async (db) => {
+      await db.execAsync(`
+        ALTER TABLE sections ADD COLUMN required_severity TEXT NOT NULL DEFAULT 'blocking';
+        ALTER TABLE sections ADD COLUMN config_json TEXT NOT NULL DEFAULT '{}';
+      `);
+    },
+  },
 ];
 
 let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;

@@ -8,6 +8,7 @@ import {
   Button,
   DestructiveButton,
   InlineNotice,
+  JournalSectionBuilder,
   PageHeader,
   TextField,
   ValidationSummaryCard,
@@ -16,6 +17,7 @@ import { categoryTypeUiLabelByType } from '@/foundation/presentation/categoryTyp
 import { categoryToneByType, spacing } from '@/foundation/theme';
 import { useValidationAnchors } from '@/foundation/validation/useValidationAnchors';
 import { useCreateCategoryController } from '@/features/categories/hooks/useCreateCategoryController';
+import { journalTemplateDefaults, type JournalSectionDraft } from '@/features/categories/types/journal';
 
 type CategoryTypeOption = {
   value: 'quickCount' | 'timedActivity' | 'journal';
@@ -45,6 +47,7 @@ export function CreateCategoryScreen() {
   const [name, setName] = useState('');
   const [categoryType, setCategoryType] = useState<CategoryTypeOption['value']>('quickCount');
   const [measurementUnit, setMeasurementUnit] = useState('');
+  const [journalSections, setJournalSections] = useState<JournalSectionDraft[]>([]);
 
   const nameInputRef = useRef<TextInput>(null);
   const measurementUnitRef = useRef<TextInput>(null);
@@ -61,6 +64,7 @@ export function CreateCategoryScreen() {
     loadedName,
     loadedCategoryType,
     loadedMeasurementUnit,
+    loadedJournalSections,
     saveCategory,
     deleteCategory,
   } = useCreateCategoryController({
@@ -69,6 +73,7 @@ export function CreateCategoryScreen() {
     name,
     categoryType,
     measurementUnit,
+    journalSections,
     focusAnchor,
     onSaved: () => router.replace('/(tabs)/home'),
   });
@@ -81,12 +86,15 @@ export function CreateCategoryScreen() {
     setName(loadedName);
     setCategoryType(loadedCategoryType);
     setMeasurementUnit(loadedMeasurementUnit);
-  }, [isEditing, loadedName, loadedCategoryType, loadedMeasurementUnit]);
+    setJournalSections(loadedJournalSections);
+  }, [isEditing, loadedName, loadedCategoryType, loadedMeasurementUnit, loadedJournalSections]);
 
   const warningIssues = issues.filter((issue) => issue.severity === 'warning');
   const blockingIssues = issues.filter((issue) => issue.severity === 'blocking');
   const hasExistingEntries = isEditing && entryCount > 0;
   const isMeasureCategory = categoryType === 'quickCount';
+  const isJournalCategory = categoryType === 'journal';
+  const hasSingleNumberJournalWarning = warningIssues.some((issue) => issue.key === 'journal_single_number_measure_candidate');
 
   return (
     <AppScrollScreen>
@@ -144,6 +152,16 @@ export function CreateCategoryScreen() {
           />
         ) : null}
 
+        {isJournalCategory ? (
+          <View style={styles.section}>
+            <JournalSectionBuilder
+              sections={journalSections}
+              onChange={setJournalSections}
+              onApplyTemplate={() => setJournalSections(journalTemplateDefaults.map((section) => ({ ...section, id: `${section.id}_${Date.now().toString(36)}` })))}
+            />
+          </View>
+        ) : null}
+
         {error ? <InlineNotice message={error} /> : null}
         {blockingIssues.length > 0 ? (
           <ValidationSummaryCard
@@ -163,10 +181,16 @@ export function CreateCategoryScreen() {
             }}
             primaryActionLabel="Review"
             onSecondaryAction={() => {
+              if (hasSingleNumberJournalWarning && journalSections[0]) {
+                setCategoryType('quickCount');
+                setName(toTitleCase(journalSections[0].label || name));
+                setMeasurementUnit('');
+                return;
+              }
               setAllowWarningContinue(true);
               void saveCategory();
             }}
-            secondaryActionLabel="Continue anyway"
+            secondaryActionLabel={hasSingleNumberJournalWarning ? 'Switch to Measure' : 'Continue anyway'}
           />
         ) : null}
 

@@ -2,7 +2,7 @@
 
 ## 1) Install dependencies
 
-cd /Users/leonvisser/Documents/DEV/movie-app/app
+cd /Users/leonvisser/Documents/DEV/data-capture-app
 npm install
 
 
