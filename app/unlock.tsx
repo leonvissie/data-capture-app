@@ -25,7 +25,7 @@ export default function UnlockScreen() {
         footer={
           <AuthFooterActions>
             {biometricAvailable ? <SecondaryButton label="Use Biometrics" onPress={() => void useBiometrics()} /> : null}
-            <DestructiveButton label="Forgot PIN? Reset app data" onPress={() => void requestDestructiveReset()} size="sm" tone="warning" />
+            <DestructiveButton label="Forgot PIN? Reset app data" onPress={() => void requestDestructiveReset()} size="md" tone="warning"/>
           </AuthFooterActions>
         }
       >

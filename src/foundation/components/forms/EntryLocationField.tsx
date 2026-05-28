@@ -24,12 +24,18 @@ type EntryLocationFieldProps = {
 };
 
 export function EntryLocationField({ selectedLocationId, onSelectedLocationChange, controller }: EntryLocationFieldProps) {
+  const selectedLocation = selectedLocationId
+    ? controller.allLocations.find((location) => location.id === selectedLocationId) ?? null
+    : null;
+  const selectedInInline = selectedLocation
+    ? controller.inlineLocations.some((location) => location.id === selectedLocation.id)
+    : false;
 
   return (
     <View style={styles.wrap}>
       <View style={styles.headerRow}>
         <AppText variant="bodyStrong">Location</AppText>
-        <Button label={`Sort: ${SORT_LABELS[controller.sort]}`} onPress={controller.openPicker} size="sm" variant="outline" tone="grey" />
+        <Button label={`Sort: ${SORT_LABELS[controller.sort]}`} onPress={controller.openPicker} size="sm" variant="soft" tone="blue" />
       </View>
 
       <View style={styles.pillsRow}>
@@ -38,8 +44,17 @@ export function EntryLocationField({ selectedLocationId, onSelectedLocationChang
           onPress={() => onSelectedLocationChange(null)}
           size="sm"
           variant={selectedLocationId === null ? 'solid' : 'outline'}
-          tone="grey"
+          tone="teal"
         />
+        {selectedLocation && !selectedInInline ? (
+          <Button
+            label={selectedLocation.name}
+            onPress={() => onSelectedLocationChange(selectedLocationId === selectedLocation.id ? null : selectedLocation.id)}
+            size="sm"
+            variant={selectedLocationId === selectedLocation.id ? 'solid' : 'outline'}
+            tone="teal"
+          />
+        ) : null}
         {controller.inlineLocations.map((location) => (
           <Button
             key={location.id}
@@ -51,7 +66,7 @@ export function EntryLocationField({ selectedLocationId, onSelectedLocationChang
           />
         ))}
         {controller.hasMoreThanInlineLimit ? (
-          <Button label="+" onPress={controller.openPicker} size="sm" variant="outline" tone="grey" />
+          <Button label="+" onPress={controller.openPicker} size="sm" variant="soft" tone="teal" />
         ) : null}
       </View>
 
@@ -74,18 +89,19 @@ export function EntryLocationField({ selectedLocationId, onSelectedLocationChang
         headerRight={<RoundIconButton buttonType="close" accessibilityLabel="Close location picker" onPress={controller.closePicker} />}
       >
         <View style={styles.modalBody}>
-          <TextField
-            value={controller.searchQuery}
-            onChangeText={controller.setSearchQuery}
-            placeholder="Search locations"
-            accessibilityLabel="Search locations"
-          />
+          <AppText variant="bodyStrong">Sort by</AppText>
           <View style={styles.sortRow}>
             <Button label="Recency" onPress={() => void controller.setSortPreference('recency')} size="sm" variant={controller.sort === 'recency' ? 'solid' : 'outline'} tone="blue" />
             <Button label="Entry count" onPress={() => void controller.setSortPreference('usage')} size="sm" variant={controller.sort === 'usage' ? 'solid' : 'outline'} tone="blue" />
             <Button label="A-Z" onPress={() => void controller.setSortPreference('az')} size="sm" variant={controller.sort === 'az' ? 'solid' : 'outline'} tone="blue" />
             <Button label="Z-A" onPress={() => void controller.setSortPreference('za')} size="sm" variant={controller.sort === 'za' ? 'solid' : 'outline'} tone="blue" />
           </View>
+          <TextField
+            value={controller.searchQuery}
+            onChangeText={controller.setSearchQuery}
+            placeholder="Search locations"
+            accessibilityLabel="Search locations"
+          />
           <ScrollView contentContainerStyle={styles.locationList}>
             <Button
               label="None"
@@ -95,7 +111,7 @@ export function EntryLocationField({ selectedLocationId, onSelectedLocationChang
               }}
               size="sm"
               variant={selectedLocationId === null ? 'solid' : 'outline'}
-              tone="grey"
+              tone="teal"
             />
             {controller.filteredLocations.map((location) => (
               <Button
@@ -143,6 +159,9 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   locationList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
     gap: spacing.sm,
     paddingBottom: spacing['2xl'],
   },
