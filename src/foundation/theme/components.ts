@@ -58,6 +58,15 @@ export const componentMetrics = {
     horizontalPadding: spacing.md,
     verticalPadding: spacing.sm,
   },
+  divider: {
+    thickness: 1,
+    spacing: {
+      none: spacing.none,
+      sm: spacing.sm,
+      md: spacing.md,
+      lg: spacing.lg,
+    },
+  },
   modal: {
     contentPaddingHorizontal: spacing['2xl'],
     contentPaddingVertical: spacing.lg,

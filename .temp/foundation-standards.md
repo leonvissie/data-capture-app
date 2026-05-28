@@ -407,10 +407,16 @@ Floating guardrail:
 
 ## Content
 - Card
+- Divider
 - SectionHeader
 - EmptyState
 - InlineNotice
 - ErrorState
+
+Divider normalization:
+- all visual section dividers must use shared `Divider` foundation component,
+- divider spacing must use semantic shared sizes (`sm` | `md` | `lg`),
+- do not implement ad hoc border-line + margin divider patterns in screens/features.
 
 ## Forms
 - TextField

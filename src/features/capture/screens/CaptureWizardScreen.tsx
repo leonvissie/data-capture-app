@@ -320,6 +320,9 @@ export function CaptureWizardScreen() {
                 locationInputRef={locationRef}
                 validationState={fieldStateById.location ?? 'default'}
                 onLayout={registerFieldLayout('location')}
+                showDivider
+                dividerSpacing="sm"
+                dividerSpacingBottom="md"
               />
               {saveError ? <InlineNotice message={saveError} /> : null}
               {blockingIssues.length > 0 ? (

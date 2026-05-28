@@ -1,5 +1,6 @@
 import { StyleSheet, Switch, View } from 'react-native';
 
+import { Divider } from '@/foundation/components/content/Divider';
 import { AppText } from '@/foundation/components/layout/AppText';
 import { useTones } from '@/foundation/hooks/useTones';
 import { spacing } from '@/foundation/theme';
@@ -25,26 +26,24 @@ export function SettingsToggleRow({
   const grey = tones.grey;
 
   return (
-    <View
-      style={[
-        styles.row,
-        !hideDivider ? { borderBottomColor: grey.border, borderBottomWidth: 1 } : { borderBottomWidth: 0 },
-      ]}
-    >
-      <View style={styles.copy}>
-        <AppText variant="bodyStrong">{label}</AppText>
-        <AppText variant="bodySmall" style={{ color: grey.base }}>
-          {help}
-        </AppText>
+    <View>
+      <View style={styles.row}>
+        <View style={styles.copy}>
+          <AppText variant="bodyStrong">{label}</AppText>
+          <AppText variant="bodySmall" style={{ color: grey.base }}>
+            {help}
+          </AppText>
+        </View>
+        <Switch
+          accessibilityLabel={label}
+          accessibilityHint={help}
+          accessibilityRole="switch"
+          value={value}
+          onValueChange={onValueChange}
+          disabled={disabled}
+        />
       </View>
-      <Switch
-        accessibilityLabel={label}
-        accessibilityHint={help}
-        accessibilityRole="switch"
-        value={value}
-        onValueChange={onValueChange}
-        disabled={disabled}
-      />
+      {!hideDivider ? <Divider spacing="sm" /> : null}
     </View>
   );
 }
@@ -56,7 +55,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
-    borderBottomWidth: 0,
   },
   copy: {
     flex: 1,

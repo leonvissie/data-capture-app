@@ -6,6 +6,7 @@ import type { LocationSort } from '@/foundation/services/storage/locationReposit
 import { spacing } from '@/foundation/theme';
 
 import { Button } from '../buttons/Button';
+import { Divider, type DividerSpacing } from '../content/Divider';
 import { RoundIconButton } from '../buttons/RoundIconButton';
 import { AppText } from '../layout/AppText';
 import { BottomSheet } from '../overlays/BottomSheet';
@@ -25,6 +26,9 @@ type EntryLocationFieldProps = {
   locationInputRef?: RefObject<TextInput | null>;
   validationState?: 'default' | 'warning' | 'blocking';
   onLayout?: (event: LayoutChangeEvent) => void;
+  showDivider?: boolean;
+  dividerSpacing?: DividerSpacing;
+  dividerSpacingBottom?: DividerSpacing;
 };
 
 export function EntryLocationField({
@@ -34,6 +38,9 @@ export function EntryLocationField({
   locationInputRef,
   validationState = 'default',
   onLayout,
+  showDivider = false,
+  dividerSpacing = 'sm',
+  dividerSpacingBottom = 'sm',
 }: EntryLocationFieldProps) {
   const selectedLocation = selectedLocationId
     ? controller.allLocations.find((location) => location.id === selectedLocationId) ?? null
@@ -44,6 +51,7 @@ export function EntryLocationField({
 
   return (
     <View style={styles.wrap} onLayout={onLayout}>
+      {showDivider ? <Divider spacingTop={dividerSpacing} spacingBottom={dividerSpacingBottom} /> : null}
       <View style={styles.headerRow}>
         <AppText variant="bodyStrong">Location</AppText>
         <Button label={`Sort: ${SORT_LABELS[controller.sort]}`} onPress={controller.openPicker} size="sm" variant="soft" tone="blue" />

@@ -22,6 +22,7 @@ export * from './content/SectionHeader';
 export * from './content/EmptyState';
 export * from './content/InlineNotice';
 export * from './content/ErrorState';
+export * from './content/Divider';
 
 export * from './forms/TextField';
 export * from './forms/TextArea';
