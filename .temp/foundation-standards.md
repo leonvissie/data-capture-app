@@ -1002,6 +1002,24 @@ For `timedActivity` categories:
   - `durationEnd`
 - end must be later than start and must pass shared date/time validation rules.
 
+## Capture Flow Composition Contract (Mandatory)
+
+For multi-type capture surfaces (for example `quickCount`, `timedActivity`, `journal`), route screens must remain orchestration-only.
+
+Required structure:
+- route screen = loader + navigation + shared submit orchestration wiring only,
+- per-type UI/interaction blocks must live in dedicated shared feature components (for example `*CaptureFlow` components),
+- per-type validation rules must live in `features/*/validation/*` modules,
+- per-type persistence operations must live in repositories/services and be consumed through a feature hook/service/controller.
+
+Prohibited in route screens:
+- inlined type-specific rule sets,
+- duplicated per-type form rendering branches with repeated primitives,
+- direct repository write/read branching per type.
+
+Goal:
+- adding a new capture type (for example `journal`) should require a new type flow module + validator + persistence adapter, with minimal route-screen changes.
+
 ## Entry Location Contract (Mandatory)
 
 Location must be implemented as a shared global foundation capability (not per-screen logic):

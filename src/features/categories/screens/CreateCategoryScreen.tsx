@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
@@ -13,13 +13,9 @@ import {
   ValidationSummaryCard,
 } from '@/foundation/components';
 import { categoryTypeUiLabelByType } from '@/foundation/presentation/categoryTypeLabels';
-import { confirmDialog } from '@/foundation/services/dialogs/dialogService';
-import { createCategory, deleteCategoryById, getCategoryById, getCategoryEntryCountById, updateCategory } from '@/foundation/services/storage/categoryRepository';
 import { categoryToneByType, spacing } from '@/foundation/theme';
-import { createValidationGate } from '@/foundation/validation/createValidationGate';
 import { useValidationAnchors } from '@/foundation/validation/useValidationAnchors';
-import type { ValidationIssue } from '@/foundation/validation/types';
-import { validateCreateCategory } from '@/features/categories/validation/createCategoryValidation';
+import { useCreateCategoryController } from '@/features/categories/hooks/useCreateCategoryController';
 
 type CategoryTypeOption = {
   value: 'quickCount' | 'timedActivity' | 'journal';
@@ -40,113 +36,57 @@ function toTitleCase(value: string) {
     .join(' ');
 }
 
-function buildCategoryId() {
-  return `cat_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
-}
-
 export function CreateCategoryScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ categoryId?: string }>();
   const editingCategoryId = typeof params.categoryId === 'string' ? params.categoryId : '';
   const isEditing = editingCategoryId.length > 0 && editingCategoryId !== 'undefined' && editingCategoryId !== 'null';
+
   const [name, setName] = useState('');
   const [categoryType, setCategoryType] = useState<CategoryTypeOption['value']>('quickCount');
-  const [isSaving, setIsSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [issues, setIssues] = useState<ValidationIssue[]>([]);
-  const [allowWarningContinue, setAllowWarningContinue] = useState(false);
-  const [entryCount, setEntryCount] = useState(0);
+  const [measurementUnit, setMeasurementUnit] = useState('');
+
   const nameInputRef = useRef<TextInput>(null);
   const measurementUnitRef = useRef<TextInput>(null);
-  const [measurementUnit, setMeasurementUnit] = useState('');
   const { registerAnchor, focusAnchor } = useValidationAnchors();
-  const isValid = useMemo(
-    () => validateCreateCategory({ name, categoryType, measurementUnit }).every((issue) => issue.severity !== 'blocking'),
-    [name, categoryType, measurementUnit],
-  );
+
+  const {
+    isSaving,
+    error,
+    isLoading,
+    issues,
+    setAllowWarningContinue,
+    entryCount,
+    isValid,
+    loadedName,
+    loadedCategoryType,
+    loadedMeasurementUnit,
+    saveCategory,
+    deleteCategory,
+  } = useCreateCategoryController({
+    editingCategoryId,
+    isEditing,
+    name,
+    categoryType,
+    measurementUnit,
+    focusAnchor,
+    onSaved: () => router.replace('/(tabs)/home'),
+  });
 
   useEffect(() => registerAnchor('categoryName', () => nameInputRef.current?.focus()), [registerAnchor]);
   useEffect(() => registerAnchor('measurementUnit', () => measurementUnitRef.current?.focus()), [registerAnchor]);
+
   useEffect(() => {
     if (!isEditing) return;
-    let cancelled = false;
-    setIsLoading(true);
-    void (async () => {
-      const [existing, existingEntryCount] = await Promise.all([
-        getCategoryById(editingCategoryId),
-        getCategoryEntryCountById(editingCategoryId),
-      ]);
-      if (!cancelled && existing) {
-        setName(existing.name);
-        setCategoryType(existing.categoryType);
-        setMeasurementUnit(existing.measurementUnit);
-        setEntryCount(existingEntryCount);
-      }
-      if (!cancelled) setIsLoading(false);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [editingCategoryId, isEditing]);
-
-  const handleCreate = async () => {
-    if (isSaving) return;
-
-    const nextIssues = validateCreateCategory({ name, categoryType, measurementUnit });
-    setIssues(nextIssues);
-    const gate = createValidationGate(nextIssues, { allowContinueOnWarnings: allowWarningContinue });
-
-    if (gate.kind === 'blocked') {
-      focusAnchor(gate.firstAnchor ?? gate.firstFieldId);
-      return;
-    }
-
-    if (gate.kind === 'continue_with_warnings') {
-      focusAnchor(gate.firstAnchor ?? gate.firstFieldId);
-      return;
-    }
-
-    setIsSaving(true);
-    setError(null);
-    try {
-      const id = editingCategoryId || buildCategoryId();
-      const payload = {
-        id,
-        name: name.trim(),
-        categoryType,
-        measurementUnit: categoryType === 'quickCount' ? measurementUnit.trim() : '',
-      };
-      if (isEditing) {
-        await updateCategory(payload);
-      } else {
-        await createCategory(payload);
-      }
-      router.replace('/(tabs)/home');
-    } catch {
-      setError('Unable to create category. Please try again.');
-    } finally {
-      setIsSaving(false);
-    }
-  };
+    setName(loadedName);
+    setCategoryType(loadedCategoryType);
+    setMeasurementUnit(loadedMeasurementUnit);
+  }, [isEditing, loadedName, loadedCategoryType, loadedMeasurementUnit]);
 
   const warningIssues = issues.filter((issue) => issue.severity === 'warning');
   const blockingIssues = issues.filter((issue) => issue.severity === 'blocking');
   const hasExistingEntries = isEditing && entryCount > 0;
   const isMeasureCategory = categoryType === 'quickCount';
-
-  const handleDelete = async () => {
-    if (!isEditing) return;
-    const confirmed = await confirmDialog({
-      title: 'Delete category?',
-      message: 'All data for this category will be permanently lost, including all captured entries.',
-      confirmText: 'Delete',
-      cancelText: 'Cancel',
-    });
-    if (!confirmed) return;
-    await deleteCategoryById(editingCategoryId);
-    router.replace('/(tabs)/home');
-  };
 
   return (
     <AppScrollScreen>
@@ -224,7 +164,7 @@ export function CreateCategoryScreen() {
             primaryActionLabel="Review"
             onSecondaryAction={() => {
               setAllowWarningContinue(true);
-              void handleCreate();
+              void saveCategory();
             }}
             secondaryActionLabel="Continue anyway"
           />
@@ -232,20 +172,13 @@ export function CreateCategoryScreen() {
 
         <Button
           label={isSaving ? 'Saving...' : isEditing ? 'Save category' : 'Create category'}
-          onPress={() => void handleCreate()}
+          onPress={() => void saveCategory()}
           disabled={!isValid || isSaving || isLoading}
           size="lg"
           variant="solid"
           tone={isEditing ? 'teal' : 'green'}
         />
-        {isEditing ? (
-          <DestructiveButton
-            label="Delete category"
-            onPress={() => void handleDelete()}
-            tone="danger"
-            size="lg"
-          />
-        ) : null}
+        {isEditing ? <DestructiveButton label="Delete category" onPress={() => void deleteCategory()} tone="danger" size="lg" /> : null}
       </View>
     </AppScrollScreen>
   );

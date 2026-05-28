@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback } from 'react';
 
@@ -13,8 +13,6 @@ import {
   RoundIconButton,
   TextField,
 } from '@/foundation/components';
-import { confirmDialog } from '@/foundation/services/dialogs/dialogService';
-import { deleteCategoryById } from '@/foundation/services/storage/categoryRepository';
 import { spacing } from '@/foundation/theme';
 import { useHomeCaptureController } from '@/features/capture/hooks/useHomeCaptureController';
 import {
@@ -28,7 +26,7 @@ export function TodayScreen() {
   const {
     isLoading,
     showTutorialCta,
-    setTutorialVisible,
+    requestHideTutorialCta,
     filter,
     applyFilter,
     sort,
@@ -42,35 +40,13 @@ export function TodayScreen() {
     hasAnyCategories,
     visibleCategories,
     refresh,
+    requestDeleteCategory,
   } = useHomeCaptureController();
 
   const addCategoryLabel = hasAnyCategories ? 'Add category' : 'Create first category';
 
-  const hideTutorial = () => {
-    Alert.alert(
-      'Hide tutorial button?',
-      'You can still access tutorials from Settings.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Hide', style: 'destructive', onPress: () => void setTutorialVisible(false) },
-      ],
-    );
-  };
-
   const editCategory = (categoryId: string) => {
     router.push({ pathname: '/categories/create', params: { categoryId } });
-  };
-
-  const deleteCategory = async (categoryId: string) => {
-    const confirmed = await confirmDialog({
-      title: 'Delete category?',
-      message: 'This will delete the category and all captured entries linked to it.',
-      confirmText: 'Delete',
-      cancelText: 'Cancel',
-    });
-    if (!confirmed) return;
-    await deleteCategoryById(categoryId);
-    await refresh();
   };
 
   useFocusEffect(
@@ -99,7 +75,7 @@ export function TodayScreen() {
             {
               id: 'hide-tutorial',
               label: 'Hide',
-              onPress: hideTutorial,
+              onPress: () => void requestHideTutorialCta(),
               tone: 'grey',
               variant: 'soft',
               size: 'sm',
@@ -145,7 +121,7 @@ export function TodayScreen() {
               buttonType: 'delete',
               accessibilityLabel: `Delete category ${category.name}`,
               onPress: () => {
-                void deleteCategory(category.id);
+                void requestDeleteCategory(category.id);
               },
               size: 'md',
               tone: resolveCaptureCategoryCardTone(category.categoryType),

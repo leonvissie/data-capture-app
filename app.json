@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/datira-splash-512.png",
       "resizeMode": "contain",
-      "backgroundColor": "#F8FAFC"
+      "backgroundColor": "#000"
     },
     "ios": {
       "supportsTablet": true,
@@ -18,7 +18,7 @@
       "splash": {
         "image": "./assets/datira-splash-512.png",
         "resizeMode": "contain",
-        "backgroundColor": "#F8FAFC"
+        "backgroundColor": "#000"
       }
     },
     "android": {

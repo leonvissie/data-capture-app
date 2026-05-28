@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { confirmDialog } from '@/foundation/services/dialogs/dialogService';
 
 import {
+  deleteCategoryById,
   listCategories,
   listCategoryEntryCounts,
   type CategoryRecord,
@@ -70,6 +72,18 @@ export function useHomeCaptureController() {
     setShowTutorialCta(next.showHomeTutorialCta);
   }, []);
 
+  const requestHideTutorialCta = useCallback(async () => {
+    const confirmed = await confirmDialog({
+      title: 'Hide tutorial button?',
+      message: 'You can still access tutorials from Settings.',
+      confirmText: 'Hide',
+      cancelText: 'Cancel',
+    });
+    if (!confirmed) return;
+    const next = await updateUserPrefs({ showHomeTutorialCta: false });
+    setShowTutorialCta(next.showHomeTutorialCta);
+  }, []);
+
   const applyFilter = useCallback(async (next: HomeCategoryFilter) => {
     const prefs = await updateUserPrefs({ homeCategoryFilter: next });
     setFilter(prefs.homeCategoryFilter);
@@ -87,6 +101,21 @@ export function useHomeCaptureController() {
     setSearchQuery('');
   }, []);
 
+  const requestDeleteCategory = useCallback(
+    async (categoryId: string) => {
+      const confirmed = await confirmDialog({
+        title: 'Delete category?',
+        message: 'This will delete the category and all captured entries linked to it.',
+        confirmText: 'Delete',
+        cancelText: 'Cancel',
+      });
+      if (!confirmed) return;
+      await deleteCategoryById(categoryId);
+      await refresh();
+    },
+    [refresh],
+  );
+
   const visibleCategories = useMemo(() => {
     const filtered = categories.filter((category) => matchesFilter(category, filter) && matchesSearch(category, searchQuery));
     return sortCategories(filtered, sort).map((category) => ({
@@ -100,6 +129,7 @@ export function useHomeCaptureController() {
     isLoading,
     showTutorialCta,
     setTutorialVisible,
+    requestHideTutorialCta,
     filter,
     applyFilter,
     sort,
@@ -113,5 +143,6 @@ export function useHomeCaptureController() {
     hasAnyCategories: categories.length > 0,
     visibleCategories,
     refresh,
+    requestDeleteCategory,
   };
 }
