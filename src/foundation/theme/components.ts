@@ -18,6 +18,7 @@ export const componentMetrics = {
     shadowOffsetWidth: 0,
     shadowOffsetHeight: 2,
     elevation: 6,
+    contentBottomClearance: spacing.none,
   },
   actionCard: {
     minHeight: 80,

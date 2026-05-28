@@ -119,3 +119,19 @@ export async function getCategoryEntryCountById(categoryId: string): Promise<num
 
   return row?.count ?? 0;
 }
+
+export async function listCategoryLatestEntryOccurredAt(): Promise<Record<string, string>> {
+  const db = await getDatabase();
+  const rows = await db.getAllAsync<{ category_id: string; latest_occurred_at: string }>(
+    `SELECT category_id, MAX(occurred_at) AS latest_occurred_at
+     FROM entries
+     GROUP BY category_id`,
+  );
+
+  return rows.reduce<Record<string, string>>((acc, row) => {
+    if (row.latest_occurred_at) {
+      acc[row.category_id] = row.latest_occurred_at;
+    }
+    return acc;
+  }, {});
+}

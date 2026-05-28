@@ -5,6 +5,7 @@ import {
   deleteCategoryById,
   listCategories,
   listCategoryEntryCounts,
+  listCategoryLatestEntryOccurredAt,
   type CategoryRecord,
 } from '@/foundation/services/storage/categoryRepository';
 import {
@@ -26,11 +27,27 @@ function matchesSearch(category: CategoryRecord, searchQuery: string) {
   return category.name.toLowerCase().includes(searchQuery.trim().toLowerCase());
 }
 
-function sortCategories(categories: CategoryRecord[], sort: HomeCategorySort) {
+function sortCategories(
+  categories: CategoryRecord[],
+  sort: HomeCategorySort,
+  latestEntryByCategoryId: Record<string, string>,
+) {
   if (sort === 'name') {
     return [...categories].sort((a, b) => a.name.localeCompare(b.name));
   }
-  return [...categories].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  return [...categories].sort((a, b) => {
+    const aLatest = latestEntryByCategoryId[a.id] ?? '';
+    const bLatest = latestEntryByCategoryId[b.id] ?? '';
+    if (aLatest !== bLatest) {
+      return bLatest.localeCompare(aLatest);
+    }
+
+    if (a.updatedAt !== b.updatedAt) {
+      return b.updatedAt.localeCompare(a.updatedAt);
+    }
+
+    return a.name.localeCompare(b.name);
+  });
 }
 
 export function useHomeCaptureController() {
@@ -42,15 +59,22 @@ export function useHomeCaptureController() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [categories, setCategories] = useState<CategoryRecord[]>([]);
   const [entryCountsByCategoryId, setEntryCountsByCategoryId] = useState<Record<string, number>>({});
+  const [latestEntryByCategoryId, setLatestEntryByCategoryId] = useState<Record<string, string>>({});
 
   const refresh = useCallback(async () => {
     setIsLoading(true);
-    const [prefs, allCategories, entryCounts] = await Promise.all([getOrCreateUserPrefs(), listCategories(), listCategoryEntryCounts()]);
+    const [prefs, allCategories, entryCounts, latestEntries] = await Promise.all([
+      getOrCreateUserPrefs(),
+      listCategories(),
+      listCategoryEntryCounts(),
+      listCategoryLatestEntryOccurredAt(),
+    ]);
     setShowTutorialCta(prefs.showHomeTutorialCta);
     setFilter(prefs.homeCategoryFilter);
     setSort(prefs.homeCategorySort);
     setCategories(allCategories);
     setEntryCountsByCategoryId(entryCounts);
+    setLatestEntryByCategoryId(latestEntries);
     setIsLoading(false);
   }, []);
 
@@ -118,12 +142,12 @@ export function useHomeCaptureController() {
 
   const visibleCategories = useMemo(() => {
     const filtered = categories.filter((category) => matchesFilter(category, filter) && matchesSearch(category, searchQuery));
-    return sortCategories(filtered, sort).map((category) => ({
+    return sortCategories(filtered, sort, latestEntryByCategoryId).map((category) => ({
       ...category,
       typeLabel: categoryTypeUiLabelByType[category.categoryType],
       entryCount: entryCountsByCategoryId[category.id] ?? 0,
     }));
-  }, [categories, entryCountsByCategoryId, filter, searchQuery, sort]);
+  }, [categories, entryCountsByCategoryId, filter, latestEntryByCategoryId, searchQuery, sort]);
 
   return {
     isLoading,

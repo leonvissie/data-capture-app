@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { AppText } from '@/foundation/components/layout/AppText';
+import { useSurfacePalette } from '@/foundation/hooks/useThemeMode';
 import { useTones } from '@/foundation/hooks/useTones';
 import { radii, spacing } from '@/foundation/theme';
 
@@ -13,6 +14,7 @@ type SettingsSectionProps = PropsWithChildren<{
 
 export function SettingsSection({ title, open, onToggle, children }: SettingsSectionProps) {
   const tones = useTones();
+  const palette = useSurfacePalette();
   const grey = tones.grey;
 
   return (
@@ -28,7 +30,7 @@ export function SettingsSection({ title, open, onToggle, children }: SettingsSec
           {open ? 'Hide' : 'Show'}
         </AppText>
       </Pressable>
-      {open ? <View style={[styles.body, { borderColor: grey.border }]}>{children}</View> : null}
+      {open ? <View style={[styles.body, { borderColor: grey.border, backgroundColor: palette.card }]}>{children}</View> : null}
     </View>
   );
 }
