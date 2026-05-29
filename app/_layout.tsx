@@ -29,7 +29,7 @@ function AppNavigator() {
     if (Platform.OS === 'ios') {
       const timer = setTimeout(() => {
         void SplashScreen.hideAsync();
-      }, 1500);
+      }, appConfig.splash.iosMinimumVisibleMs);
       return () => clearTimeout(timer);
     }
 
