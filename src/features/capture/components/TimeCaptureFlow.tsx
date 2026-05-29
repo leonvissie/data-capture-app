@@ -75,7 +75,7 @@ export function TimeCaptureFlow({
   return (
     <View style={{ gap: spacing.md }}>
       <InlineNotice
-        tone="lightBlue"
+        tone="pink"
         message={
           isTimeEndMode && activeTimeEntry
             ? `End time for interval started at ${formatIsoForDisplay(activeTimeEntry.startedAt)}.`

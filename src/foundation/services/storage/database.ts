@@ -7,6 +7,21 @@ type Migration = {
   apply: (db: SQLite.SQLiteDatabase) => Promise<void>;
 };
 
+async function hasColumn(db: SQLite.SQLiteDatabase, tableName: string, columnName: string): Promise<boolean> {
+  const rows = await db.getAllAsync<{ name: string }>(`PRAGMA table_info(${tableName});`);
+  return rows.some((row) => row.name === columnName);
+}
+
+async function addColumnIfMissing(
+  db: SQLite.SQLiteDatabase,
+  tableName: string,
+  columnName: string,
+  definitionSql: string,
+): Promise<void> {
+  if (await hasColumn(db, tableName, columnName)) return;
+  await db.execAsync(`ALTER TABLE ${tableName} ADD COLUMN ${columnName} ${definitionSql};`);
+}
+
 const migrations: Migration[] = [
   {
     version: 1,
@@ -106,19 +121,15 @@ const migrations: Migration[] = [
   {
     version: 3,
     apply: async (db) => {
-      await db.execAsync(`
-        ALTER TABLE user_prefs ADD COLUMN show_home_tutorial_cta INTEGER NOT NULL DEFAULT 1;
-        ALTER TABLE user_prefs ADD COLUMN home_category_filter TEXT NOT NULL DEFAULT 'all';
-        ALTER TABLE user_prefs ADD COLUMN home_category_sort TEXT NOT NULL DEFAULT 'recent';
-      `);
+      await addColumnIfMissing(db, 'user_prefs', 'show_home_tutorial_cta', `INTEGER NOT NULL DEFAULT 1`);
+      await addColumnIfMissing(db, 'user_prefs', 'home_category_filter', `TEXT NOT NULL DEFAULT 'all'`);
+      await addColumnIfMissing(db, 'user_prefs', 'home_category_sort', `TEXT NOT NULL DEFAULT 'recent'`);
     },
   },
   {
     version: 4,
     apply: async (db) => {
-      await db.execAsync(`
-        ALTER TABLE categories ADD COLUMN measurement_unit TEXT NOT NULL DEFAULT '';
-      `);
+      await addColumnIfMissing(db, 'categories', 'measurement_unit', `TEXT NOT NULL DEFAULT ''`);
     },
   },
   {
@@ -135,27 +146,25 @@ const migrations: Migration[] = [
           updated_at TEXT NOT NULL
         );
 
-        ALTER TABLE entries ADD COLUMN location_id TEXT;
-        ALTER TABLE user_prefs ADD COLUMN location_sort_preference TEXT NOT NULL DEFAULT 'recency';
-
         CREATE INDEX IF NOT EXISTS idx_locations_last_used_at ON locations(last_used_at DESC);
         CREATE INDEX IF NOT EXISTS idx_locations_entry_count ON locations(entry_count DESC);
         CREATE INDEX IF NOT EXISTS idx_entries_location_id ON entries(location_id);
       `);
+      await addColumnIfMissing(db, 'entries', 'location_id', `TEXT`);
+      await addColumnIfMissing(db, 'user_prefs', 'location_sort_preference', `TEXT NOT NULL DEFAULT 'recency'`);
     },
   },
   {
     version: 6,
     apply: async (db) => {
-      await db.execAsync(`
-        ALTER TABLE sections ADD COLUMN required_severity TEXT NOT NULL DEFAULT 'blocking';
-        ALTER TABLE sections ADD COLUMN config_json TEXT NOT NULL DEFAULT '{}';
-      `);
+      await addColumnIfMissing(db, 'sections', 'required_severity', `TEXT NOT NULL DEFAULT 'blocking'`);
+      await addColumnIfMissing(db, 'sections', 'config_json', `TEXT NOT NULL DEFAULT '{}'`);
     },
   },
 ];
 
 let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;
+let migrationPromise: Promise<void> | null = null;
 
 async function ensureMigrationTable(db: SQLite.SQLiteDatabase): Promise<void> {
   await db.execAsync(`
@@ -193,7 +202,13 @@ export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
     dbPromise = SQLite.openDatabaseAsync(DB_NAME);
   }
   const db = await dbPromise;
-  await runMigrations(db);
+  if (!migrationPromise) {
+    migrationPromise = runMigrations(db).catch((error) => {
+      migrationPromise = null;
+      throw error;
+    });
+  }
+  await migrationPromise;
   return db;
 }
 
@@ -202,6 +217,7 @@ export async function initializeStorage(): Promise<void> {
 }
 
 export async function resetStorage(): Promise<void> {
+  migrationPromise = null;
   if (dbPromise) {
     const db = await dbPromise;
     await db.closeAsync();

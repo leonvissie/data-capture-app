@@ -6,6 +6,7 @@ import { RoundIconButton } from '@/foundation/components/buttons/RoundIconButton
 import { Card } from '@/foundation/components/content/Card';
 import { Divider } from '@/foundation/components/content/Divider';
 import { AppText } from '@/foundation/components/layout/AppText';
+import { OptionPillInput } from '@/foundation/components/forms/OptionPillInput';
 import { TextField } from '@/foundation/components/forms/TextField';
 import { spacing } from '@/foundation/theme';
 import type { JournalSectionDraft, JournalSectionType } from '@/features/categories/types/journal';
@@ -44,6 +45,7 @@ function makeSection(): JournalSectionDraft {
 
 export function JournalSectionBuilder({ sections, onChange, onApplyTemplate }: JournalSectionBuilderProps) {
   const [pendingTypeBySectionId, setPendingTypeBySectionId] = useState<Record<string, boolean>>({});
+  const showTemplateAction = false;
 
   useEffect(() => {
     setPendingTypeBySectionId((current) => {
@@ -77,7 +79,7 @@ export function JournalSectionBuilder({ sections, onChange, onApplyTemplate }: J
     <View style={styles.wrap}>
       <View style={styles.headerRow}>
         <AppText variant="bodyStrong">Journal sections</AppText>
-        <Button label="Use template" onPress={onApplyTemplate} variant="soft" tone="blue" size="sm" />
+        {showTemplateAction ? <Button label="Use template" onPress={onApplyTemplate} variant="soft" tone="blue" size="sm" /> : null}
       </View>
 
       {sections.map((section, index) => (
@@ -148,7 +150,19 @@ export function JournalSectionBuilder({ sections, onChange, onApplyTemplate }: J
               />
               <AppText variant="bodySmall">{section.helpText || sectionExampleByType[section.type]}</AppText>
 
-              <Divider spacingTop="sm" spacingBottom="sm" />
+              {section.type === 'singleSelect' || section.type === 'multiSelect' ? (
+                <>
+                  <Divider spacingTop="sm" spacingBottom="sm" />
+                  <OptionPillInput
+                    options={section.options}
+                    onChange={(nextOptions) => updateSection(index, { options: nextOptions })}
+                    placeholder="Add option"
+                    accessibilityLabel={`Section ${index + 1} option input`}
+                  />
+                  <Divider spacingTop="sm" spacingBottom="sm" />
+                </>
+              ) : null}
+
               <View style={styles.choiceRow}>
                 <Button
                   label="Required"
@@ -165,22 +179,6 @@ export function JournalSectionBuilder({ sections, onChange, onApplyTemplate }: J
                   size="sm"
                 />
               </View>
-
-              {section.type === 'singleSelect' || section.type === 'multiSelect' ? (
-                <TextField
-                  value={section.options.join(', ')}
-                  onChangeText={(value) =>
-                    updateSection(index, {
-                      options: value
-                        .split(',')
-                        .map((item) => item.trim())
-                        .filter(Boolean),
-                    })
-                  }
-                  placeholder="Options (comma separated)"
-                  accessibilityLabel={`Section ${index + 1} options`}
-                />
-              ) : null}
             </View>
           ) : (
             <AppText variant="bodySmall">Select a section type to continue.</AppText>

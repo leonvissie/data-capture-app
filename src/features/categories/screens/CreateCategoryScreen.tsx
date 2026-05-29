@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import {
-  AppScrollScreen,
+  AppModalScreen,
   AppText,
   Button,
   DestructiveButton,
@@ -11,6 +11,7 @@ import {
   JournalSectionBuilder,
   PageHeader,
   TextField,
+  StickyHeaderLayout,
   ValidationSummaryCard,
 } from '@/foundation/components';
 import { categoryTypeUiLabelByType } from '@/foundation/presentation/categoryTypeLabels';
@@ -58,9 +59,8 @@ export function CreateCategoryScreen() {
     error,
     isLoading,
     issues,
-    setAllowWarningContinue,
     entryCount,
-    isValid,
+    isReadyToSubmit,
     loadedName,
     loadedCategoryType,
     loadedMeasurementUnit,
@@ -91,22 +91,35 @@ export function CreateCategoryScreen() {
 
   const warningIssues = issues.filter((issue) => issue.severity === 'warning');
   const blockingIssues = issues.filter((issue) => issue.severity === 'blocking');
+  const fieldStateById: Record<string, 'default' | 'warning' | 'blocking'> = {};
+  for (const issue of issues) {
+    if (!issue.fieldId) continue;
+    if (issue.severity === 'blocking') {
+      fieldStateById[issue.fieldId] = 'blocking';
+    } else if (fieldStateById[issue.fieldId] !== 'blocking') {
+      fieldStateById[issue.fieldId] = 'warning';
+    }
+  }
   const hasExistingEntries = isEditing && entryCount > 0;
   const isMeasureCategory = categoryType === 'quickCount';
   const isJournalCategory = categoryType === 'journal';
   const hasSingleNumberJournalWarning = warningIssues.some((issue) => issue.key === 'journal_single_number_measure_candidate');
 
   return (
-    <AppScrollScreen>
-      <View style={styles.headerTopSpacing}>
-        <PageHeader
-          title={isEditing ? 'Edit category' : 'Create category'}
-          subtitle={isEditing ? 'Update this capture category.' : 'Set up a new capture category.'}
-          rightAction={{ buttonType: 'close', accessibilityLabel: 'Close category wizard', onPress: () => router.back() }}
-        />
-      </View>
-
-      <View style={styles.content}>
+    <AppModalScreen>
+      <StickyHeaderLayout
+        header={
+          <View style={styles.headerTopSpacing}>
+            <PageHeader
+              title={isEditing ? 'Edit category' : 'Create category'}
+              subtitle={isEditing ? 'Update this capture category.' : 'Set up a new capture category.'}
+              rightAction={{ buttonType: 'close', accessibilityLabel: 'Close category wizard', onPress: () => router.back() }}
+            />
+          </View>
+        }
+      >
+        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+          <View style={styles.content}>
         {isLoading ? <AppText>Loading category...</AppText> : null}
         <View style={styles.section}>
           <AppText variant="bodyStrong">Category type</AppText>
@@ -132,6 +145,7 @@ export function CreateCategoryScreen() {
 
         <TextField
           ref={nameInputRef}
+          validationState={fieldStateById.categoryName ?? 'default'}
           value={name}
           onChangeText={(value) => setName(toTitleCase(value))}
           placeholder="Category name"
@@ -143,6 +157,7 @@ export function CreateCategoryScreen() {
         {isMeasureCategory ? (
           <TextField
             ref={measurementUnitRef}
+            validationState={fieldStateById.measurementUnit ?? 'default'}
             value={measurementUnit}
             onChangeText={setMeasurementUnit}
             placeholder="Unit (e.g. mm, inch, mmHg, C, F)"
@@ -176,7 +191,6 @@ export function CreateCategoryScreen() {
             title="Warnings to review"
             issues={warningIssues}
             onPrimaryAction={() => {
-              setAllowWarningContinue(false);
               focusAnchor(warningIssues[0]?.anchor ?? warningIssues[0]?.fieldId);
             }}
             primaryActionLabel="Review"
@@ -187,7 +201,6 @@ export function CreateCategoryScreen() {
                 setMeasurementUnit('');
                 return;
               }
-              setAllowWarningContinue(true);
               void saveCategory();
             }}
             secondaryActionLabel={hasSingleNumberJournalWarning ? 'Switch to Measure' : 'Continue anyway'}
@@ -197,14 +210,16 @@ export function CreateCategoryScreen() {
         <Button
           label={isSaving ? 'Saving...' : isEditing ? 'Save category' : 'Create category'}
           onPress={() => void saveCategory()}
-          disabled={!isValid || isSaving || isLoading}
+          disabled={isSaving || isLoading}
           size="lg"
           variant="solid"
-          tone={isEditing ? 'teal' : 'green'}
+          tone={isReadyToSubmit ? (isEditing ? 'teal' : 'green') : 'grey'}
         />
         {isEditing ? <DestructiveButton label="Delete category" onPress={() => void deleteCategory()} tone="danger" size="lg" /> : null}
-      </View>
-    </AppScrollScreen>
+          </View>
+        </ScrollView>
+      </StickyHeaderLayout>
+    </AppModalScreen>
   );
 }
 
@@ -214,6 +229,9 @@ const styles = StyleSheet.create({
   },
   content: {
     gap: spacing.md,
+  },
+  scrollContent: {
+    paddingBottom: spacing['2xl'],
   },
   section: {
     gap: spacing.sm,

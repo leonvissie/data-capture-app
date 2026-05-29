@@ -1002,6 +1002,53 @@ For `timedActivity` categories:
   - `durationEnd`
 - end must be later than start and must pass shared date/time validation rules.
 
+## Create Category Validation Matrix (Mandatory)
+
+Create/Edit Category flows must use one shared validation contract (`ValidationIssue[]`) with explicit `severity`, `fieldId`, and `anchor`.
+
+Rules below are foundation defaults and are not app-specific.
+
+Global:
+- `categoryName` required (blocking if empty).
+- `categoryName` minimum length: allow 1 character, warn if `< 2`.
+- `categoryName` warning if long (`> 40`), blocking if too long (`> 80`).
+- `categoryType` required and must match supported enum values.
+
+Duplicate category names (mandatory):
+- compare using normalized name (`trim` + collapse internal spaces + case-insensitive).
+- when creating: compare against all existing categories.
+- when editing: exclude current category id from duplicate comparison.
+- duplicate in same `categoryType`: `blocking`.
+- duplicate in different `categoryType`: `warning`.
+- duplicate findings must anchor to `categoryName`.
+
+Type-specific:
+- `quickCount`: `measurementUnit` required (blocking), and must be locked once entries exist.
+- `timedActivity`: no unit required; category type locked once entries exist.
+- `journal`: at least one section required (blocking).
+
+Journal section rules:
+- section `type` required (blocking).
+- section `label` required (blocking if empty).
+- section `label` warning if `< 2` characters (1-character labels are allowed).
+- section `label` blocking if too long (`> 60`).
+- duplicate section labels (normalized, case-insensitive): `warning`.
+- `singleSelect` and `multiSelect` must have at least 2 options (blocking).
+- options must be non-empty after trimming (blocking).
+- duplicate options in same section (normalized, case-insensitive): `blocking`.
+- large option sets may warn (for example `> 12`) to protect usability.
+
+Edit lock rules (existing data):
+- when `entryCount > 0`, changing `categoryType` is blocking.
+- when `entryCount > 0`, changing `measurementUnit` for `quickCount` is blocking.
+- when `entryCount > 0`, journal schema mutations (add/remove/retype section, option structure changes) are blocking.
+- when locked, category name remains editable.
+
+Implementation constraints:
+- validators live in `features/*/validation/*`.
+- no route/screen-level duplicate validation logic.
+- submit orchestration must use shared validation gate/submit helper so warnings/blockers behave consistently with capture save flows.
+
 ## Capture Flow Composition Contract (Mandatory)
 
 For multi-type capture surfaces (for example `quickCount`, `timedActivity`, `journal`), route screens must remain orchestration-only.
